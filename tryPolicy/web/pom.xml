@@ -85,7 +85,7 @@
     </dependencies>
 
     <build>
-        <finalName>tp</finalName>
+        <finalName>try-policy</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
