@@ -1,0 +1,114 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>gov.samhsa.tryPolicy</groupId>
+        <artifactId>try-policy</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>dss-client</artifactId>
+    <packaging>jar</packaging>
+
+
+    <dependencies>
+
+        <!-- FEI C2S projects -->
+        <dependency>
+            <groupId>gov.samhsa.consent2share</groupId>
+            <artifactId>common-library</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>herasaf-xacml-core</artifactId>
+                    <groupId>org.herasaf.xacml.core</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>gov.samhsa.consent2share</groupId>
+            <artifactId>brms-factmodel</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>gov.samhsa.consent2share</groupId>
+            <artifactId>context-handler-service-bl</artifactId>
+        </dependency>
+        <!-- FEI C2S projects -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ws</groupId>
+            <artifactId>spring-ws-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!-- tag::wsdl[] -->
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>xjc</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- Package to store the generated file -->
+                <!--    <packageName>myproject.wsdl.currency</packageName>-->
+                    <!-- Treat the input as WSDL -->
+                    <wsdl>true</wsdl>
+                    <!-- Input is not XML schema -->
+                    <xmlschema>false</xmlschema>
+                    <!-- The WSDL file that you saved earlier -->
+                    <schemaFiles>DSS.wsdl</schemaFiles>
+                    <!-- The location of the WSDL file -->
+                    <schemaDirectory>${project.basedir}/src/main/resources/wsdl</schemaDirectory>
+                    <!-- The output directory to store the generated Java files -->
+                    <outputDirectory>${project.basedir}/target/generated-sources</outputDirectory>
+                    <!-- Don't clear output directory on each run -->
+                    <clearOutputDir>false</clearOutputDir>
+                </configuration>
+            </plugin>
+            <!-- end::wsdl[] -->
+        </plugins>
+    </build>
+
+
+</project>
