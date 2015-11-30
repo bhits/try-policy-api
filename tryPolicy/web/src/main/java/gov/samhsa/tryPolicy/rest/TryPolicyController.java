@@ -4,8 +4,11 @@ import gov.samhsa.tryPolicy.exception.TryPolicyException;
 import gov.samhsa.tryPolicy.service.TryPolicyService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
@@ -21,10 +24,10 @@ public class TryPolicyController {
    @Autowired
    private TryPolicyService tryPolicyService;
 
-    @RequestMapping(value="/segmentDoc", method= RequestMethod.GET)
-    public String tryMyPolicy() throws TryPolicyException {
-        String ccdXml= "c32Xml";
-        String xacmlPolicy = "xacmlPolicy";
+    @RequestMapping(value="/tryPolicy", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public String tryPolicy(String ccdXml, String xacmlPolicy,
+                                   String purposeOfUse) throws TryPolicyException {
         String tryPolicy = "tryPolicy";
         try {
             ccdXml= FileUtils.readFileToString(new File(
@@ -39,8 +42,15 @@ public class TryPolicyController {
         } catch (URISyntaxException e) {
             throw new TryPolicyException(e.getMessage(), e);
         }
-        String purposeOfUse = "TREATMENT";
+        purposeOfUse = "TREATMENT";
         tryPolicy = tryPolicyService.tryPolicy(ccdXml, xacmlPolicy, purposeOfUse);
         return tryPolicy;
+    }
+
+    @RequestMapping(value="/check", method= RequestMethod.GET)
+    public String checkStatus(){
+
+        System.out.println("inside checkStatus");
+        return "index";
     }
 }

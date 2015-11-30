@@ -63,6 +63,7 @@
              <artifactId>spring-boot-autoconfigure</artifactId>
          </dependency>
 
+
         <!-- aspectj dependencies -->
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -76,14 +77,15 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjtools</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
 
     </dependencies>
 
-
-
-
     <build>
+        <finalName>tp</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
