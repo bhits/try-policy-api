@@ -20,6 +20,8 @@ polrep:
   pidDomainId: 2.16.840.1.113883.3.72.5.9.4
   pidDomainType: ISO
   empiEndPtUrl: http\://BHITSDEVACS01/openempi-admin/services/PIXManager_Port_Soap12
+dss:
+  serviceEndPointUrl: http://bhitsdemoapp01/DocumentSegmentation-bl/services/DSS
 
 
 

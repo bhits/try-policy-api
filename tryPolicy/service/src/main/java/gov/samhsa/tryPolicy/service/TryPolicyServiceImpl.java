@@ -18,6 +18,15 @@ public class TryPolicyServiceImpl implements TryPolicyService {
     @Loggable
     public String tryPolicy(String ccdXml, String xacmlPolicy, String purposeOfUse) throws TryPolicyException {
 
+        String tryPolicy = "trypolicy segment";
+
+        tryPolicy = dssService.getTryPolicyDoc(ccdXml, xacmlPolicy, purposeOfUse);
+
+        return tryPolicy;
+    }
+
+    @Override
+    public String segmentPHR(String ccdXml, String xacmlPolicy, String purposeOfUse) throws TryPolicyException {
         String segmentedC32 = "trypolicy segment";
 
         segmentedC32 = dssService.getSegmentedDoc(ccdXml, xacmlPolicy, purposeOfUse);

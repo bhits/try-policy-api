@@ -23,6 +23,7 @@ public class DSSPolRepSettings {
     private String pidDomainType;
     private String empiEndPtUrl;
 
+
     public String getC2sPolrepScheme() {
         return c2sPolrepScheme;
     }

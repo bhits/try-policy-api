@@ -29,11 +29,6 @@
 
         <dependency>
             <groupId>gov.samhsa.consent2share</groupId>
-            <artifactId>brms-factmodel</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>gov.samhsa.consent2share</groupId>
             <artifactId>context-handler-service-bl</artifactId>
         </dependency>
         <!-- FEI C2S projects -->

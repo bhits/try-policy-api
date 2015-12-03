@@ -76,6 +76,23 @@ public class DSSServiceImpl implements DSSService {
     }
 
     @Override
+    public String getTryPolicyDoc(String ccdXml, String xacmlPolicy, String purposeOfUse) throws DSSException {
+        String taggedC32 = null;
+        try {
+            DSSResponse  dssResponse = segmentDocument(createDSSRequest(ccdXml, xacmlPolicy, purposeOfUse));
+            taggedC32 = getTaggedC32(dssResponse.getTryPolicyDocumentXml());
+            System.out.println(taggedC32);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SimpleMarshallerException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return taggedC32;
+    }
+
+    @Override
     public DSSResponse segmentDocument(DSSRequest request) {
         DSSResponse dssResponse = (DSSResponse) webServiceTemplate.marshalSendAndReceive(request);
         return dssResponse;

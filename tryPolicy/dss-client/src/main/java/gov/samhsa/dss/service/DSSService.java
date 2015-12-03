@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 public interface DSSService {
 
     public String getSegmentedDoc(String ccdXml, String xacmlPolicy, String purposeOfUse) throws DSSException;
+    public String getTryPolicyDoc(String ccdXml, String xacmlPolicy, String purposeOfUse) throws DSSException;
     public DSSResponse segmentDocument(DSSRequest request) throws DSSException;
     public String getTaggedC32(String segmentedC32) throws DSSException;
 }

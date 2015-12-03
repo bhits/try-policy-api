@@ -1,4 +1,6 @@
 # application.yml template
+dss:
+  serviceEndPointUrl: http://bhitsdemoapp01/DocumentSegmentation-bl/services/DSS
 logging:
   file: C:/java/PP_PROPS/tryPolicy.log
   level:

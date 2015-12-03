@@ -1,5 +1,8 @@
 package gov.samhsa.dss.config;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.Marshaller;
@@ -13,8 +16,12 @@ import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
  * Created by sadhana.chandra on 11/18/2015.
  */
 @Configuration
+@EnableAutoConfiguration
+@ConfigurationProperties
 public class DSSWSConfig {
 
+    @Value("${dss.serviceEndPointUrl}")
+    String dssServiceEndPointUrl;
 /*
        <!-- Define the SOAP version used by the WSDL -->
     <bean id="soapMessageFactory" class="org.springframework.ws.soap.saaj.SaajSoapMessageFactory">
@@ -67,7 +74,15 @@ public class DSSWSConfig {
         WebServiceTemplate webServiceTemplate = new WebServiceTemplate(soapMessageFactory());
         webServiceTemplate.setMarshaller(marshaller());
         webServiceTemplate.setUnmarshaller(unMarshaller());
-        webServiceTemplate.setDefaultUri("http://bhitsdemoapp01/DocumentSegmentation-bl/services/DSS");
+        webServiceTemplate.setDefaultUri(dssServiceEndPointUrl);
         return webServiceTemplate;
+    }
+
+    public String getDssServiceEndPointUrl() {
+        return dssServiceEndPointUrl;
+    }
+
+    public void setDssServiceEndPointUrl(String dssServiceEndPointUrl) {
+        this.dssServiceEndPointUrl = dssServiceEndPointUrl;
     }
 }

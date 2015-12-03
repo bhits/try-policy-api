@@ -8,7 +8,10 @@ import gov.samhsa.tryPolicy.exception.TryPolicyException;
 public interface TryPolicyService {
 
 
-    public String tryPolicy(String c32Xml, String xacmlPolicy,
+    public String tryPolicy(String ccdXml, String xacmlPolicy,
               String purposeOfUse) throws TryPolicyException;
+
+    public String segmentPHR(String ccdXml, String xacmlPolicy,
+                            String purposeOfUse) throws TryPolicyException;
 
 }

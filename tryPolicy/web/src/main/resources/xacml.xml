@@ -101,11 +101,11 @@
          <AttributeAssignment AttributeId="urn:oasis:names:tc:xacml:3.0:example:attribute:text"
                               DataType="http://www.w3.org/2001/XMLSchema#string">10160-0</AttributeAssignment>
       </Obligation>
-      <Obligation ObligationId="urn:samhsa:names:tc:consent2share:1.0:obligation:redact-document-section-code"
+<!--      <Obligation ObligationId="urn:samhsa:names:tc:consent2share:1.0:obligation:redact-document-section-code"
                   FulfillOn="Permit">
          <AttributeAssignment AttributeId="urn:oasis:names:tc:xacml:3.0:example:attribute:text"
                               DataType="http://www.w3.org/2001/XMLSchema#string">48765-2</AttributeAssignment>
-      </Obligation>
+      </Obligation>-->
       <Obligation ObligationId="urn:samhsa:names:tc:consent2share:1.0:obligation:redact-document-section-code"
                   FulfillOn="Permit">
          <AttributeAssignment AttributeId="urn:oasis:names:tc:xacml:3.0:example:attribute:text"
@@ -114,7 +114,7 @@
       <Obligation ObligationId="urn:samhsa:names:tc:consent2share:1.0:obligation:redact-document-section-code"
                   FulfillOn="Permit">
          <AttributeAssignment AttributeId="urn:oasis:names:tc:xacml:3.0:example:attribute:text"
-                              DataType="http://www.w3.org/2001/XMLSchema#string">HIV</AttributeAssignment>
+                              DataType="http://www.w3.org/2001/XMLSchema#string">ETH</AttributeAssignment>
       </Obligation>
    </Obligations>
 </Policy>

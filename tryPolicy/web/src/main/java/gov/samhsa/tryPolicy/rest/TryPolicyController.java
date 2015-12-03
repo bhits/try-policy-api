@@ -47,10 +47,29 @@ public class TryPolicyController {
         return tryPolicy;
     }
 
-    @RequestMapping(value="/check", method= RequestMethod.GET)
-    public String checkStatus(){
 
-        System.out.println("inside checkStatus");
-        return "index";
+
+    @RequestMapping(value="/segmentPHR", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public String segmentPolicy(String ccdXml, String xacmlPolicy,
+                            String purposeOfUse) throws TryPolicyException {
+        String segmentPHR = "segmentPHR";
+        try {
+            ccdXml= (null != ccdXml) ? ccdXml : FileUtils.readFileToString(new File(
+                    getClass().getClassLoader()
+                            .getResource("c32.xml").toURI()));
+
+            xacmlPolicy=(null != xacmlPolicy) ? xacmlPolicy : FileUtils.readFileToString(new File(
+                    getClass().getClassLoader()
+                            .getResource("xacml.xml").toURI()));
+        } catch (IOException e) {
+            throw new TryPolicyException(e.getMessage(), e);
+        } catch (URISyntaxException e) {
+            throw new TryPolicyException(e.getMessage(), e);
+        }
+        purposeOfUse = "TREATMENT";
+        segmentPHR = tryPolicyService.segmentPHR(ccdXml, xacmlPolicy, purposeOfUse);
+        return segmentPHR;
     }
+
 }
