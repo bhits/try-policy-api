@@ -58,13 +58,13 @@ public class DSSServiceImpl implements DSSService {
     private SimpleMarshaller marshaller;
 
     @Override
-    public String getSegmentedDoc(String ccdXml, String xacmlPolicy, String purposeOfUse) throws DSSException {
+    public String getRedactedDocXHTML(String ccdXml, String xacmlPolicy, String purposeOfUse) throws DSSException {
 
-         String taggedC32 = null;
+         String redactedDocXHTML = null;
         try {
             DSSResponse  dssResponse = segmentDocument(createDSSRequest(ccdXml, xacmlPolicy, purposeOfUse));
-            taggedC32 = getTaggedC32(dssResponse.getSegmentedDocumentXml());
-            System.out.println(taggedC32);
+            redactedDocXHTML = getTaggedC32(dssResponse.getSegmentedDocumentXml());
+            System.out.println(redactedDocXHTML);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SimpleMarshallerException e) {
@@ -72,16 +72,16 @@ public class DSSServiceImpl implements DSSService {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        return taggedC32;
+        return redactedDocXHTML;
     }
 
     @Override
-    public String getTryPolicyDoc(String ccdXml, String xacmlPolicy, String purposeOfUse) throws DSSException {
-        String taggedC32 = null;
+    public String getSegmentDocXHTML(String ccdXml, String xacmlPolicy, String purposeOfUse) throws DSSException {
+        String segmentDocXHTML = null;
         try {
             DSSResponse  dssResponse = segmentDocument(createDSSRequest(ccdXml, xacmlPolicy, purposeOfUse));
-            taggedC32 = getTaggedC32(dssResponse.getTryPolicyDocumentXml());
-            System.out.println(taggedC32);
+            segmentDocXHTML = getTaggedC32(dssResponse.getTryPolicyDocumentXml());
+            System.out.println(segmentDocXHTML);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SimpleMarshallerException e) {
@@ -89,17 +89,53 @@ public class DSSServiceImpl implements DSSService {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        return taggedC32;
+        return segmentDocXHTML;
     }
 
     @Override
-    public DSSResponse segmentDocument(DSSRequest request) {
+    public String getRedactedDocXML(String ccdXml, String xacmlPolicy, String purposeOfUse) throws DSSException {
+
+        String redactedDocXML = null;
+        try {
+            DSSResponse  dssResponse = segmentDocument(createDSSRequest(ccdXml, xacmlPolicy, purposeOfUse));
+            redactedDocXML = dssResponse.getSegmentedDocumentXml();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SimpleMarshallerException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return redactedDocXML;
+    }
+
+    @Override
+    public String getSegmentDocXML(String ccdXml, String xacmlPolicy, String purposeOfUse) throws DSSException {
+        String SegmentDocXML = null;
+        try {
+            DSSResponse  dssResponse = segmentDocument(createDSSRequest(ccdXml, xacmlPolicy, purposeOfUse));
+            SegmentDocXML = dssResponse.getTryPolicyDocumentXml();
+         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SimpleMarshallerException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return SegmentDocXML;
+    }
+
+
+
+
+
+    private DSSResponse segmentDocument(DSSRequest request) {
         DSSResponse dssResponse = (DSSResponse) webServiceTemplate.marshalSendAndReceive(request);
         return dssResponse;
     }
 
-    @Override
-    public String getTaggedC32(String segmentedC32) {
+
+    private String getTaggedC32(String segmentedC32) {
 
         final Document taggedC32Doc = documentXmlConverter
                 .loadDocument(segmentedC32);

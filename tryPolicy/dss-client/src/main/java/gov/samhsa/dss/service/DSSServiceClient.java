@@ -28,7 +28,7 @@ public class DSSServiceClient implements CommandLineRunner {
                         .getResource("dssXacml.xml").toURI()));
         String purposeOfUse = "TREATMENT";
 
-         String taggedC32 = dssService.getSegmentedDoc(c32Xml, xacmlPolicy, purposeOfUse);
+         String taggedC32 = dssService.getSegmentDocXHTML(c32Xml, xacmlPolicy, purposeOfUse);
 
         System.out.println(taggedC32);
     }

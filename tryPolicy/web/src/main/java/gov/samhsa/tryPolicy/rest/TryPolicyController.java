@@ -24,9 +24,13 @@ public class TryPolicyController {
    @Autowired
    private TryPolicyService tryPolicyService;
 
-    @RequestMapping(value="/tryPolicy", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+
+
+
+
+    @RequestMapping(value="/tryPolicyByXacml", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public String tryPolicy(String ccdXml, String xacmlPolicy,
+    public String tryPolicyByXacml(String ccdXml, String xacmlPolicy,
                                    String purposeOfUse) throws TryPolicyException {
         String tryPolicy = "tryPolicy";
         try {
@@ -43,15 +47,63 @@ public class TryPolicyController {
             throw new TryPolicyException(e.getMessage(), e);
         }
         purposeOfUse = "TREATMENT";
-        tryPolicy = tryPolicyService.tryPolicy(ccdXml, xacmlPolicy, purposeOfUse);
+        tryPolicy = tryPolicyService.getSegmentDocXHTML(ccdXml, xacmlPolicy, purposeOfUse);
+        return tryPolicy;
+    }
+
+    @RequestMapping(value="/tryPolicyByConsentIdXHTMLMock", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+         @ResponseStatus(HttpStatus.OK)
+         public String tryPolicyByConsentIdXHTMLMock(String ccdXml, String consentId,
+                                                String purposeOfUse) throws TryPolicyException {
+        String tryPolicy = "tryPolicy";
+        String xacmlPolicy = consentId;
+        try {
+            ccdXml= FileUtils.readFileToString(new File(
+                    getClass().getClassLoader()
+                            .getResource("c32.xml").toURI()));
+
+            xacmlPolicy=FileUtils.readFileToString(new File(
+                    getClass().getClassLoader()
+                            .getResource("xacml.xml").toURI()));
+        } catch (IOException e) {
+            throw new TryPolicyException(e.getMessage(), e);
+        } catch (URISyntaxException e) {
+            throw new TryPolicyException(e.getMessage(), e);
+        }
+        purposeOfUse = "TREATMENT";
+        tryPolicy = tryPolicyService.getSegmentDocXHTML(ccdXml, xacmlPolicy, purposeOfUse);
         return tryPolicy;
     }
 
 
-
-    @RequestMapping(value="/segmentPHR", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value="/tryPolicyByConsentIdXMLMock", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public String segmentPolicy(String ccdXml, String xacmlPolicy,
+    public String tryPolicyByConsentIdXMLMock(String ccdXml, String consentId,
+                                           String purposeOfUse) throws TryPolicyException {
+        String tryPolicy = "tryPolicy";
+        String xacmlPolicy = consentId;
+        try {
+            ccdXml= FileUtils.readFileToString(new File(
+                    getClass().getClassLoader()
+                            .getResource("c32.xml").toURI()));
+
+            xacmlPolicy=FileUtils.readFileToString(new File(
+                    getClass().getClassLoader()
+                            .getResource("xacml.xml").toURI()));
+        } catch (IOException e) {
+            throw new TryPolicyException(e.getMessage(), e);
+        } catch (URISyntaxException e) {
+            throw new TryPolicyException(e.getMessage(), e);
+        }
+        purposeOfUse = "TREATMENT";
+        tryPolicy = tryPolicyService.getSegmentDocXML(ccdXml, xacmlPolicy, purposeOfUse);
+        return tryPolicy;
+    }
+
+
+    @RequestMapping(value="/redactByXacml", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public String redactByXacml(String ccdXml, String xacmlPolicy,
                             String purposeOfUse) throws TryPolicyException {
         String segmentPHR = "segmentPHR";
         try {
@@ -68,7 +120,7 @@ public class TryPolicyController {
             throw new TryPolicyException(e.getMessage(), e);
         }
         purposeOfUse = "TREATMENT";
-        segmentPHR = tryPolicyService.segmentPHR(ccdXml, xacmlPolicy, purposeOfUse);
+        segmentPHR = tryPolicyService.getRedactedDocXHTML(ccdXml, xacmlPolicy, purposeOfUse);
         return segmentPHR;
     }
 
