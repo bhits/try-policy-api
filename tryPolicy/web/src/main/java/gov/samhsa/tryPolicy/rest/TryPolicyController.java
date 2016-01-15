@@ -6,10 +6,7 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,9 +20,6 @@ public class TryPolicyController {
 
    @Autowired
    private TryPolicyService tryPolicyService;
-
-
-
 
 
     @RequestMapping(value="/tryPolicyByXacml", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -76,10 +70,9 @@ public class TryPolicyController {
     }
 
 
-    @RequestMapping(value="/tryPolicyByConsentIdXMLMock", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value="/tryPolicyByConsentIdXMLMock/{ccdXml}/{consentId}/{purposeOfUse}", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public String tryPolicyByConsentIdXMLMock(String ccdXml, String consentId,
-                                           String purposeOfUse) throws TryPolicyException {
+    public String tryPolicyByConsentIdXMLMock(@PathVariable String ccdXml, @PathVariable String consentId, @PathVariable String purposeOfUse) throws TryPolicyException {
         String tryPolicy = "tryPolicy";
         String xacmlPolicy = consentId;
         try {
