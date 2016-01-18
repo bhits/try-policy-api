@@ -6,11 +6,15 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by sadhana.chandra on 11/16/2015.
@@ -45,10 +49,10 @@ public class TryPolicyController {
         return tryPolicy;
     }
 
-    @RequestMapping(value="/tryPolicyByConsentIdXHTMLMock", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value="/tryPolicyByConsentIdXHTMLMock/{ccdXml}/{consentId}/{purposeOfUse}", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
          @ResponseStatus(HttpStatus.OK)
-         public String tryPolicyByConsentIdXHTMLMock(String ccdXml, String consentId,
-                                                String purposeOfUse) throws TryPolicyException {
+         public Map<String, String> tryPolicyByConsentIdXHTMLMock(@PathVariable  String ccdXml, @PathVariable  String consentId, @PathVariable  String purposeOfUse)
+            throws TryPolicyException {
         String tryPolicy = "tryPolicy";
         String xacmlPolicy = consentId;
         try {
@@ -66,7 +70,11 @@ public class TryPolicyController {
         }
         purposeOfUse = "TREATMENT";
         tryPolicy = tryPolicyService.getSegmentDocXHTML(ccdXml, xacmlPolicy, purposeOfUse);
-        return tryPolicy;
+
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("xhtmlString", tryPolicy);
+
+        return map;
     }
 
 
