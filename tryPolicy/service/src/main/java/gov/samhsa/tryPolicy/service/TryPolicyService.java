@@ -8,15 +8,11 @@ import gov.samhsa.tryPolicy.exception.TryPolicyException;
 public interface TryPolicyService {
 
 
-    public String getSegmentDocXHTML(String ccdXml, String xacmlPolicy,
-              String purposeOfUse) throws TryPolicyException;
+    public String getSegmentDocXHTML(String documentId, String consentId,String purposeOfUse) throws TryPolicyException;
 
-    public String getRedactedDocXHTML(String ccdXml, String xacmlPolicy,
-                            String purposeOfUse) throws TryPolicyException;
+    public String getRedactedDocXHTML(String ccdXml, String xacmlPolicy,String purposeOfUse) throws TryPolicyException;
 
-    public String getSegmentDocXML(String ccdXml, String xacmlPolicy,
-                                     String purposeOfUse) throws TryPolicyException;
+    public String getSegmentDocXML(String ccdXml, String xacmlPolicy,String purposeOfUse) throws TryPolicyException;
 
-    public String getRedactedDocXML(String ccdXml, String xacmlPolicy,
-                                      String purposeOfUse) throws TryPolicyException;
+    public String getRedactedDocXML(String ccdXml, String xacmlPolicy,String purposeOfUse) throws TryPolicyException;
 }

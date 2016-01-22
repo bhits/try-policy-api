@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -29,8 +30,7 @@ public class TryPolicyController {
 
     @RequestMapping(value="/tryPolicyByXacml", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public String tryPolicyByXacml(String ccdXml, String xacmlPolicy,
-                                   String purposeOfUse) throws TryPolicyException {
+    public String tryPolicyByXacml(String ccdXml, String xacmlPolicy, String purposeOfUse) throws TryPolicyException {
         String tryPolicy = "tryPolicy";
         try {
             ccdXml= FileUtils.readFileToString(new File(
@@ -51,29 +51,18 @@ public class TryPolicyController {
     }
 
 
-    @RequestMapping(value="/tryPolicyByConsentIdXHTMLMock/{ccdXml}/{consentId}/{purposeOfUse}", method= RequestMethod.GET)
+    @RequestMapping(value="/tryPolicyByConsentIdXHTMLMock/{documentId}/{consentId}/{purposeOfUseCode}", method= RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public String tryPolicyByConsentIdXHTMLMock(@PathVariable  String ccdXml, @PathVariable  String consentId, @PathVariable  String purposeOfUse)
-            throws TryPolicyException {
-        String tryPolicy = "tryPolicy";
-        String xacmlPolicy = consentId;
-        try {
-            ccdXml= FileUtils.readFileToString(new File(
-                    getClass().getClassLoader()
-                            .getResource("c32.xml").toURI()));
+    public String tryPolicyByConsentIdXHTMLMock(@PathVariable  String documentId, @PathVariable  String consentId, @PathVariable  String purposeOfUseCode)throws TryPolicyException {
 
-            xacmlPolicy=FileUtils.readFileToString(new File(
-                    getClass().getClassLoader()
-                            .getResource("xacml.xml").toURI()));
-        } catch (IOException e) {
-            throw new TryPolicyException(e.getMessage(), e);
-        } catch (URISyntaxException e) {
+        String tryPolicyXHTML = "";
+        try {
+            tryPolicyXHTML = tryPolicyService.getSegmentDocXHTML(documentId, consentId, purposeOfUseCode);
+        } catch (Exception e) {
             throw new TryPolicyException(e.getMessage(), e);
         }
-        purposeOfUse = "TREATMENT";
-        tryPolicy = tryPolicyService.getSegmentDocXHTML(ccdXml, xacmlPolicy, purposeOfUse);
 
-        return tryPolicy;
+        return tryPolicyXHTML;
     }
 
     @RequestMapping(value="/tryPolicyByConsentIdXMLMock/{ccdXml}/{consentId}/{purposeOfUse}", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
