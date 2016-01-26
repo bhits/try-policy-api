@@ -46,7 +46,6 @@ spring:
     hibernate:
       ddl-auto: none
       naming_strategy: org.hibernate.cfg.DefaultNamingStrategy
-
 # polrep:
   # policySet:
     # combiningAlgs:
@@ -56,3 +55,8 @@ spring:
       # deny-overrides: urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides
       # only-one-applicable: urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:only-one-applicable
       # permit-overrides: urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides
+pcm:
+  ccd:
+    url: http://localhost:8083/pcm/patients/clinicaldocuments/ccd/
+  xacml:
+    url: http://localhost:8083/pcm/xacml/

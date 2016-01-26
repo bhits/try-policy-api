@@ -14,10 +14,10 @@ import org.springframework.web.client.RestTemplate;
  */
 public class TryPolicyServiceImpl implements TryPolicyService {
 
-//    @Value("${pcm.ccd.url}")
+    @Value("${pcm.ccd.url}")
     private String ccdUrl = "http://localhost:8083/pcm/patients/clinicaldocuments/ccd/";
 
-//    @Value("${pcm.xacml.url}")
+    @Value("${pcm.xacml.url}")
     private String xacmlUrl = "url:http://localhost:8083/pcm/xacml/";
 
     @Autowired
@@ -30,19 +30,14 @@ public class TryPolicyServiceImpl implements TryPolicyService {
 
         String tryPolicy = "trypolicy segment";
 
-        // TODO Get consent Document sting
         RestTemplate restTemplate = new RestTemplate();
         CCDDto ccdStrDto = restTemplate.getForObject(ccdUrl + documentId, CCDDto.class);
         String docStr = new String(ccdStrDto.getCCDFile());
 
-        // TODO get consent XACML String
-
-        RestTemplate restTemplate2 = new RestTemplate();
         XacmlDto xacmlDto = restTemplate.getForObject(xacmlUrl + consentId, XacmlDto.class);
         String xacmlStr = new String(xacmlDto.getXacmlFile());
 
         tryPolicy = dssService.getSegmentDocXHTML(docStr, xacmlStr , purposeOfUseCode);
-
         return tryPolicy;
     }
 
