@@ -157,7 +157,7 @@
 
             <dependency>
                 <groupId>gov.samhsa.consent2share</groupId>
-                <artifactId>context-handler-service-bl</artifactId>
+                <artifactId>context-handler-service-pg</artifactId>
                 <version>${fei.c2s.version}</version>
                 <exclusions>
                     <exclusion>

@@ -37,7 +37,7 @@
         </dependency>
         <dependency>
             <groupId>gov.samhsa.consent2share</groupId>
-            <artifactId>context-handler-service-bl</artifactId>
+            <artifactId>context-handler-service-pg</artifactId>
         </dependency>
         <!-- FEI C2S projects -->
 
