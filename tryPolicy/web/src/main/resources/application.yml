@@ -1,4 +1,7 @@
 # application.yml template
+server:
+  contextPath: /trypolicy
+  port: 8086
 dss:
   serviceEndPointUrl: http://bhitsdemoapp01/DocumentSegmentation-bl/services/DSS
 logging:

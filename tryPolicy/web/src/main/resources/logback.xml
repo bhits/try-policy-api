@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<configuration scan="${AUTO_SCAN}" scanPeriod="${SCAN_PERIOD}">
+<configuration scan="true" scanPeriod="30 seconds">
 
 	<include file="${PP_PROPS}/try-policy-config-logback_included.xml"/>
 

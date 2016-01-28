@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>gov.samhsa.tryPolicy</groupId>
+    <groupId>gov.samhsa.mhc</groupId>
     <artifactId>try-policy</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
@@ -185,18 +185,18 @@
             <!-- Local TryPolicy projects -->
 
             <dependency>
-                <groupId>gov.samhsa.tryPolicy</groupId>
+                <groupId>gov.samhsa.mhc</groupId>
                 <artifactId>service</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>gov.samhsa.tryPolicy</groupId>
+                <groupId>gov.samhsa.mhc</groupId>
                 <artifactId>web</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>gov.samhsa.tryPolicy</groupId>
+                <groupId>gov.samhsa.mhc</groupId>
                 <artifactId>dss-client</artifactId>
                 <version>${project.version}</version>
             </dependency>

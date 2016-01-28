@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>gov.samhsa.tryPolicy</groupId>
+        <groupId>gov.samhsa.mhc</groupId>
         <artifactId>try-policy</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>web</artifactId>
-    <packaging>war</packaging>
+    <artifactId>try-policy-web</artifactId>
+    <packaging>jar</packaging>
 
     <description>Try Policy Restful Sprint Boot APP</description>
 
@@ -26,7 +26,7 @@
 
         <!-- Local TryPolicy Projects -->
         <dependency>
-            <groupId>gov.samhsa.tryPolicy</groupId>
+            <groupId>gov.samhsa.mhc</groupId>
             <artifactId>service</artifactId>
         </dependency>
 

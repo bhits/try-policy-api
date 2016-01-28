@@ -2,13 +2,11 @@ package gov.samhsa.tryPolicy.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = { "gov.samhsa.tryPolicy" })
-public class TryPolicyWebApplication extends SpringBootServletInitializer {
+public class TryPolicyWebApplication {
 
     public static void main(String[] args) {
         System.out.println("WebApplication:main() Start");
@@ -17,9 +15,5 @@ public class TryPolicyWebApplication extends SpringBootServletInitializer {
         System.out.println("WebApplication:main() End");
     }
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(TryPolicyWebApplication.class);
-    }
 
 }
