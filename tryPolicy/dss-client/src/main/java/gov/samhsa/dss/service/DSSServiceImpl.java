@@ -66,11 +66,11 @@ public class DSSServiceImpl implements DSSService {
             redactedDocXHTML = getTaggedC32(dssResponse.getSegmentedDocumentXml());
             System.out.println(redactedDocXHTML);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } catch (SimpleMarshallerException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         return redactedDocXHTML;
     }
@@ -81,13 +81,12 @@ public class DSSServiceImpl implements DSSService {
         try {
             DSSResponse  dssResponse = segmentDocument(createDSSRequest(ccdXml, xacmlPolicy, purposeOfUse));
             segmentDocXHTML = getTaggedC32(dssResponse.getTryPolicyDocumentXml());
-            System.out.println(segmentDocXHTML);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } catch (SimpleMarshallerException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         return segmentDocXHTML;
     }
@@ -100,11 +99,11 @@ public class DSSServiceImpl implements DSSService {
             DSSResponse  dssResponse = segmentDocument(createDSSRequest(ccdXml, xacmlPolicy, purposeOfUse));
             redactedDocXML = dssResponse.getSegmentedDocumentXml();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } catch (SimpleMarshallerException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         return redactedDocXML;
     }
@@ -116,11 +115,11 @@ public class DSSServiceImpl implements DSSService {
             DSSResponse  dssResponse = segmentDocument(createDSSRequest(ccdXml, xacmlPolicy, purposeOfUse));
             SegmentDocXML = dssResponse.getTryPolicyDocumentXml();
          } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } catch (SimpleMarshallerException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         return SegmentDocXML;
     }

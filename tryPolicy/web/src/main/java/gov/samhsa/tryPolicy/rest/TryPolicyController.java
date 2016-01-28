@@ -3,6 +3,8 @@ package gov.samhsa.tryPolicy.rest;
 import gov.samhsa.tryPolicy.exception.TryPolicyException;
 import gov.samhsa.tryPolicy.service.TryPolicyService;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,6 +29,10 @@ public class TryPolicyController {
    @Autowired
    private TryPolicyService tryPolicyService;
 
+    /**
+     * The logger.
+     */
+    final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping(value="/tryPolicyByXacml", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -41,8 +47,10 @@ public class TryPolicyController {
                 getClass().getClassLoader()
                         .getResource("xacml.xml").toURI()));
         } catch (IOException e) {
+            logger.error(e.getMessage(), e);
            throw new TryPolicyException(e.getMessage(), e);
         } catch (URISyntaxException e) {
+            logger.error(e.getMessage(), e);
             throw new TryPolicyException(e.getMessage(), e);
         }
         purposeOfUse = "TREATMENT";
@@ -59,6 +67,7 @@ public class TryPolicyController {
         try {
             tryPolicyXHTML = tryPolicyService.getSegmentDocXHTML(documentId, consentId, purposeOfUseCode);
         } catch (Exception e) {
+            logger.error(e.getMessage(), e);
             throw new TryPolicyException(e.getMessage(), e);
         }
 
@@ -79,8 +88,10 @@ public class TryPolicyController {
                     getClass().getClassLoader()
                             .getResource("xacml.xml").toURI()));
         } catch (IOException e) {
+            logger.error(e.getMessage(), e);
             throw new TryPolicyException(e.getMessage(), e);
         } catch (URISyntaxException e) {
+            logger.error(e.getMessage(), e);
             throw new TryPolicyException(e.getMessage(), e);
         }
         purposeOfUse = "TREATMENT";
@@ -103,8 +114,10 @@ public class TryPolicyController {
                     getClass().getClassLoader()
                             .getResource("xacml.xml").toURI()));
         } catch (IOException e) {
+            logger.error(e.getMessage(), e);
             throw new TryPolicyException(e.getMessage(), e);
         } catch (URISyntaxException e) {
+            logger.error(e.getMessage(), e);
             throw new TryPolicyException(e.getMessage(), e);
         }
         purposeOfUse = "TREATMENT";
