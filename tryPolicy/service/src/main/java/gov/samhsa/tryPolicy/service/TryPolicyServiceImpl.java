@@ -15,10 +15,10 @@ import org.springframework.web.client.RestTemplate;
 public class TryPolicyServiceImpl implements TryPolicyService {
 
     @Value("${pcm.ccd.url}")
-    private String ccdUrl = "http://localhost:8083/pcm/patients/clinicaldocuments/ccd/";
+    private String ccdUrl;
 
     @Value("${pcm.xacml.url}")
-    private String xacmlUrl = "url:http://localhost:8083/pcm/xacml/";
+    private String xacmlUrl ;
 
     @Autowired
     DSSService dssService;
