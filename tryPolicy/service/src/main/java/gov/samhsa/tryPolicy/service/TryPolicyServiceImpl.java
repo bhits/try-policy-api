@@ -26,12 +26,12 @@ public class TryPolicyServiceImpl implements TryPolicyService {
 
     @Override
     @Loggable
-    public String getSegmentDocXHTML(String documentId, String consentId, String purposeOfUseCode) throws TryPolicyException {
+    public String getSegmentDocXHTML(String patientUserName, String documentId, String consentId, String purposeOfUseCode) throws TryPolicyException {
 
         String tryPolicy = "trypolicy segment";
 
         RestTemplate restTemplate = new RestTemplate();
-        CCDDto ccdStrDto = restTemplate.getForObject(ccdUrl + documentId, CCDDto.class);
+        CCDDto ccdStrDto = restTemplate.getForObject(ccdUrl +patientUserName+"/" + documentId, CCDDto.class);
         String docStr = new String(ccdStrDto.getCCDFile());
 
         XacmlDto xacmlDto = restTemplate.getForObject(xacmlUrl + consentId, XacmlDto.class);

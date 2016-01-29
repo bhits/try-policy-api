@@ -8,22 +8,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by sadhana.chandra on 11/16/2015.
  */
 @RestController
+@RequestMapping("/policies")
 public class TryPolicyController {
 
    @Autowired
@@ -34,7 +29,7 @@ public class TryPolicyController {
      */
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping(value="/tryPolicyByXacml", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value="/byXacml", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public String tryPolicyByXacml(String ccdXml, String xacmlPolicy, String purposeOfUse) throws TryPolicyException {
         String tryPolicy = "tryPolicy";
@@ -54,18 +49,17 @@ public class TryPolicyController {
             throw new TryPolicyException(e.getMessage(), e);
         }
         purposeOfUse = "TREATMENT";
-        tryPolicy = tryPolicyService.getSegmentDocXHTML(ccdXml, xacmlPolicy, purposeOfUse);
+        tryPolicy = tryPolicyService.getSegmentDocXHTML("", ccdXml, xacmlPolicy, purposeOfUse);
         return tryPolicy;
     }
 
-
-    @RequestMapping(value="/tryPolicyByConsentIdXHTMLMock/{documentId}/{consentId}/{purposeOfUseCode}", method= RequestMethod.GET)
+    @RequestMapping(value="/byConsentIdXHTML/{patientUserName}/{documentId}/{consentId}/{purposeOfUseCode}", method= RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public String tryPolicyByConsentIdXHTMLMock(@PathVariable  String documentId, @PathVariable  String consentId, @PathVariable  String purposeOfUseCode)throws TryPolicyException {
+    public String tryPolicyByConsentIdXHTML(@PathVariable("patientUserName")  String patientUserName, @PathVariable("documentId")  String documentId, @PathVariable("consentId")  String consentId, @PathVariable("purposeOfUseCode")  String purposeOfUseCode)throws TryPolicyException {
 
         String tryPolicyXHTML = "";
         try {
-            tryPolicyXHTML = tryPolicyService.getSegmentDocXHTML(documentId, consentId, purposeOfUseCode);
+            tryPolicyXHTML = tryPolicyService.getSegmentDocXHTML(patientUserName, documentId, consentId, purposeOfUseCode);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw new TryPolicyException(e.getMessage(), e);
@@ -74,7 +68,7 @@ public class TryPolicyController {
         return tryPolicyXHTML;
     }
 
-    @RequestMapping(value="/tryPolicyByConsentIdXMLMock/{ccdXml}/{consentId}/{purposeOfUse}", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value="/byConsentIdXML/{ccdXml}/{consentId}/{purposeOfUse}", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public String tryPolicyByConsentIdXMLMock(@PathVariable String ccdXml, @PathVariable String consentId, @PathVariable String purposeOfUse) throws TryPolicyException {
         String tryPolicy = "tryPolicy";
