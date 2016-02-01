@@ -2,6 +2,6 @@
 
 <configuration scan="true" scanPeriod="30 seconds">
 
-	<include file="${MHC_PROPS}/try-policy-config-logback_included.xml"/>
+	<include file="${MHC_PROPS}/try-policy/try-policy-config-logback_included.xml"/>
 
 </configuration>
