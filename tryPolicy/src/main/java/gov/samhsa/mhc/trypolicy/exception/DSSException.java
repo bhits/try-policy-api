@@ -1,8 +1,6 @@
 package gov.samhsa.mhc.trypolicy.exception;
 
-/**
- * Created by sadhana.chandra on 11/22/2015.
- */
+
 public class DSSException extends RuntimeException {
 
     /**

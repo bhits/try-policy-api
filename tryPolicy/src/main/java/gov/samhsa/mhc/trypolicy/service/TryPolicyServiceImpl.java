@@ -13,9 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by sadhana.chandra on 11/16/2015.
- */
 public class TryPolicyServiceImpl implements TryPolicyService {
 
     @Autowired
@@ -24,7 +21,6 @@ public class TryPolicyServiceImpl implements TryPolicyService {
     @Override
     public String getSegmentDocXHTML(String patientUserName, String patientId, String documentId, String consentId, String purposeOfUseCode) throws TryPolicyException {
 
-        String tryPolicy = "trypolicy segment";
 
         RestTemplate restTemplate = new RestTemplate();
         CCDDto ccdStrDto = restTemplate.getForObject(dssProperties.getCcdUrl() + patientUserName + "/" + documentId, CCDDto.class);
@@ -33,10 +29,7 @@ public class TryPolicyServiceImpl implements TryPolicyService {
         XacmlDto xacmlDto = restTemplate.getForObject(dssProperties.getXacmlUrl() + consentId, XacmlDto.class);
         String xacmlStr = new String(xacmlDto.getXacmlFile());
 
-
-        String segmentDocStr = invokeDssService(patientId, docStr, xacmlStr, purposeOfUseCode);
-
-        return segmentDocStr;
+        return invokeDssService(patientId, docStr, xacmlStr, purposeOfUseCode);
     }
 
 

@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * Created by sadhana.chandra on 11/16/2015.
- */
+
 @RestController
 @RequestMapping("/policies")
 public class TryPolicyController {
@@ -28,7 +26,7 @@ public class TryPolicyController {
     @ResponseStatus(HttpStatus.OK)
     public String tryPolicyByConsentIdXHTML(@PathVariable("patientUserName")  String patientUserName, @PathVariable("patientId")  String patientId, @PathVariable("documentId")  String documentId, @PathVariable("consentId")  String consentId, @PathVariable("purposeOfUseCode")  String purposeOfUseCode)throws TryPolicyException {
 
-        String tryPolicyXHTML = "";
+        String tryPolicyXHTML;
         try {
             tryPolicyXHTML = tryPolicyService.getSegmentDocXHTML(patientUserName, patientId, documentId, consentId, purposeOfUseCode);
         } catch (Exception e) {

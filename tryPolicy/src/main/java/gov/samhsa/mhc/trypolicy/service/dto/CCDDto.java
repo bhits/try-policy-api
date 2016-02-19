@@ -2,9 +2,6 @@ package gov.samhsa.mhc.trypolicy.service.dto;
 
 import java.nio.charset.StandardCharsets;
 
-/**
- * Created by tomson.ngassa on 1/22/2016.
- */
 public class CCDDto {
 
     private byte[] ccdFile;

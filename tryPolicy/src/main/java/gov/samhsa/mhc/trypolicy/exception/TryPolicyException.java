@@ -1,8 +1,5 @@
 package gov.samhsa.mhc.trypolicy.exception;
 
-/**
- * Created by sadhana.chandra on 11/17/2015.
- */
 public class TryPolicyException  extends Exception {
 
 
