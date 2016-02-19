@@ -1,0 +1,24 @@
+# application.yml template
+server:
+  contextPath: /trypolicy
+  port: 8449
+  ssl:
+    key-store: C:/ssl_keystore.keystore
+    key-store-password: changeit
+logging:
+  file: C:/java/MHC_LOGS/try-policy/tryPolicy.log
+  level:
+    gov:
+      samhsa:
+        mhc.trypolicy: DEBUG
+    javax.validation: DEBUG
+dss:
+  segment:
+    dssUrl: https://localhost:8450/dss/segmentedDocument
+    ccdUrl: https://localhost:8446/pcm/patients/clinicaldocuments/ccd/
+    xacmlUrl: https://localhost:8446/pcm/xacml/
+    defaultIsAudited: false
+    defaultIsAuditFailureByPass: true
+    pdpDecision: PERMIT
+    homeCommunityId: dddd
+
