@@ -58,8 +58,24 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <start-class>gov.samhsa.mhc.trypolicy.TryPolicyApplication</start-class>
-     </properties>
+        <common.libraries.version>1.1.0</common.libraries.version>
+    </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>gov.samhsa.mhc</groupId>
+                <artifactId>document-converter</artifactId>
+                <version>${common.libraries.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gov.samhsa.mhc</groupId>
+                <artifactId>document-transformer</artifactId>
+                <version>${common.libraries.version}</version>
+            </dependency>
+        </dependencies>
+
+    </dependencyManagement>
 
     <dependencies>
         <!-- Logging -->
@@ -78,8 +94,15 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>gov.samhsa.mhc</groupId>
+            <artifactId>document-converter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>gov.samhsa.mhc</groupId>
+            <artifactId>document-transformer</artifactId>
+        </dependency>
     </dependencies>
-
 
     <build>
         <plugins>
