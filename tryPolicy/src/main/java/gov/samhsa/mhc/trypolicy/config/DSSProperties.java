@@ -11,6 +11,7 @@ public class DSSProperties {
     private String dssUrl;
     private String xacmlUrl;
     private String ccdUrl;
+    private String obligationUrl;
     private String defaultIsAudited;
     private String defaultIsAuditFailureByPass;
     private String pdpDecision;
@@ -70,5 +71,13 @@ public class DSSProperties {
 
     public void setHomeCommunityId(String homeCommunityId) {
         this.homeCommunityId = homeCommunityId;
+    }
+
+    public String getObligationUrl() {
+        return obligationUrl;
+    }
+
+    public void setObligationUrl(String obligationUrl) {
+        this.obligationUrl = obligationUrl;
     }
 }

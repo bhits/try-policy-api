@@ -20,10 +20,7 @@ import org.w3c.dom.ProcessingInstruction;
 
 import javax.xml.transform.URIResolver;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class TryPolicyServiceImpl implements TryPolicyService {
     /**
@@ -57,10 +54,10 @@ public class TryPolicyServiceImpl implements TryPolicyService {
         CCDDto ccdStrDto = restTemplate.getForObject(dssProperties.getCcdUrl() + patientUserName + "/" + documentId, CCDDto.class);
         String docStr = new String(ccdStrDto.getCCDFile());
 
-        XacmlDto xacmlDto = restTemplate.getForObject(dssProperties.getXacmlUrl() + consentId, XacmlDto.class);
-        String xacmlStr = new String(xacmlDto.getXacmlFile());
 
-        return invokeDssService(patientId, docStr, xacmlStr, purposeOfUseCode);
+        List<String> obligations = restTemplate.getForObject(dssProperties.getObligationUrl() + patientUserName + "/" + consentId, ArrayList.class);
+
+        return invokeDssService(patientId, docStr, obligations, purposeOfUseCode);
     }
 
     private String getTaggedC32(String segmentedC32) {
@@ -98,10 +95,10 @@ public class TryPolicyServiceImpl implements TryPolicyService {
 
 
 
-    private String invokeDssService(String patientId, String ccdStr, String xacmlStr, String purposeOfUse) {
+    private String invokeDssService(String patientId, String ccdStr, List<String> obligations, String purposeOfUse) {
         String segmentDocStr = "";
 
-        DSSRequest dssRequest = createDSSRequest(patientId, ccdStr, xacmlStr, purposeOfUse);
+        DSSRequest dssRequest = createDSSRequest(patientId, ccdStr, obligations, purposeOfUse);
 
         // REST api call
         RestTemplate restTemplate = new RestTemplate();
@@ -125,7 +122,7 @@ public class TryPolicyServiceImpl implements TryPolicyService {
     }
 
 
-    private DSSRequest createDSSRequest(String patientId, String ccdStr, String xacmlStr, String purposeOfUse) {
+    private DSSRequest createDSSRequest(String patientId, String ccdStr, List<String> obligations, String purposeOfUse) {
         DSSRequest dssRequest = new DSSRequest();
         dssRequest.setAudited(new Boolean(dssProperties.getDefaultIsAudited()));
         dssRequest.setAuditFailureByPass(new Boolean(dssProperties.getDefaultIsAuditFailureByPass()));
@@ -135,11 +132,10 @@ public class TryPolicyServiceImpl implements TryPolicyService {
 
         XacmlResult xacmlResult = new XacmlResult();
         xacmlResult.setHomeCommunityId(dssProperties.getHomeCommunityId());
-        xacmlResult.setMessageId("1234");
+        xacmlResult.setMessageId(UUID.randomUUID().toString());
         xacmlResult.setPdpDecision(dssProperties.getPdpDecision());
         xacmlResult.setSubjectPurposeOfUse(SubjectPurposeOfUse.fromAbbreviation(purposeOfUse));
         xacmlResult.setPatientId(patientId);
-        List<String> obligations = Arrays.asList("HIV", "PSY", "ETH");
         xacmlResult.setPdpObligations(obligations);
 
         dssRequest.setXacmlResult(xacmlResult);
