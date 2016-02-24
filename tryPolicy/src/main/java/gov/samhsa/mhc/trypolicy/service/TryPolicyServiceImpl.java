@@ -5,7 +5,7 @@ import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
 import gov.samhsa.mhc.common.document.transformer.XmlTransformer;
 import gov.samhsa.mhc.common.param.Params;
 import gov.samhsa.mhc.trypolicy.config.DSSProperties;
-import gov.samhsa.mhc.trypolicy.exception.TryPolicyException;
+import gov.samhsa.mhc.trypolicy.service.exception.TryPolicyException;
 import gov.samhsa.mhc.trypolicy.service.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +55,8 @@ public class TryPolicyServiceImpl implements TryPolicyService {
         String docStr = new String(ccdStrDto.getCCDFile());
 
 
-        List<String> obligations = restTemplate.getForObject(dssProperties.getObligationUrl() + patientUserName + "/" + consentId, ArrayList.class);
+        List<String> obligations = restTemplate.getForObject(dssProperties.getObligationUrl() + patientUserName + "/consents/" + consentId+ "/obligations", ArrayList.class);
+
 
         return invokeDssService(patientId, docStr, obligations, purposeOfUseCode);
     }

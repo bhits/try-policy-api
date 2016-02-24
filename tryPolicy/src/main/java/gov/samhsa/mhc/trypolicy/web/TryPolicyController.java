@@ -1,6 +1,6 @@
 package gov.samhsa.mhc.trypolicy.web;
 
-import gov.samhsa.mhc.trypolicy.exception.TryPolicyException;
+import gov.samhsa.mhc.trypolicy.service.exception.TryPolicyException;
 import gov.samhsa.mhc.trypolicy.service.TryPolicyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/policies")
 public class TryPolicyController {
 
    @Autowired
@@ -22,7 +21,7 @@ public class TryPolicyController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
-    @RequestMapping(value="/byConsentIdXHTML/{patientUserName}/{patientId}/{documentId}/{consentId}/{purposeOfUseCode}", method= RequestMethod.GET)
+    @RequestMapping(value="/tryPolicyXHTML/{patientUserName}/{patientId}/{documentId}/{consentId}/{purposeOfUseCode}", method= RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public String tryPolicyByConsentIdXHTML(@PathVariable("patientUserName")  String patientUserName, @PathVariable("patientId")  String patientId, @PathVariable("documentId")  String documentId, @PathVariable("consentId")  String consentId, @PathVariable("purposeOfUseCode")  String purposeOfUseCode)throws TryPolicyException {
 

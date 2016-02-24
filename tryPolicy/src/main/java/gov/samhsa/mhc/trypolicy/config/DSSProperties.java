@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 public class DSSProperties {
 
     private String dssUrl;
-    private String xacmlUrl;
     private String ccdUrl;
     private String obligationUrl;
     private String defaultIsAudited;
@@ -23,14 +22,6 @@ public class DSSProperties {
 
     public void setDssUrl(String dssUrl) {
         this.dssUrl = dssUrl;
-    }
-
-    public String getXacmlUrl() {
-        return xacmlUrl;
-    }
-
-    public void setXacmlUrl(String xacmlUrl) {
-        this.xacmlUrl = xacmlUrl;
     }
 
     public String getCcdUrl() {

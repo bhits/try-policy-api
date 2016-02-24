@@ -1,7 +1,7 @@
 package gov.samhsa.mhc.trypolicy.service;
 
 
-import gov.samhsa.mhc.trypolicy.exception.TryPolicyException;
+import gov.samhsa.mhc.trypolicy.service.exception.TryPolicyException;
 
 public interface TryPolicyService {
 

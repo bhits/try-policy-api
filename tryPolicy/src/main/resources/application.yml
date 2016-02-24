@@ -16,8 +16,7 @@ dss:
   segment:
     dssUrl: https://localhost:8450/dss/segmentedDocument
     ccdUrl: https://localhost:8446/pcm/patients/clinicaldocuments/ccd/
-    xacmlUrl: https://localhost:8446/pcm/xacml/
-    obligationUrl: https://localhost:8446/pcm/obligations/
+    obligationUrl: https://localhost:8446/pcm/patients/
     defaultIsAudited: false
     defaultIsAuditFailureByPass: true
     pdpDecision: PERMIT

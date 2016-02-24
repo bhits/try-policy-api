@@ -1,4 +1,4 @@
-package gov.samhsa.mhc.trypolicy.exception;
+package gov.samhsa.mhc.trypolicy.service.exception;
 
 public class TryPolicyException  extends Exception {
 
