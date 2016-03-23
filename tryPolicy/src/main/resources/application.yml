@@ -1,4 +1,7 @@
 # application.yml template
+spring:
+  profiles:
+    active: docker
 server:
   contextPath: /trypolicy
   port: 8449
@@ -21,4 +24,16 @@ dss:
     defaultIsAuditFailureByPass: true
     pdpDecision: PERMIT
     homeCommunityId: dddd
+
+---
+spring.profiles: docker
+server.ssl:
+  key-store: /java/keystore/mhc.keystore
+  key-store-password: changeit
+dss:
+  segment:
+    dssUrl: https://dss.mhc:8450/dss/segmentedDocument
+    ccdUrl: https://pcm.mhc:8446/pcm/patients/clinicaldocuments/ccd/
+    obligationUrl: https://pcm.mhc:8446/pcm/patients/
+
 
