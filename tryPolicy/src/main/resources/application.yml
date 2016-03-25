@@ -21,9 +21,6 @@ eureka:
       defaultZone: https://localhost:8761/eureka/
 dss:
   segment:
-    dssUrl: https://localhost:8450/dss/segmentedDocument
-    ccdUrl: https://localhost:8446/pcm/patients/clinicaldocuments/ccd/
-    obligationUrl: https://localhost:8446/pcm/patients/
     defaultIsAudited: false
     defaultIsAuditFailureByPass: true
     pdpDecision: PERMIT

@@ -1,10 +1,7 @@
 package gov.samhsa.mhc.trypolicy.service.exception;
 
-public class TryPolicyException  extends Exception {
-
-
+public class TryPolicyException extends RuntimeException {
     public TryPolicyException() {
-        super();
     }
 
     public TryPolicyException(String message) {
@@ -15,12 +12,11 @@ public class TryPolicyException  extends Exception {
         super(message, cause);
     }
 
-    public TryPolicyException(String message, Throwable cause,
-                              boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
-
     public TryPolicyException(Throwable cause) {
         super(cause);
+    }
+
+    public TryPolicyException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
     }
 }
