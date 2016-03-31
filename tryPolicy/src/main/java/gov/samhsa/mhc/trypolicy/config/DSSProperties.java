@@ -5,32 +5,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix="dss.segment")
+@ConfigurationProperties(prefix = "dss.segment")
 public class DSSProperties {
 
-    private String dssUrl;
-    private String ccdUrl;
-    private String obligationUrl;
     private String defaultIsAudited;
     private String defaultIsAuditFailureByPass;
     private String pdpDecision;
     private String homeCommunityId;
-
-    public String getDssUrl() {
-        return dssUrl;
-    }
-
-    public void setDssUrl(String dssUrl) {
-        this.dssUrl = dssUrl;
-    }
-
-    public String getCcdUrl() {
-        return ccdUrl;
-    }
-
-    public void setCcdUrl(String ccdUrl) {
-        this.ccdUrl = ccdUrl;
-    }
 
     public String getDefaultIsAudited() {
         return defaultIsAudited;
@@ -62,13 +43,5 @@ public class DSSProperties {
 
     public void setHomeCommunityId(String homeCommunityId) {
         this.homeCommunityId = homeCommunityId;
-    }
-
-    public String getObligationUrl() {
-        return obligationUrl;
-    }
-
-    public void setObligationUrl(String obligationUrl) {
-        this.obligationUrl = obligationUrl;
     }
 }

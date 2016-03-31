@@ -5,14 +5,13 @@ import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
 import gov.samhsa.mhc.common.document.transformer.XmlTransformer;
 import gov.samhsa.mhc.common.param.Params;
 import gov.samhsa.mhc.trypolicy.config.DSSProperties;
-import gov.samhsa.mhc.trypolicy.service.exception.TryPolicyException;
+import gov.samhsa.mhc.trypolicy.infrastructure.DssService;
+import gov.samhsa.mhc.trypolicy.infrastructure.PcmService;
 import gov.samhsa.mhc.trypolicy.service.dto.*;
+import gov.samhsa.mhc.trypolicy.service.exception.TryPolicyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -20,7 +19,9 @@ import org.w3c.dom.ProcessingInstruction;
 
 import javax.xml.transform.URIResolver;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public class TryPolicyServiceImpl implements TryPolicyService {
     /**
@@ -29,44 +30,37 @@ public class TryPolicyServiceImpl implements TryPolicyService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    DSSProperties dssProperties;
+    private DSSProperties dssProperties;
 
     @Autowired
-    DocumentXmlConverter documentXmlConverter;
+    private DocumentXmlConverter documentXmlConverter;
 
     @Autowired
     private XmlTransformer xmlTransformer;
 
+    @Autowired
+    private PcmService pcmService;
+
+    @Autowired
+    private DssService dssService;
+
     @Override
-    public String getSegmentDocXHTML(String patientUserName, String patientId, String documentId, String consentId, String purposeOfUseCode) throws TryPolicyException {
-
-        return getTaggedC32(getSegmentDocXML(patientUserName, patientId, documentId, consentId, purposeOfUseCode));
-
+    public String getSegmentDocXHTML(String patientUsername, String patientId, String documentId, String consentId, String purposeOfUseCode) throws TryPolicyException {
+        return getTaggedC32(getSegmentDocXML(patientUsername, patientId, documentId, consentId, purposeOfUseCode));
     }
 
-
-
     @Override
-    public String getSegmentDocXML(String patientUserName, String patientId, String documentId, String consentId, String purposeOfUseCode) throws TryPolicyException {
-
-
-        RestTemplate restTemplate = new RestTemplate();
-        CCDDto ccdStrDto = restTemplate.getForObject(dssProperties.getCcdUrl() + patientUserName + "/" + documentId, CCDDto.class);
+    public String getSegmentDocXML(String patientUsername, String patientId, String documentId, String consentId, String purposeOfUseCode) throws TryPolicyException {
+        CCDDto ccdStrDto = pcmService.getCCDByPatientUsernameAndDocumentId(patientUsername, documentId);
         String docStr = new String(ccdStrDto.getCCDFile());
-
-
-        List<String> obligations = restTemplate.getForObject(dssProperties.getObligationUrl() + patientUserName + "/consents/" + consentId+ "/obligations", ArrayList.class);
-
-
+        List<String> obligations = pcmService.getObligationsByPatientUsernameAndConsentId(patientUsername, consentId);
         return invokeDssService(patientId, docStr, obligations, purposeOfUseCode);
     }
 
     private String getTaggedC32(String segmentedC32) {
-
         final Document taggedC32Doc = documentXmlConverter
                 .loadDocument(segmentedC32);
         changeXslPath(taggedC32Doc);
-
         final NodeList taggedC32List = taggedC32Doc
                 .getElementsByTagName("entry");
 
@@ -93,35 +87,16 @@ public class TryPolicyServiceImpl implements TryPolicyService {
         return output;
     }
 
-
-
-
     private String invokeDssService(String patientId, String ccdStr, List<String> obligations, String purposeOfUse) {
-        String segmentDocStr = "";
-
-        DSSRequest dssRequest = createDSSRequest(patientId, ccdStr, obligations, purposeOfUse);
-
-        // REST api call
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders reqHeader = new HttpHeaders();
-        List<MediaType> accepts = new ArrayList<MediaType>();
-        accepts.add(MediaType.APPLICATION_JSON);
-        reqHeader.setAccept(accepts);
-
-        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-
         try {
-             HttpEntity<DSSRequest> reqEntity = new HttpEntity<DSSRequest>(dssRequest, reqHeader);
-             ResponseEntity<DSSResponse> dssRepEntitiy = restTemplate.exchange(dssProperties.getDssUrl(), HttpMethod.POST, reqEntity, DSSResponse.class);
-            if (dssRepEntitiy.getStatusCode().equals(HttpStatus.OK)) {
-                segmentDocStr = new String(dssRepEntitiy.getBody().getTryPolicyDocument(), StandardCharsets.UTF_8);
-            }
-        } catch (Exception httpException) {
-            httpException.getStackTrace();
+            DSSRequest dssRequest = createDSSRequest(patientId, ccdStr, obligations, purposeOfUse);
+            DSSResponse response = dssService.segmentDocument(dssRequest);
+            return new String(response.getTryPolicyDocument(), StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            throw new TryPolicyException(e.getMessage(), e);
         }
-        return segmentDocStr;
     }
-
 
     private DSSRequest createDSSRequest(String patientId, String ccdStr, List<String> obligations, String purposeOfUse) {
         DSSRequest dssRequest = new DSSRequest();
@@ -149,7 +124,6 @@ public class TryPolicyServiceImpl implements TryPolicyService {
      *
      * @param taggedC32Doc the tagged c32 doc
      */
-
     private void changeXslPath(Document taggedC32Doc) {
 
         final String expression = "/processing-instruction('xml-stylesheet')";
@@ -178,6 +152,4 @@ public class TryPolicyServiceImpl implements TryPolicyService {
             taggedC32Doc.insertBefore(p, stylesheetEl);
         }
     }
-
-
 }

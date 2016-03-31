@@ -1,10 +1,5 @@
-# application.yml template
 server:
-  contextPath: /trypolicy
-  port: 8449
-  ssl:
-    key-store: /ssl_keystore.keystore
-    key-store-password: changeit
+  port: 0
 logging:
   file: /java/MHC_LOGS/try-policy/tryPolicy.log
   level:
@@ -12,25 +7,45 @@ logging:
       samhsa:
         mhc.trypolicy: DEBUG
     javax.validation: DEBUG
+info:
+  component: TRY POLICY API
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+    secure-port-enabled: false
+    non-secure-port-enabled: true
+  client:
+    healthcheck:
+      enabled: true
+    service-url:
+      defaultZone: https://localhost:8761/eureka/
 dss:
   segment:
-    dssUrl: https://localhost:8450/dss/segmentedDocument
-    ccdUrl: https://localhost:8446/pcm/patients/clinicaldocuments/ccd/
-    obligationUrl: https://localhost:8446/pcm/patients/
     defaultIsAudited: false
     defaultIsAuditFailureByPass: true
     pdpDecision: PERMIT
     homeCommunityId: dddd
-
+---
+spring.profiles: ssl
+server:
+  port: 8449
+  ssl:
+    key-store: /ssl_keystore.keystore
+    key-store-password: changeit
+eureka:
+  instance:
+    secure-port: ${server.port}
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+---
+spring.profiles: standalone-ssl
+spring:
+  profiles:
+    include: ssl
+server:
+  context-path: /trypolicy
 ---
 spring.profiles: docker
 server.ssl:
   key-store: /java/keystore/mhc.keystore
   key-store-password: changeit
-dss:
-  segment:
-    dssUrl: https://dss.mhc:8450/dss/segmentedDocument
-    ccdUrl: https://pcm.mhc:8446/pcm/patients/clinicaldocuments/ccd/
-    obligationUrl: https://pcm.mhc:8446/pcm/patients/
-
-
