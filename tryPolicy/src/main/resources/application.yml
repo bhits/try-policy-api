@@ -1,5 +1,5 @@
 server:
-  port: 0
+  port: 8449
 logging:
   file: /java/MHC_LOGS/try-policy/tryPolicy.log
   level:
