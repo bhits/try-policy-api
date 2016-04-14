@@ -5,8 +5,8 @@ logging:
   level:
     gov:
       samhsa:
-        mhc.trypolicy: DEBUG
-    javax.validation: DEBUG
+        mhc.trypolicy: info
+    javax.validation: info
 info:
   component: TRY POLICY API
 eureka:
@@ -19,6 +19,10 @@ eureka:
       enabled: true
     service-url:
       defaultZone: https://localhost:8761/eureka/
+# TODO: until finding a better solution, disable hystrix command timeout. See https://github.com/spring-cloud/spring-cloud-netflix/issues/321#issuecomment-97727313
+hystrix.command.default.execution.timeout.enabled: false
+ribbon:
+  ReadTimeout: 50000
 dss:
   segment:
     defaultIsAudited: false
