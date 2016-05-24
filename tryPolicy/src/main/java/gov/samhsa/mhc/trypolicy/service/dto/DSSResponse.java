@@ -5,6 +5,7 @@ public class DSSResponse {
     private byte[] segmentedDocument;
     private byte[] tryPolicyDocument;
     private String encoding;
+    private boolean isCCDADocument;
 
     public byte[] getSegmentedDocument() {
         return segmentedDocument;
@@ -28,5 +29,13 @@ public class DSSResponse {
 
     public void setEncoding(String encoding) {
         this.encoding = encoding;
+    }
+
+    public boolean isCCDADocument() {
+        return isCCDADocument;
+    }
+
+    public void setCCDADocument(boolean CCDADocument) {
+        isCCDADocument = CCDADocument;
     }
 }

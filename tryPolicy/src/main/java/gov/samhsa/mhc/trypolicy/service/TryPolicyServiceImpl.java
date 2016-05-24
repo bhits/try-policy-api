@@ -24,6 +24,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class TryPolicyServiceImpl implements TryPolicyService {
+    private boolean isCCDADocument;
     /**
      * The logger.
      */
@@ -76,6 +77,10 @@ public class TryPolicyServiceImpl implements TryPolicyService {
         logger.info("Segmented C32 Entry size: "
                 + segmentedC32List.getLength());
 
+        System.out.println("----------Document Type Start ----------------");
+        System.out.println(isCCDADocument);
+        System.out.println("----------Document Type End ----------------");
+
         // xslt transformation
         final String xslUrl = Thread.currentThread()
                 .getContextClassLoader().getResource("CDA_flag_redact.xsl")
@@ -91,6 +96,7 @@ public class TryPolicyServiceImpl implements TryPolicyService {
         try {
             DSSRequest dssRequest = createDSSRequest(patientId, ccdStr, obligations, purposeOfUse);
             DSSResponse response = dssService.segmentDocument(dssRequest);
+            isCCDADocument = response.isCCDADocument();
             return new String(response.getTryPolicyDocument(), StandardCharsets.UTF_8);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
