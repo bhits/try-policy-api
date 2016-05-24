@@ -24,6 +24,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class TryPolicyServiceImpl implements TryPolicyService {
+    private static final String CCDA_STYLESHEET = "CCDA.xsl";
+    private static final String C32_STYLESHEET = "CDA_flag_redact.xsl";
     private boolean isCCDADocument;
     /**
      * The logger.
@@ -47,7 +49,7 @@ public class TryPolicyServiceImpl implements TryPolicyService {
 
     @Override
     public String getSegmentDocXHTML(String patientUsername, String patientId, String documentId, String consentId, String purposeOfUseCode) throws TryPolicyException {
-        return getTaggedC32(getSegmentDocXML(patientUsername, patientId, documentId, consentId, purposeOfUseCode));
+        return getTaggedClinicalDocument(getSegmentDocXML(patientUsername, patientId, documentId, consentId, purposeOfUseCode));
     }
 
     @Override
@@ -58,35 +60,34 @@ public class TryPolicyServiceImpl implements TryPolicyService {
         return invokeDssService(patientId, docStr, obligations, purposeOfUseCode);
     }
 
-    private String getTaggedC32(String segmentedC32) {
-        final Document taggedC32Doc = documentXmlConverter
-                .loadDocument(segmentedC32);
-        changeXslPath(taggedC32Doc);
-        final NodeList taggedC32List = taggedC32Doc
+    private String getTaggedClinicalDocument(String segmentedClinicalDocument) {
+        String documentStyleSheet = selectStyleSheet();
+
+        final Document taggedClinicalDocument = documentXmlConverter
+                .loadDocument(segmentedClinicalDocument);
+        changeXslPath(taggedClinicalDocument, documentStyleSheet);
+        final NodeList taggedClinicalDocumentList = taggedClinicalDocument
                 .getElementsByTagName("entry");
 
-        final Document segmentedC32Doc = documentXmlConverter
-                .loadDocument(segmentedC32);
-        final NodeList segmentedC32List = segmentedC32Doc
+        final Document segmentedClinicalDocumentDoc = documentXmlConverter
+                .loadDocument(segmentedClinicalDocument);
+        final NodeList segmentedClinicalDocumentList = segmentedClinicalDocumentDoc
                 .getElementsByTagName("entry");
 
-        //  logger.info("Original C32: " + originalC32);
-        logger.info("Segmented C32: " + segmentedC32);
+        logger.info("Segmented Clinical Document: " + segmentedClinicalDocument);
 
-        logger.info("Tagged C32 Entry size: " + taggedC32List.getLength());
-        logger.info("Segmented C32 Entry size: "
-                + segmentedC32List.getLength());
+        logger.info("Tagged Clinical Document Entry size: " + taggedClinicalDocumentList.getLength());
+        logger.info("Segmented Clinical Document Entry size: "
+                + segmentedClinicalDocumentList.getLength());
 
-        System.out.println("----------Document Type Start ----------------");
-        System.out.println(isCCDADocument);
-        System.out.println("----------Document Type End ----------------");
+        logger.info("Is Segmented CCDA document: " + isCCDADocument);
 
         // xslt transformation
         final String xslUrl = Thread.currentThread()
-                .getContextClassLoader().getResource("CDA_flag_redact.xsl")
+                .getContextClassLoader().getResource(documentStyleSheet)
                 .toString();
 
-        final String output = xmlTransformer.transform(taggedC32Doc, xslUrl, Optional.<Params>empty(), Optional.<URIResolver>empty());
+        final String output = xmlTransformer.transform(taggedClinicalDocument, xslUrl, Optional.<Params>empty(), Optional.<URIResolver>empty());
 
         logger.info("Printing transformed xslt: " + output);
         return output;
@@ -128,9 +129,9 @@ public class TryPolicyServiceImpl implements TryPolicyService {
     /**
      * Changes xsl path to local xsl.
      *
-     * @param taggedC32Doc the tagged c32 doc
+     * @param taggedClinicalDocument the tagged clinical document doc
      */
-    private void changeXslPath(Document taggedC32Doc) {
+    private void changeXslPath(Document taggedClinicalDocument, String styleSheet) {
 
         final String expression = "/processing-instruction('xml-stylesheet')";
         Optional<ProcessingInstruction> pi = Optional.empty();
@@ -139,7 +140,7 @@ public class TryPolicyServiceImpl implements TryPolicyService {
          */
 /*
         try {
-            pi = documentAccessor.getProcessingInstruction(taggedC32Doc,
+            pi = documentAccessor.getProcessingInstruction(taggedClinicalDocument,
                     expression);
         } catch (final DocumentAccessorException e) {
             throw new DSSException("Error processing xsl path");
@@ -148,14 +149,22 @@ public class TryPolicyServiceImpl implements TryPolicyService {
 
         // <?xml-stylesheet href="http://obhita.org/CDA.xsl" type="text/xsl"?>
         if (pi.isPresent()) {
-            pi.get().setData("type='text/xsl' href='CDA_flag_redact.xsl'");
+            pi.get().setData("type='text/xsl' href='" + styleSheet + "'");
         } else {
             // Add xml style sheet at the second line of xml string
-            final ProcessingInstruction p = taggedC32Doc
+            final ProcessingInstruction p = taggedClinicalDocument
                     .createProcessingInstruction("xml-stylesheet",
-                            "type=\"text/xsl\" href=\"CDA_flag_redact.xsl\"");
-            final Element stylesheetEl = taggedC32Doc.getDocumentElement();
-            taggedC32Doc.insertBefore(p, stylesheetEl);
+                            "type=\"text/xsl\" href=\"" + styleSheet + "\"");
+            final Element stylesheetEl = taggedClinicalDocument.getDocumentElement();
+            taggedClinicalDocument.insertBefore(p, stylesheetEl);
+        }
+    }
+
+    private String selectStyleSheet() {
+        if (isCCDADocument) {
+            return CCDA_STYLESHEET;
+        } else {
+            return C32_STYLESHEET;
         }
     }
 }
