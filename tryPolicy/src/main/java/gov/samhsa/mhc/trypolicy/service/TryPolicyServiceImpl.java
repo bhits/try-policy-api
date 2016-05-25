@@ -24,7 +24,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class TryPolicyServiceImpl implements TryPolicyService {
-    private static final String CCDA_STYLESHEET = "CCDA.xsl";
+    private static final String CCDA_STYLESHEET = "CCDA_flag_redact.xsl";
     private static final String C32_STYLESHEET = "CDA_flag_redact.xsl";
     private boolean isCCDADocument;
     /**
