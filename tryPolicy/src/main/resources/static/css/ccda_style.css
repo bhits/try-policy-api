@@ -133,7 +133,10 @@ div.education-text > div:first-child {
     margin-bottom: 10px;
 }
 .borderbottom {
-    border-bottom: 1px #b2b6b8 solid;
+     border-bottom: 1px #b2b6b8 solid;
+ }
+.bordertop {
+    border-top: 1px #b2b6b8 solid;
 }
 .rwd-table {
     margin: 1em 0;
@@ -170,6 +173,39 @@ div.education-text > div:first-child {
 .table {
     border: none;
 }
+/* ------------------------ NEW STUFF --------------------------------------*/
+hr {
+    width: 90%;
+
+}
+
+section {
+    margin-bottom: 5px;
+}
+
+div.container{
+    width: 100%;
+}
+
+
+.field_label{
+    font-weight: bold;
+    color: white;
+}
+
+.redact{
+    font-weight: 700;
+    color: #c30000;
+    background-color: #fccdcd;
+    border-top: 3px solid;
+    border-bottom: 3px solid;
+    border-left: 3px solid;
+    border-right: 3px solid;
+    border-color: red;
+}
+/*-------------------------- End NEW STUFF --------------------*/
+
+
 /*---------------------------------------------------------------*/
 @media only screen and (min-width: 769px) and (max-width: 1020px) {
     body {
