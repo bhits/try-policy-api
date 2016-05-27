@@ -138,6 +138,13 @@ div.education-text > div:first-child {
 .bordertop {
     border-top: 1px #b2b6b8 solid;
 }
+.bordertopLoop:first-child {
+    border-top: none;
+}
+.bordertopLoop {
+    /*border-top: 1px #b2b6b8 solid;*/
+    border-top: 2px #697181 solid;
+}
 .rwd-table {
     margin: 1em 0;
     border-radius: 6px;
