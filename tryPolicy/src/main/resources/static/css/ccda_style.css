@@ -153,7 +153,12 @@ div.education-text > div:first-child {
     -moz-border-radius: 0 0 6px 6px;
     margin-bottom: 15px;
 }
+.border_box_modified > div {
+    color: #444;
+    font-weight: 700;
+    font-size: 12px;
 
+}
 
 .borderbottom {
      border-bottom: 1px #b2b6b8 solid;
