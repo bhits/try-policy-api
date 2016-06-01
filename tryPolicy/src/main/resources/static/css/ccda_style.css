@@ -21,6 +21,20 @@ tr {
 }
 /* BEGIN Custom Table Classes  */
 /*---------------------------------------------------------------------------------------*/
+
+.m-l-sm {
+    margin-left: 10px;
+}
+.m-r-sm {
+    margin-right: 10px;
+}
+.m-t-sm {
+    margin-top: 10px;;
+}
+.m-b-sm {
+    margin-bottom: 10px;
+}
+
 body {
     padding-top: 70px !important;
 }
@@ -132,6 +146,15 @@ div.education-text > div:first-child {
     -moz-border-radius: 6px;
     margin-bottom: 10px;
 }
+.border_box_modified {
+    border: 2px #697181 solid;
+    border-radius: 0 0 6px 6px;
+    -webkit-border-radius: 0 0 6px 6px;
+    -moz-border-radius: 0 0 6px 6px;
+    margin-bottom: 15px;
+}
+
+
 .borderbottom {
      border-bottom: 1px #b2b6b8 solid;
  }
@@ -173,14 +196,18 @@ div.education-text > div:first-child {
     padding: 10px 15px;
 }
 .table-responsive {
-    width: 100%;
-    margin-bottom: 15px;
-    border: 2px solid #697181;
+    /*width: 100%;*/
+    /*margin-bottom: 15px;*/
+    /*border: 2px solid #697181;*/
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-top: -10px;
+    margin-bottom: -10px;
 }
 .table {
     border: none;
 }
-/* ------------------------ NEW STUFF --------------------------------------*/
+/* ------------------------ INLINE STUFF --------------------------------------*/
 hr {
     width: 90%;
 
@@ -200,16 +227,16 @@ div.container{
     color: white;
 }
 
-.redact{
-    font-weight: 700;
-    color: #c30000;
-    background-color: #fccdcd;
-    border-top: 3px solid;
-    border-bottom: 3px solid;
-    border-left: 3px solid;
-    border-right: 3px solid;
-    border-color: red;
-}
+/*.redact{*/
+    /*font-weight: 700;*/
+    /*color: #c30000;*/
+    /*background-color: #fccdcd;*/
+    /*border-top: 3px solid;*/
+    /*border-bottom: 3px solid;*/
+    /*border-left: 3px solid;*/
+    /*border-right: 3px solid;*/
+    /*border-color: red;*/
+/*}*/
 /*-------------------------- End NEW STUFF --------------------*/
 
 
@@ -350,19 +377,37 @@ table .narr_th {
     color: white;
     background-color: #26ADE4;
 }
+.redact .narr_th {
+    color: white;
+    background-color: #980404;
+}
+
+
 table .header_table {
     border: 1pt inset #00008b;
 }
 .redact {
     font-weight: 700;
     color: #c30000;
-    background-color: #fccdcd;
-    border-top: 2px solid !important;
-    border-bottom: 2px solid !important;
-    border-left: 0 !important;
-    border-right: 0 !important;
-    border-color: red;
+    background-color: #FFE1E1;
+    /*border-top: 2px solid !important;*/
+    /*border-bottom: 2px solid !important;*/
+    /*border-left: 0 !important;*/
+    /*border-right: 0 !important;*/
+    /*border-color: red;*/
 }
+/*.redact{*/
+    /*font-weight: 700;*/
+    /*color: #c30000;*/
+    /*background-color: #fccdcd;*/
+    /*border-top: 3px solid;*/
+    /*border-bottom: 3px solid;*/
+    /*border-left: 3px solid;*/
+    /*border-right: 3px solid;*/
+    /*border-color: red;*/
+/*}*/
+
+
 .table-responsive.demo {
     width: 80%;
     height: auto;
