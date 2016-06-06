@@ -26,7 +26,6 @@ import java.util.UUID;
 public class TryPolicyServiceImpl implements TryPolicyService {
     private static final String CCDA_STYLESHEET = "CCDA_flag_redact.xsl";
     private static final String C32_STYLESHEET = "CDA_flag_redact.xsl";
-    private boolean isCCDADocument;
     /**
      * The logger.
      */
@@ -49,19 +48,23 @@ public class TryPolicyServiceImpl implements TryPolicyService {
 
     @Override
     public String getSegmentDocXHTML(String patientUsername, String patientId, String documentId, String consentId, String purposeOfUseCode) throws TryPolicyException {
-        return getTaggedClinicalDocument(getSegmentDocXML(patientUsername, patientId, documentId, consentId, purposeOfUseCode));
+        DSSResponse response = getSegmentDocResponse(patientUsername, patientId, documentId, consentId, purposeOfUseCode);
+        return getTaggedClinicalDocument(response);
     }
 
     @Override
-    public String getSegmentDocXML(String patientUsername, String patientId, String documentId, String consentId, String purposeOfUseCode) throws TryPolicyException {
+    public DSSResponse getSegmentDocResponse(String patientUsername, String patientId, String documentId, String consentId, String purposeOfUseCode) throws TryPolicyException {
         CCDDto ccdStrDto = pcmService.getCCDByPatientUsernameAndDocumentId(patientUsername, documentId);
         String docStr = new String(ccdStrDto.getCCDFile());
         List<String> obligations = pcmService.getObligationsByPatientUsernameAndConsentId(patientUsername, consentId);
-        return invokeDssService(patientId, docStr, obligations, purposeOfUseCode);
+        DSSResponse response = invokeDssService(patientId, docStr, obligations, purposeOfUseCode);
+        return response;
     }
 
-    private String getTaggedClinicalDocument(String segmentedClinicalDocument) {
-        String documentStyleSheet = selectStyleSheet();
+    private String getTaggedClinicalDocument(DSSResponse response) {
+        String segmentedClinicalDocument = toTryPolicyString(response);
+        boolean isCCDADocument = response.isCCDADocument();
+        String documentStyleSheet = selectStyleSheet(isCCDADocument);
 
         final Document taggedClinicalDocument = documentXmlConverter
                 .loadDocument(segmentedClinicalDocument);
@@ -87,22 +90,22 @@ public class TryPolicyServiceImpl implements TryPolicyService {
                 .getContextClassLoader().getResource(documentStyleSheet)
                 .toString();
 
+        logger.info("Xslt transformation: " + xslUrl);
+
         final String output = xmlTransformer.transform(taggedClinicalDocument, xslUrl, Optional.<Params>empty(), Optional.<URIResolver>empty());
 
         logger.info("Printing transformed xslt: " + output);
         return output;
     }
 
-    private String invokeDssService(String patientId, String ccdStr, List<String> obligations, String purposeOfUse) {
-        try {
-            DSSRequest dssRequest = createDSSRequest(patientId, ccdStr, obligations, purposeOfUse);
-            DSSResponse response = dssService.segmentDocument(dssRequest);
-            isCCDADocument = response.isCCDADocument();
-            return new String(response.getTryPolicyDocument(), StandardCharsets.UTF_8);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            throw new TryPolicyException(e.getMessage(), e);
-        }
+    private DSSResponse invokeDssService(String patientId, String ccdStr, List<String> obligations, String purposeOfUse) {
+        DSSRequest dssRequest = createDSSRequest(patientId, ccdStr, obligations, purposeOfUse);
+        DSSResponse response = dssService.segmentDocument(dssRequest);
+        return response;
+    }
+
+    private String toTryPolicyString(DSSResponse response){
+        return new String(response.getTryPolicyDocument(), StandardCharsets.UTF_8);
     }
 
     private DSSRequest createDSSRequest(String patientId, String ccdStr, List<String> obligations, String purposeOfUse) {
@@ -160,7 +163,7 @@ public class TryPolicyServiceImpl implements TryPolicyService {
         }
     }
 
-    private String selectStyleSheet() {
+    private String selectStyleSheet(boolean isCCDADocument) {
         if (isCCDADocument) {
             return CCDA_STYLESHEET;
         } else {
