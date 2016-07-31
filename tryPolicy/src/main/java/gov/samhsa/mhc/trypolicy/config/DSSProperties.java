@@ -12,6 +12,7 @@ public class DSSProperties {
     private String defaultIsAuditFailureByPass;
     private String pdpDecision;
     private String homeCommunityId;
+    private String documentEncoding;
 
     public String getDefaultIsAudited() {
         return defaultIsAudited;
@@ -43,5 +44,13 @@ public class DSSProperties {
 
     public void setHomeCommunityId(String homeCommunityId) {
         this.homeCommunityId = homeCommunityId;
+    }
+
+    public String getDocumentEncoding() {
+        return documentEncoding;
+    }
+
+    public void setDocumentEncoding(String documentEncoding) {
+        this.documentEncoding = documentEncoding;
     }
 }

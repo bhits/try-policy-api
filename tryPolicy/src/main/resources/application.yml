@@ -29,6 +29,7 @@ dss:
     defaultIsAuditFailureByPass: true
     pdpDecision: PERMIT
     homeCommunityId: dddd
+    DocumentEncoding: UTF-8
 ---
 spring.profiles: ssl
 server:

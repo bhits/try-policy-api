@@ -48,21 +48,16 @@ public class TryPolicyServiceImpl implements TryPolicyService {
 
     @Override
     public String getSegmentDocXHTML(String patientUsername, String patientId, String documentId, String consentId, String purposeOfUseCode) throws TryPolicyException {
-        DSSResponse response = getSegmentDocResponse(patientUsername, patientId, documentId, consentId, purposeOfUseCode);
-        return getTaggedClinicalDocument(response);
-    }
-
-    @Override
-    public DSSResponse getSegmentDocResponse(String patientUsername, String patientId, String documentId, String consentId, String purposeOfUseCode) throws TryPolicyException {
         CCDDto ccdStrDto = pcmService.getCCDByPatientUsernameAndDocumentId(patientUsername, documentId);
         String docStr = new String(ccdStrDto.getCCDFile());
         List<String> obligations = pcmService.getObligationsByPatientUsernameAndConsentId(patientUsername, consentId);
-        DSSResponse response = invokeDssService(patientId, docStr, obligations, purposeOfUseCode);
-        return response;
+        DSSRequest dssRequest = createDSSRequest(patientId, docStr, obligations, purposeOfUseCode);
+        DSSResponse response = dssService.segmentDocument(dssRequest);
+        return getTaggedClinicalDocument(response);
     }
 
     private String getTaggedClinicalDocument(DSSResponse response) {
-        String segmentedClinicalDocument = toTryPolicyString(response);
+        String segmentedClinicalDocument = new String(response.getTryPolicyDocument(), StandardCharsets.UTF_8);
         boolean isCCDADocument = response.isCCDADocument();
         String documentStyleSheet = selectStyleSheet(isCCDADocument);
 
@@ -98,23 +93,13 @@ public class TryPolicyServiceImpl implements TryPolicyService {
         return output;
     }
 
-    private DSSResponse invokeDssService(String patientId, String ccdStr, List<String> obligations, String purposeOfUse) {
-        DSSRequest dssRequest = createDSSRequest(patientId, ccdStr, obligations, purposeOfUse);
-        DSSResponse response = dssService.segmentDocument(dssRequest);
-        return response;
-    }
-
-    private String toTryPolicyString(DSSResponse response){
-        return new String(response.getTryPolicyDocument(), StandardCharsets.UTF_8);
-    }
-
     private DSSRequest createDSSRequest(String patientId, String ccdStr, List<String> obligations, String purposeOfUse) {
         DSSRequest dssRequest = new DSSRequest();
-        dssRequest.setAudited(new Boolean(dssProperties.getDefaultIsAudited()));
-        dssRequest.setAuditFailureByPass(new Boolean(dssProperties.getDefaultIsAuditFailureByPass()));
+        dssRequest.setAudited(Boolean.valueOf(dssProperties.getDefaultIsAudited()));
+        dssRequest.setAuditFailureByPass(Boolean.valueOf(dssProperties.getDefaultIsAuditFailureByPass()));
         dssRequest.setDocument(ccdStr.getBytes(StandardCharsets.UTF_8));
         dssRequest.setEnableTryPolicyResponse(true);
-        dssRequest.setDocumentEncoding("UTF-8");
+        dssRequest.setDocumentEncoding(dssProperties.getDocumentEncoding());
 
         XacmlResult xacmlResult = new XacmlResult();
         xacmlResult.setHomeCommunityId(dssProperties.getHomeCommunityId());
@@ -141,15 +126,6 @@ public class TryPolicyServiceImpl implements TryPolicyService {
         /**
          * Need to add xsl
          */
-/*
-        try {
-            pi = documentAccessor.getProcessingInstruction(taggedClinicalDocument,
-                    expression);
-        } catch (final DocumentAccessorException e) {
-            throw new DSSException("Error processing xsl path");
-        }
-*/
-
         // <?xml-stylesheet href="http://obhita.org/CDA.xsl" type="text/xsl"?>
         if (pi.isPresent()) {
             pi.get().setData("type='text/xsl' href='" + styleSheet + "'");

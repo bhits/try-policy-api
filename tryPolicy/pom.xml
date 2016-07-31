@@ -62,6 +62,7 @@
         <start-class>gov.samhsa.mhc.trypolicy.TryPolicyApplication</start-class>
         <common.libraries.version>1.1.0</common.libraries.version>
         <docker.maven.version>0.4.3</docker.maven.version>
+        <lombok.version>1.16.6</lombok.version>
     </properties>
 
     <dependencyManagement>
@@ -94,6 +95,11 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
         <!--  include everything that is needed for Spring MVC to work -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
