@@ -1,8 +1,7 @@
 package gov.samhsa.mhc.trypolicy.service;
 
-
-import gov.samhsa.mhc.trypolicy.service.exception.TryPolicyException;
+import gov.samhsa.mhc.trypolicy.service.dto.TryPolicyResponse;
 
 public interface TryPolicyService {
-    String getSegmentDocXHTML(String patientUsername, String patientId, String documentId, String consentId, String purposeOfUse) throws TryPolicyException;
+    TryPolicyResponse getSegmentDocXHTML(String patientUsername, String patientId, String documentId, String consentId, String purposeOfUse);
 }
