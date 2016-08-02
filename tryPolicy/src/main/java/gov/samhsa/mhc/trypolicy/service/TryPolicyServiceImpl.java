@@ -64,7 +64,8 @@ public class TryPolicyServiceImpl implements TryPolicyService {
     private String getTaggedClinicalDocument(DSSResponse response) {
         String segmentedClinicalDocument = toTryPolicyString(response);
         boolean isCCDADocument = response.isCCDADocument();
-        String documentStyleSheet = selectStyleSheet(isCCDADocument);
+        // TODO: review and update CDA stylesheet to handle all CDA documents
+        String documentStyleSheet = CCDA_STYLESHEET;
 
         final Document taggedClinicalDocument = documentXmlConverter
                 .loadDocument(segmentedClinicalDocument);
