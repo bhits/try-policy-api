@@ -2637,9 +2637,9 @@
     </xsl:template>
     <xsl:template name="addCSS">
         <!--TODO remove the contextpath depedency from the href-->
-        <link href="/trypolicy/css/bootstrap-min.css" rel="stylesheet"/>
-        <link href="/trypolicy/css/ccda_style.css" rel="stylesheet"/>
-        <script src="/trypolicy/js/jquery-1.10.2.min.js" type="text/javascript"></script>
-        <script src="/trypolicy/js/fixheight.js" type="text/javascript"></script>
+        <link href="/tryPolicy/css/bootstrap-min.css" rel="stylesheet"/>
+        <link href="/tryPolicy/css/ccda_style.css" rel="stylesheet"/>
+        <script src="/tryPolicy/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+        <script src="/tryPolicy/js/fixheight.js" type="text/javascript"></script>
     </xsl:template>
 </xsl:stylesheet>
