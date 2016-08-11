@@ -48,8 +48,9 @@ public class TryPolicyServiceImpl implements TryPolicyService {
     private DssService dssService;
 
     @Override
-    public TryPolicyResponse getSegmentDocXHTML(String patientUsername, String patientId, String documentId, String consentId, String purposeOfUseCode) {
+    public TryPolicyResponse getSegmentDocXHTML(String patientUsername, String documentId, String consentId, String purposeOfUseCode) {
         try {
+            String patientId = "";
             CCDDto ccdStrDto = pcmService.getCCDByPatientUsernameAndDocumentId(patientUsername, documentId);
             String docStr = new String(ccdStrDto.getCCDFile());
             List<String> obligations = pcmService.getObligationsByPatientUsernameAndConsentId(patientUsername, consentId);

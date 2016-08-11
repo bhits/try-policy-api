@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 @RestController
 public class TryPolicyController {
 
@@ -15,11 +17,11 @@ public class TryPolicyController {
     private TryPolicyService tryPolicyService;
 
     @RequestMapping(value = "/tryPolicyXHTML", method = RequestMethod.GET)
-    public TryPolicyResponse tryPolicyByConsentIdXHTML(@RequestParam("patientUserName") String patientUserName,
-                                                       @RequestParam("patientId") String patientId,
-                                                       @RequestParam("documentId") String documentId,
+    public TryPolicyResponse tryPolicyByConsentIdXHTML(@RequestParam("documentId") String documentId,
                                                        @RequestParam("consentId") String consentId,
-                                                       @RequestParam("purposeOfUseCode") String purposeOfUseCode) {
-        return tryPolicyService.getSegmentDocXHTML(patientUserName, patientId, documentId, consentId, purposeOfUseCode);
+                                                       @RequestParam("purposeOfUseCode") String purposeOfUseCode,
+                                                       Principal principal) {
+        final String patientUserName = principal.getName();
+        return tryPolicyService.getSegmentDocXHTML(patientUserName, documentId, consentId, purposeOfUseCode);
     }
 }
