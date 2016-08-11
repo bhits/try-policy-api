@@ -3,14 +3,14 @@ package gov.samhsa.mhc.trypolicy.service;
 
 import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
 import gov.samhsa.mhc.common.document.transformer.XmlTransformer;
+import gov.samhsa.mhc.common.log.Logger;
+import gov.samhsa.mhc.common.log.LoggerFactory;
 import gov.samhsa.mhc.common.param.Params;
 import gov.samhsa.mhc.trypolicy.config.DSSProperties;
 import gov.samhsa.mhc.trypolicy.infrastructure.DssService;
 import gov.samhsa.mhc.trypolicy.infrastructure.PcmService;
 import gov.samhsa.mhc.trypolicy.service.dto.*;
 import gov.samhsa.mhc.trypolicy.service.exception.TryPolicyException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -26,6 +26,7 @@ import java.util.UUID;
 public class TryPolicyServiceImpl implements TryPolicyService {
     private static final String CCDA_STYLESHEET = "CCDA_flag_redact.xsl";
     private static final String C32_STYLESHEET = "CDA_flag_redact.xsl";
+
     /**
      * The logger.
      */
@@ -78,12 +79,10 @@ public class TryPolicyServiceImpl implements TryPolicyService {
         final NodeList segmentedClinicalDocumentList = segmentedClinicalDocumentDoc
                 .getElementsByTagName("entry");
 
-        logger.info("Segmented Clinical Document: " + segmentedClinicalDocument);
-
+        logger.debug("Segmented Clinical Document: " + segmentedClinicalDocument);
         logger.info("Tagged Clinical Document Entry size: " + taggedClinicalDocumentList.getLength());
         logger.info("Segmented Clinical Document Entry size: "
                 + segmentedClinicalDocumentList.getLength());
-
         logger.info("Is Segmented CCDA document: " + isCCDADocument);
 
         // xslt transformation
