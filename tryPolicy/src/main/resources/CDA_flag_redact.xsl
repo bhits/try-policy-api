@@ -34,24 +34,18 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:n1="urn:hl7-org:v3"
                 xmlns:in="urn:lantana-com:inline-variable-data">
-    <xsl:output method="html" indent="yes" version="4.01" encoding="ISO-8859-1"
-                doctype-system="http://www.w3.org/TR/html4/strict.dtd" doctype-public="-//W3C//DTD HTML 4.01//EN"/>
+    <xsl:output method="html" indent="yes" version="4.01" encoding="ISO-8859-1" doctype-system="http://www.w3.org/TR/html4/strict.dtd" doctype-public="-//W3C//DTD HTML 4.01//EN"/>
     <xsl:param name="limit-external-images" select="'yes'"/>
     <!-- A vertical bar separated list of URI prefixes, such as "http://www.example.com|https://www.example.com" -->
     <xsl:param name="external-image-whitelist"/>
     <!-- string processing variables -->
-    <xsl:variable name="lc" select="'abcdefghijklmnopqrstuvwxyz'"/>
-    <xsl:variable name="uc" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
+    <xsl:variable name="lc" select="'abcdefghijklmnopqrstuvwxyz'" />
+    <xsl:variable name="uc" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" />
     <!-- removes the following characters, in addition to line breaks "':;?`{}“”„‚’ -->
-    <xsl:variable name="simple-sanitizer-match">
-        <xsl:text>&#10;&#13;&#34;&#39;&#58;&#59;&#63;&#96;&#123;&#125;&#8220;&#8221;&#8222;&#8218;&#8217;</xsl:text>
-    </xsl:variable>
+    <xsl:variable name="simple-sanitizer-match"><xsl:text>&#10;&#13;&#34;&#39;&#58;&#59;&#63;&#96;&#123;&#125;&#8220;&#8221;&#8222;&#8218;&#8217;</xsl:text></xsl:variable>
     <xsl:variable name="simple-sanitizer-replace" select="'***************'"/>
-    <xsl:variable name="javascript-injection-warning">WARNING: Javascript injection attempt detected in source CDA
-        document. Terminating
-    </xsl:variable>
-    <xsl:variable name="malicious-content-warning">WARNING: Potentially malicious content found in CDA document.
-    </xsl:variable>
+    <xsl:variable name="javascript-injection-warning">WARNING: Javascript injection attempt detected in source CDA document. Terminating</xsl:variable>
+    <xsl:variable name="malicious-content-warning">WARNING: Potentially malicious content found in CDA document.</xsl:variable>
 
     <!-- global variable title -->
     <xsl:variable name="title">
@@ -75,9 +69,7 @@
     <xsl:template match="n1:ClinicalDocument">
         <html>
             <head>
-                <xsl:comment>Do NOT edit this HTML directly: it was generated via an XSLT transformation from a CDA
-                    Release 2 XML document.
-                </xsl:comment>
+                <xsl:comment> Do NOT edit this HTML directly: it was generated via an XSLT transformation from a CDA Release 2 XML document. </xsl:comment>
                 <title>
                     <xsl:value-of select="$title"/>
                 </title>
@@ -487,22 +479,18 @@
                                     <xsl:choose>
                                         <xsl:when test="n1:location/n1:healthCareFacility/n1:location/n1:name">
                                             <xsl:call-template name="show-name">
-                                                <xsl:with-param name="name"
-                                                                select="n1:location/n1:healthCareFacility/n1:location/n1:name"/>
+                                                <xsl:with-param name="name" select="n1:location/n1:healthCareFacility/n1:location/n1:name"/>
                                             </xsl:call-template>
-                                            <xsl:for-each
-                                                    select="n1:location/n1:healthCareFacility/n1:serviceProviderOrganization/n1:name">
+                                            <xsl:for-each select="n1:location/n1:healthCareFacility/n1:serviceProviderOrganization/n1:name">
                                                 <xsl:text> of </xsl:text>
                                                 <xsl:call-template name="show-name">
-                                                    <xsl:with-param name="name"
-                                                                    select="n1:location/n1:healthCareFacility/n1:serviceProviderOrganization/n1:name"/>
+                                                    <xsl:with-param name="name" select="n1:location/n1:healthCareFacility/n1:serviceProviderOrganization/n1:name"/>
                                                 </xsl:call-template>
                                             </xsl:for-each>
                                         </xsl:when>
                                         <xsl:when test="n1:location/n1:healthCareFacility/n1:code">
                                             <xsl:call-template name="show-code">
-                                                <xsl:with-param name="code"
-                                                                select="n1:location/n1:healthCareFacility/n1:code"/>
+                                                <xsl:with-param name="code" select="n1:location/n1:healthCareFacility/n1:code"/>
                                             </xsl:call-template>
                                         </xsl:when>
                                         <xsl:otherwise>
@@ -528,8 +516,7 @@
                                 </div>
                                 <div class="col-xs-8 col-sm-10 div-cell narr_row">
                                     <xsl:call-template name="show-assignedEntity">
-                                        <xsl:with-param name="asgnEntity"
-                                                        select="n1:responsibleParty/n1:assignedEntity"/>
+                                        <xsl:with-param name="asgnEntity" select="n1:responsibleParty/n1:assignedEntity"/>
                                     </xsl:call-template>
                                 </div>
                             </div>
@@ -564,16 +551,13 @@
                         </div>
                         <div class="col-xs-8 col-sm-10 div-cell narr_row">
                             <xsl:choose>
-                                <xsl:when
-                                        test="n1:custodian/n1:assignedCustodian/n1:representedCustodianOrganization/n1:name">
+                                <xsl:when test="n1:custodian/n1:assignedCustodian/n1:representedCustodianOrganization/n1:name">
                                     <xsl:call-template name="show-name">
-                                        <xsl:with-param name="name"
-                                                        select="n1:custodian/n1:assignedCustodian/n1:representedCustodianOrganization/n1:name"/>
+                                        <xsl:with-param name="name" select="n1:custodian/n1:assignedCustodian/n1:representedCustodianOrganization/n1:name"/>
                                     </xsl:call-template>
                                 </xsl:when>
                                 <xsl:otherwise>
-                                    <xsl:for-each
-                                            select="n1:custodian/n1:assignedCustodian/n1:representedCustodianOrganization/n1:id">
+                                    <xsl:for-each select="n1:custodian/n1:assignedCustodian/n1:representedCustodianOrganization/n1:id">
                                         <xsl:call-template name="show-id"/>
                                         <xsl:if test="position()!=last()">
                                             <br/>
@@ -590,8 +574,7 @@
                             </div>
                             <div class="col-xs-8 col-sm-10 div-cell narr_row">
                                 <xsl:call-template name="show-contactInfo">
-                                    <xsl:with-param name="contact"
-                                                    select="n1:custodian/n1:assignedCustodian/n1:representedCustodianOrganization"/>
+                                    <xsl:with-param name="contact" select="n1:custodian/n1:assignedCustodian/n1:representedCustodianOrganization"/>
                                 </xsl:call-template>
                             </div>
                         </div>
@@ -631,21 +614,18 @@
                                                     <xsl:when test="n1:serviceEvent/n1:effectiveTime/@value">
                                                         <xsl:text>&#160;at&#160;</xsl:text>
                                                         <xsl:call-template name="show-time">
-                                                            <xsl:with-param name="datetime"
-                                                                            select="n1:serviceEvent/n1:effectiveTime"/>
+                                                            <xsl:with-param name="datetime" select="n1:serviceEvent/n1:effectiveTime"/>
                                                         </xsl:call-template>
                                                     </xsl:when>
                                                     <xsl:when test="n1:serviceEvent/n1:effectiveTime/n1:low">
                                                         <xsl:text>&#160;from&#160;</xsl:text>
                                                         <xsl:call-template name="show-time">
-                                                            <xsl:with-param name="datetime"
-                                                                            select="n1:serviceEvent/n1:effectiveTime/n1:low"/>
+                                                            <xsl:with-param name="datetime" select="n1:serviceEvent/n1:effectiveTime/n1:low"/>
                                                         </xsl:call-template>
                                                         <xsl:if test="n1:serviceEvent/n1:effectiveTime/n1:high">
                                                             <xsl:text> to </xsl:text>
                                                             <xsl:call-template name="show-time">
-                                                                <xsl:with-param name="datetime"
-                                                                                select="n1:serviceEvent/n1:effectiveTime/n1:high"/>
+                                                                <xsl:with-param name="datetime" select="n1:serviceEvent/n1:effectiveTime/n1:high"/>
                                                             </xsl:call-template>
                                                         </xsl:if>
                                                     </xsl:when>
@@ -1135,27 +1115,16 @@
             <xsl:when test='n1:text/n1:reference'>
                 <xsl:variable name="source" select="string(n1:text/n1:reference/@value)"/>
                 <xsl:variable name="lcSource" select="translate($source, $uc, $lc)"/>
-                <xsl:variable name="scrubbedSource"
-                              select="translate($source, $simple-sanitizer-match, $simple-sanitizer-replace)"/>
-                <xsl:message><xsl:value-of select="$source"/>,
-                    <xsl:value-of select="$lcSource"/>
-                </xsl:message>
+                <xsl:variable name="scrubbedSource" select="translate($source, $simple-sanitizer-match, $simple-sanitizer-replace)"/>
+                <xsl:message><xsl:value-of select="$source"/>, <xsl:value-of select="$lcSource"/></xsl:message>
                 <xsl:choose>
                     <xsl:when test="contains($lcSource,'javascript')">
-                        <p>
-                            <xsl:value-of select="$javascript-injection-warning"/>
-                        </p>
-                        <xsl:message>
-                            <xsl:value-of select="$javascript-injection-warning"/>
-                        </xsl:message>
+                        <p><xsl:value-of select="$javascript-injection-warning"/> </p>
+                        <xsl:message><xsl:value-of select="$javascript-injection-warning"/></xsl:message>
                     </xsl:when>
                     <xsl:when test="not($source = $scrubbedSource)">
-                        <p>
-                            <xsl:value-of select="$malicious-content-warning"/>
-                        </p>
-                        <xsl:message>
-                            <xsl:value-of select="$malicious-content-warning"/>
-                        </xsl:message>
+                        <p><xsl:value-of select="$malicious-content-warning"/> </p>
+                        <xsl:message><xsl:value-of select="$malicious-content-warning"/></xsl:message>
                     </xsl:when>
                     <xsl:otherwise>
                         <iframe name='nonXMLBody' id='nonXMLBody' WIDTH='80%' HEIGHT='600' src='{$source}' sandbox=""/>
@@ -1163,9 +1132,7 @@
                 </xsl:choose>
             </xsl:when>
             <xsl:when test='n1:text/@mediaType="text/plain"'>
-                <pre>
-                    <xsl:value-of select='n1:text/text()'/>
-                </pre>
+                <pre><xsl:value-of select='n1:text/text()'/></pre>
             </xsl:when>
             <xsl:otherwise>
                 <pre>Cannot display the text</pre>
@@ -1266,7 +1233,7 @@
     </xsl:template>
     <!--   paragraph  -->
     <xsl:template match="n1:paragraph">
-        <p style="">
+        <p>
             <xsl:apply-templates/>
         </p>
     </xsl:template>
@@ -1328,83 +1295,15 @@
         <xsl:text>: </xsl:text>
     </xsl:template>
     <!--  Tables   -->
+    <!--
     <xsl:template match="n1:table/@*|n1:thead/@*|n1:tfoot/@*|n1:tbody/@*|n1:colgroup/@*|n1:col/@*|n1:tr/@*|n1:th/@*|n1:td/@*">
+
         <xsl:copy>
             <xsl:copy-of select="@*"/>
             <xsl:apply-templates/>
         </xsl:copy>
     </xsl:template>
-    <xsl:template match="n1:table">
-        <div class="table-responsive">
-            <table class="table narr_table">
-                <xsl:copy-of select="@*"/>
-                <xsl:apply-templates/>
-            </table>
-        </div>
-    </xsl:template>
-    <xsl:template match="n1:thead">
-        <thead>
-            <xsl:copy-of select="@*"/>
-            <xsl:apply-templates/>
-        </thead>
-    </xsl:template>
-    <xsl:template match="n1:tfoot">
-        <tfoot>
-            <xsl:copy-of select="@*"/>
-            <xsl:apply-templates/>
-        </tfoot>
-    </xsl:template>
-    <xsl:template match="n1:tbody">
-        <tbody>
-            <xsl:copy-of select="@*"/>
-            <xsl:apply-templates/>
-        </tbody>
-    </xsl:template>
-    <xsl:template match="n1:colgroup">
-        <colgroup>
-            <xsl:copy-of select="@*"/>
-            <xsl:apply-templates/>
-        </colgroup>
-    </xsl:template>
-    <xsl:template match="n1:col">
-        <col>
-            <xsl:copy-of select="@*"/>
-            <xsl:apply-templates/>
-        </col>
-    </xsl:template>
-    <xsl:template match="n1:tr">
-
-        <xsl:variable name="isRedactedEntry" select="descendant-or-self::*[@redact]/@redact" />
-        <xsl:variable name="isRedactedSection" select="ancestor-or-self::*[@redact]/@redact" />
-
-        <xsl:choose>
-            <xsl:when test="($isRedactedEntry = 'redact') or ($isRedactedSection = 'redact')">
-                <tr class="narr_tr redact">
-                    <xsl:copy-of select="@*"/>
-                    <xsl:apply-templates/>
-                </tr>
-            </xsl:when>
-            <xsl:otherwise>
-                <tr class="narr_tr">
-                    <xsl:copy-of select="@*"/>
-                    <xsl:apply-templates/>
-                </tr>
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:template>
-    <xsl:template match="n1:th">
-        <th class="narr_th">
-            <xsl:copy-of select="@*"/>
-            <xsl:apply-templates/>
-        </th>
-    </xsl:template>
-    <xsl:template match="n1:td">
-        <td>
-            <xsl:copy-of select="@*"/>
-            <xsl:apply-templates/>
-        </td>
-    </xsl:template>
-    <!-- Original Table styling
+    -->
     <xsl:variable name="table-elem-attrs">
         <in:tableElems>
             <in:elem name="table">
@@ -1516,34 +1415,21 @@
             <xsl:variable name="attr-name" select="local-name(.)"/>
             <xsl:variable name="source" select="."/>
             <xsl:variable name="lcSource" select="translate($source, $uc, $lc)"/>
-            <xsl:variable name="scrubbedSource"
-                          select="translate($source, $simple-sanitizer-match, $simple-sanitizer-replace)"/>
+            <xsl:variable name="scrubbedSource" select="translate($source, $simple-sanitizer-match, $simple-sanitizer-replace)"/>
             <xsl:choose>
                 <xsl:when test="contains($lcSource,'javascript')">
-                    <p>
-                        <xsl:value-of select="$javascript-injection-warning"/>
-                    </p>
-                    <xsl:message terminate="yes">
-                        <xsl:value-of select="$javascript-injection-warning"/>
-                    </xsl:message>
+                    <p><xsl:value-of select="$javascript-injection-warning"/></p>
+                    <xsl:message terminate="yes"><xsl:value-of select="$javascript-injection-warning"/></xsl:message>
                 </xsl:when>
                 <xsl:when test="$attr-name='styleCode'">
                     <xsl:apply-templates select="."/>
                 </xsl:when>
-                <xsl:when
-                        test="not(document('')/xsl:stylesheet/xsl:variable[@name='table-elem-attrs']/in:tableElems/in:elem[@name=$elem-name]/in:attr[@name=$attr-name])">
-                    <xsl:message>
-                        <xsl:value-of select="$attr-name"/> is not legal in
-                        <xsl:value-of select="$elem-name"/>
-                    </xsl:message>
+                <xsl:when test="not(document('')/xsl:stylesheet/xsl:variable[@name='table-elem-attrs']/in:tableElems/in:elem[@name=$elem-name]/in:attr[@name=$attr-name])">
+                    <xsl:message><xsl:value-of select="$attr-name"/> is not legal in <xsl:value-of select="$elem-name"/></xsl:message>
                 </xsl:when>
                 <xsl:when test="not($source = $scrubbedSource)">
-                    <p>
-                        <xsl:value-of select="$malicious-content-warning"/>
-                    </p>
-                    <xsl:message>
-                        <xsl:value-of select="$malicious-content-warning"/>
-                    </xsl:message>
+                    <p><xsl:value-of select="$malicious-content-warning"/> </p>
+                    <xsl:message><xsl:value-of select="$malicious-content-warning"/></xsl:message>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:copy-of select="."/>
@@ -1552,13 +1438,49 @@
         </xsl:for-each>
     </xsl:template>
 
-    <xsl:template match="n1:table | n1:thead | n1:tfoot | n1:tbody | n1:colgroup | n1:col | n1:tr | n1:th | n1:td">
+    <xsl:template match="n1:thead | n1:tfoot | n1:tbody | n1:colgroup | n1:col | n1:td">
         <xsl:element name="{local-name()}">
             <xsl:call-template name="output-attrs"/>
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template>
-    -->
+
+    <!-- Custom Flag Redacted CDA Fields XSL Stylesheet-->
+    <xsl:template match="n1:table">
+        <div class="table-responsive">
+            <table class="table narr_table">
+                <xsl:copy-of select="@*"/>
+                <xsl:apply-templates/>
+            </table>
+        </div>
+    </xsl:template>
+
+    <xsl:template match="n1:tr">
+        <xsl:variable name="isRedactedEntry" select="descendant-or-self::*[@redact]/@redact"/>
+        <xsl:variable name="isRedactedSection" select="ancestor-or-self::*[@redact]/@redact"/>
+        <xsl:choose>
+            <xsl:when test="($isRedactedEntry = 'redact') or ($isRedactedSection = 'redact')">
+                <tr class="narr_tr redact">
+                    <xsl:copy-of select="@*"/>
+                    <xsl:apply-templates/>
+                </tr>
+            </xsl:when>
+            <xsl:otherwise>
+                <tr class="narr_tr">
+                    <xsl:copy-of select="@*"/>
+                    <xsl:apply-templates/>
+                </tr>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    <xsl:template match="n1:th">
+        <th class="narr_th">
+            <xsl:copy-of select="@*"/>
+            <xsl:apply-templates/>
+        </th>
+    </xsl:template>
+    <!--Custom End-->
+
     <!--
     <xsl:template match="n1:table">
         <table>
@@ -1649,13 +1571,9 @@
                     <xsl:when test="starts-with($image-uri,$whitelist-item)">
                         <br clear="all"/>
                         <xsl:element name="img">
-                            <xsl:attribute name="src">
-                                <xsl:value-of select="$image-uri"/>
-                            </xsl:attribute>
+                            <xsl:attribute name="src"><xsl:value-of select="$image-uri"/></xsl:attribute>
                         </xsl:element>
-                        <xsl:message>
-                            <xsl:value-of select="$image-uri"/> is in the whitelist
-                        </xsl:message>
+                        <xsl:message><xsl:value-of select="$image-uri"/> is in the whitelist</xsl:message>
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:call-template name="check-external-image-whitelist">
@@ -1667,12 +1585,8 @@
 
             </xsl:when>
             <xsl:otherwise>
-                <p>WARNING: non-local image found <xsl:value-of select="$image-uri"/>. Removing. If you wish non-local
-                    images preserved please set the limit-external-images param to 'no'.
-                </p>
-                <xsl:message>WARNING: non-local image found <xsl:value-of select="$image-uri"/>. Removing. If you wish
-                    non-local images preserved please set the limit-external-images param to 'no'.
-                </xsl:message>
+                <p>WARNING: non-local image found <xsl:value-of select="$image-uri"/>. Removing. If you wish non-local images preserved please set the limit-external-images param to 'no'.</p>
+                <xsl:message>WARNING: non-local image found <xsl:value-of select="$image-uri"/>. Removing. If you wish non-local images preserved please set the limit-external-images param to 'no'.</xsl:message>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -1685,12 +1599,10 @@
                 <!-- Here is where the Region of Interest image referencing goes -->
                 <xsl:if test="//n1:regionOfInterest[@ID=$imageRef]//n1:observationMedia/n1:value[@mediaType='image/gif' or
  @mediaType='image/jpeg']">
-                    <xsl:variable name="image-uri"
-                                  select="//n1:regionOfInterest[@ID=$imageRef]//n1:observationMedia/n1:value/n1:reference/@value"/>
+                    <xsl:variable name="image-uri" select="//n1:regionOfInterest[@ID=$imageRef]//n1:observationMedia/n1:value/n1:reference/@value"/>
 
                     <xsl:choose>
-                        <xsl:when
-                                test="$limit-external-images='yes' and (contains($image-uri,':') or starts-with($image-uri,'\\'))">
+                        <xsl:when test="$limit-external-images='yes' and (contains($image-uri,':') or starts-with($image-uri,'\\'))">
                             <xsl:call-template name="check-external-image-whitelist">
                                 <xsl:with-param name="current-whitelist" select="$external-image-whitelist"/>
                                 <xsl:with-param name="image-uri" select="$image-uri"/>
@@ -1709,9 +1621,7 @@
                         <xsl:otherwise>
                             <br clear="all"/>
                             <xsl:element name="img">
-                                <xsl:attribute name="src">
-                                    <xsl:value-of select="$image-uri"/>
-                                </xsl:attribute>
+                                <xsl:attribute name="src"><xsl:value-of select="$image-uri"/></xsl:attribute>
                             </xsl:element>
                         </xsl:otherwise>
                     </xsl:choose>
@@ -1723,9 +1633,7 @@
                 <xsl:if test="//n1:observationMedia[@ID=$imageRef]/n1:value[@mediaType='image/gif' or @mediaType='image/jpeg']">
                     <br clear="all"/>
                     <xsl:element name="img">
-                        <xsl:attribute name="src">
-                            <xsl:value-of select="//n1:observationMedia[@ID=$imageRef]/n1:value/n1:reference/@value"/>
-                        </xsl:attribute>
+                        <xsl:attribute name="src"><xsl:value-of select="//n1:observationMedia[@ID=$imageRef]/n1:value/n1:reference/@value"/></xsl:attribute>
                     </xsl:element>
                 </xsl:if>
             </xsl:otherwise>
@@ -1735,9 +1643,7 @@
      Supports Bold, Underline and Italics display
      -->
     <xsl:template match="@styleCode">
-        <xsl:attribute name="class">
-            <xsl:value-of select="."/>
-        </xsl:attribute>
+        <xsl:attribute name="class"><xsl:value-of select="."/></xsl:attribute>
     </xsl:template>
     <!--
     <xsl:template match="//n1:*[@styleCode]">
