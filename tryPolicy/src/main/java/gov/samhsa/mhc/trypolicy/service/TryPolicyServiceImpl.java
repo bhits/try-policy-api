@@ -9,6 +9,7 @@ import gov.samhsa.mhc.common.param.Params;
 import gov.samhsa.mhc.trypolicy.config.DSSProperties;
 import gov.samhsa.mhc.trypolicy.infrastructure.DssService;
 import gov.samhsa.mhc.trypolicy.infrastructure.PcmService;
+import gov.samhsa.mhc.trypolicy.infrastructure.PhrService;
 import gov.samhsa.mhc.trypolicy.service.dto.*;
 import gov.samhsa.mhc.trypolicy.service.exception.TryPolicyException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,19 +48,24 @@ public class TryPolicyServiceImpl implements TryPolicyService {
     @Autowired
     private DssService dssService;
 
+    @Autowired
+    private PhrService phrService;
+
     @Override
     public TryPolicyResponse getSegmentDocXHTML(String patientUsername, String documentId, String consentId, String purposeOfUseCode) {
         try {
-            String patientId = "";
             CCDDto ccdStrDto = pcmService.getCCDByPatientUsernameAndDocumentId(patientUsername, documentId);
             String docStr = new String(ccdStrDto.getCCDFile());
             List<String> obligations = pcmService.getObligationsByPatientUsernameAndConsentId(patientUsername, consentId);
+
+            String patientId = phrService.getPatient().getId().toString();
             DSSRequest dssRequest = createDSSRequest(patientId, docStr, obligations, purposeOfUseCode);
             DSSResponse response = dssService.segmentDocument(dssRequest);
             return getTaggedClinicalDocument(response);
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            throw new TryPolicyException(e.getMessage(), e);
+            logger.info(() -> "Apply TryPolicy failed: " + e.getMessage());
+            logger.debug(() -> e.getMessage(), e);
+            throw new TryPolicyException();
         }
     }
 
