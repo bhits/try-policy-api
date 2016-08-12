@@ -21,6 +21,20 @@ tr {
 }
 /* BEGIN Custom Table Classes  */
 /*---------------------------------------------------------------------------------------*/
+
+.m-l-sm {
+    margin-left: 10px;
+}
+.m-r-sm {
+    margin-right: 10px;
+}
+.m-t-sm {
+    margin-top: 10px;;
+}
+.m-b-sm {
+    margin-bottom: 10px;
+}
+
 body {
     padding-top: 70px !important;
 }
@@ -70,7 +84,7 @@ h1 {
 h2,
 h3,
 h4 {
-    font-size: 14pt;
+    font-size: 12pt;
     font-weight: bold;
 }
 h2,
@@ -132,8 +146,42 @@ div.education-text > div:first-child {
     -moz-border-radius: 6px;
     margin-bottom: 10px;
 }
+.border_box_modified {
+    border: 2px #697181 solid;
+    border-radius: 0 0 6px 6px;
+    -webkit-border-radius: 0 0 6px 6px;
+    -moz-border-radius: 0 0 6px 6px;
+    margin-bottom: 15px;
+}
+.border_box_modified > div {
+    color: #444;
+    font-weight: 700;
+    font-size: 12px;
+}
+.border_box_modified > div > p {
+    margin-bottom: 0;
+}
+.border_box_modified > div > p:not(first-of-type) {
+    margin-top: 10px;
+}
+
+.border_box_modified > div > ul {
+    padding: 5px 0;
+    font-weight: 300 !important;
+}
+
 .borderbottom {
-    border-bottom: 1px #b2b6b8 solid;
+     border-bottom: 1px #b2b6b8 solid;
+ }
+.bordertop {
+    border-top: 1px #b2b6b8 solid;
+}
+.bordertopLoop:first-child {
+    border-top: none;
+}
+.bordertopLoop {
+    /*border-top: 1px #b2b6b8 solid;*/
+    border-top: 2px #697181 solid;
 }
 .rwd-table {
     margin: 1em 0;
@@ -162,14 +210,55 @@ div.education-text > div:first-child {
     font-weight: normal;
     padding: 10px 15px;
 }
+p ~ .table-responsive {
+    margin-top: 10px !important;
+}
+
 .table-responsive {
-    width: 100%;
-    margin-bottom: 15px;
-    border: 2px solid #697181;
+    /*width: 100%;*/
+    /*margin-bottom: 15px;*/
+    /*border: 2px solid #697181;*/
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-top: -10px;
+    margin-bottom: -10px;
 }
 .table {
     border: none;
 }
+/* ------------------------ INLINE STUFF --------------------------------------*/
+hr {
+    width: 90%;
+
+}
+
+section {
+    margin-bottom: 5px;
+}
+
+div.container{
+    width: 100%;
+}
+
+
+.field_label{
+    font-weight: bold;
+    color: white;
+}
+
+/*.redact{*/
+    /*font-weight: 700;*/
+    /*color: #c30000;*/
+    /*background-color: #fccdcd;*/
+    /*border-top: 3px solid;*/
+    /*border-bottom: 3px solid;*/
+    /*border-left: 3px solid;*/
+    /*border-right: 3px solid;*/
+    /*border-color: red;*/
+/*}*/
+/*-------------------------- End NEW STUFF --------------------*/
+
+
 /*---------------------------------------------------------------*/
 @media only screen and (min-width: 769px) and (max-width: 1020px) {
     body {
@@ -307,19 +396,52 @@ table .narr_th {
     color: white;
     background-color: #26ADE4;
 }
+tbody > .narr_tr > .narr_th {
+    background-color: #D9E7EC;
+    color: #444;
+}
+
+.redact .narr_th {
+    color: white;
+    background-color: #980404;
+}
+
+
 table .header_table {
     border: 1pt inset #00008b;
 }
+.table > thead > tr > th {
+    border-bottom: 1px solid #72767D !important;
+}
+tbody > tr:last-of-type > td:first-of-type {
+    border-bottom-left-radius: 6px;
+}
+tbody > tr:last-of-type > td:last-of-type {
+    border-bottom-right-radius: 6px;
+}
+
 .redact {
     font-weight: 700;
     color: #c30000;
-    background-color: #fccdcd;
-    border-top: 2px solid !important;
-    border-bottom: 2px solid !important;
-    border-left: 0 !important;
-    border-right: 0 !important;
-    border-color: red;
+    background-color: #FFE1E1;
+    /*border-top: 2px solid !important;*/
+    /*border-bottom: 2px solid !important;*/
+    /*border-left: 0 !important;*/
+    /*border-right: 0 !important;*/
+    /*border-color: red;*/
 }
+/*.redact{*/
+    /*font-weight: 700;*/
+    /*color: #c30000;*/
+    /*background-color: #fccdcd;*/
+    /*border-top: 3px solid;*/
+    /*border-bottom: 3px solid;*/
+    /*border-left: 3px solid;*/
+    /*border-right: 3px solid;*/
+    /*border-color: red;*/
+/*}*/
+
+
 .table-responsive.demo {
     width: 80%;
     height: auto;

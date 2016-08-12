@@ -7,18 +7,11 @@ import gov.samhsa.mhc.common.document.transformer.XmlTransformer;
 import gov.samhsa.mhc.common.document.transformer.XmlTransformerImpl;
 import gov.samhsa.mhc.common.marshaller.SimpleMarshaller;
 import gov.samhsa.mhc.common.marshaller.SimpleMarshallerImpl;
-import gov.samhsa.mhc.trypolicy.service.TryPolicyService;
-import gov.samhsa.mhc.trypolicy.service.TryPolicyServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class TryPolicyServicesConfig {
-
-    @Bean
-    public TryPolicyService tryPolicyService() {
-        return new TryPolicyServiceImpl();
-    }
+public class ApplicationContextConfig {
 
     @Bean
     public DocumentXmlConverter documentXmlConverter() {

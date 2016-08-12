@@ -13,6 +13,7 @@ import gov.samhsa.mhc.trypolicy.infrastructure.PhrService;
 import gov.samhsa.mhc.trypolicy.service.dto.*;
 import gov.samhsa.mhc.trypolicy.service.exception.TryPolicyException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -24,9 +25,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class TryPolicyServiceImpl implements TryPolicyService {
-    private static final String CCDA_STYLESHEET = "CCDA_flag_redact.xsl";
-    private static final String C32_STYLESHEET = "CDA_flag_redact.xsl";
+    private static final String CDA_STYLESHEET = "CDA_flag_redact.xsl";
 
     /**
      * The logger.
@@ -64,17 +65,15 @@ public class TryPolicyServiceImpl implements TryPolicyService {
             return getTaggedClinicalDocument(response);
         } catch (Exception e) {
             logger.info(() -> "Apply TryPolicy failed: " + e.getMessage());
-            logger.debug(() -> e.getMessage(), e);
+            logger.debug(e::getMessage, e);
             throw new TryPolicyException();
         }
     }
 
-    private TryPolicyResponse getTaggedClinicalDocument(DSSResponse response) {
-        String segmentedClinicalDocument = new String(response.getTryPolicyDocument(), StandardCharsets.UTF_8);
-        boolean isCCDADocument = response.isCCDADocument();
-        // TODO: review and update CDA stylesheet to handle all CDA documents
-        String documentStyleSheet = CCDA_STYLESHEET;
+    private TryPolicyResponse getTaggedClinicalDocument(DSSResponse dssResponse) {
+        String documentStyleSheet = CDA_STYLESHEET;
 
+        String segmentedClinicalDocument = new String(dssResponse.getTryPolicyDocument(), StandardCharsets.UTF_8);
         final Document taggedClinicalDocument = documentXmlConverter
                 .loadDocument(segmentedClinicalDocument);
         changeXslPath(taggedClinicalDocument, documentStyleSheet);
@@ -88,14 +87,11 @@ public class TryPolicyServiceImpl implements TryPolicyService {
 
         logger.debug("Segmented Clinical Document: " + segmentedClinicalDocument);
         logger.info("Tagged Clinical Document Entry size: " + taggedClinicalDocumentList.getLength());
-        logger.info("Segmented Clinical Document Entry size: "
-                + segmentedClinicalDocumentList.getLength());
-        logger.info("Is Segmented CCDA document: " + isCCDADocument);
+        logger.info("Segmented Clinical Document Entry size: " + segmentedClinicalDocumentList.getLength());
+        logger.info("Is Segmented CCDA document: " + dssResponse.isCCDADocument());
 
         // xslt transformation
-        final String xslUrl = Thread.currentThread()
-                .getContextClassLoader().getResource(documentStyleSheet)
-                .toString();
+        final String xslUrl = Thread.currentThread().getContextClassLoader().getResource(documentStyleSheet).toString();
         final String output = xmlTransformer.transform(taggedClinicalDocument, xslUrl, Optional.<Params>empty(), Optional.<URIResolver>empty());
 
         TryPolicyResponse tryPolicyResponse = new TryPolicyResponse();
@@ -146,14 +142,6 @@ public class TryPolicyServiceImpl implements TryPolicyService {
                             "type=\"text/xsl\" href=\"" + styleSheet + "\"");
             final Element stylesheetEl = taggedClinicalDocument.getDocumentElement();
             taggedClinicalDocument.insertBefore(p, stylesheetEl);
-        }
-    }
-
-    private String selectStyleSheet(boolean isCCDADocument) {
-        if (isCCDADocument) {
-            return CCDA_STYLESHEET;
-        } else {
-            return C32_STYLESHEET;
         }
     }
 }
