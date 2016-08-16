@@ -15,9 +15,7 @@ import gov.samhsa.mhc.trypolicy.service.exception.TryPolicyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.ProcessingInstruction;
 
 import javax.xml.transform.URIResolver;
 import java.nio.charset.StandardCharsets;
@@ -71,27 +69,18 @@ public class TryPolicyServiceImpl implements TryPolicyService {
     }
 
     private TryPolicyResponse getTaggedClinicalDocument(DSSResponse dssResponse) {
-        String documentStyleSheet = CDA_STYLESHEET;
-
         String segmentedClinicalDocument = new String(dssResponse.getTryPolicyDocument(), StandardCharsets.UTF_8);
         final Document taggedClinicalDocument = documentXmlConverter
                 .loadDocument(segmentedClinicalDocument);
-        changeXslPath(taggedClinicalDocument, documentStyleSheet);
         final NodeList taggedClinicalDocumentList = taggedClinicalDocument
-                .getElementsByTagName("entry");
-
-        final Document segmentedClinicalDocumentDoc = documentXmlConverter
-                .loadDocument(segmentedClinicalDocument);
-        final NodeList segmentedClinicalDocumentList = segmentedClinicalDocumentDoc
                 .getElementsByTagName("entry");
 
         logger.debug("Segmented Clinical Document: " + segmentedClinicalDocument);
         logger.info("Tagged Clinical Document Entry size: " + taggedClinicalDocumentList.getLength());
-        logger.info("Segmented Clinical Document Entry size: " + segmentedClinicalDocumentList.getLength());
         logger.info("Is Segmented CCDA document: " + dssResponse.isCCDADocument());
 
         // xslt transformation
-        final String xslUrl = Thread.currentThread().getContextClassLoader().getResource(documentStyleSheet).toString();
+        final String xslUrl = Thread.currentThread().getContextClassLoader().getResource(CDA_STYLESHEET).toString();
         final String output = xmlTransformer.transform(taggedClinicalDocument, xslUrl, Optional.<Params>empty(), Optional.<URIResolver>empty());
 
         TryPolicyResponse tryPolicyResponse = new TryPolicyResponse();
@@ -118,30 +107,5 @@ public class TryPolicyServiceImpl implements TryPolicyService {
         dssRequest.setXacmlResult(xacmlResult);
 
         return dssRequest;
-    }
-
-    /**
-     * Changes xsl path to local xsl.
-     *
-     * @param taggedClinicalDocument the tagged clinical document doc
-     */
-    private void changeXslPath(Document taggedClinicalDocument, String styleSheet) {
-
-        final String expression = "/processing-instruction('xml-stylesheet')";
-        Optional<ProcessingInstruction> pi = Optional.empty();
-        /**
-         * Need to add xsl
-         */
-        // <?xml-stylesheet href="http://obhita.org/CDA.xsl" type="text/xsl"?>
-        if (pi.isPresent()) {
-            pi.get().setData("type='text/xsl' href='" + styleSheet + "'");
-        } else {
-            // Add xml style sheet at the second line of xml string
-            final ProcessingInstruction p = taggedClinicalDocument
-                    .createProcessingInstruction("xml-stylesheet",
-                            "type=\"text/xsl\" href=\"" + styleSheet + "\"");
-            final Element stylesheetEl = taggedClinicalDocument.getDocumentElement();
-            taggedClinicalDocument.insertBefore(p, stylesheetEl);
-        }
     }
 }
