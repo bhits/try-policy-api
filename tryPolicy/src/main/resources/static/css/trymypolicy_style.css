@@ -136,7 +136,7 @@ div.education-text > div:first-child {
 .border_box > .row:first-child .div-cell:first-child {
     border-top-left-radius: 6px;
 }
-.border_box > .row:last-child .div-cell:first-child {
+.border_box > .row:last-child div:first-of-type .div-cell:first-child {
     border-bottom-left-radius: 6px;
 }
 .border_box {
