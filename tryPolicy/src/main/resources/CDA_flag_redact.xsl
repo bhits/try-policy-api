@@ -122,6 +122,9 @@
                 <xsl:apply-templates select="n1:component/n1:structuredBody|n1:component/n1:nonXMLBody"/>
                 <br/>
                 <br/>
+                <script type="text/javascript">
+                    runFixSize();
+                </script>
             </body>
         </html>
     </xsl:template>
