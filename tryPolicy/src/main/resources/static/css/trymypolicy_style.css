@@ -128,7 +128,6 @@ div.education-text > div:first-child {
 }
 .row {
     margin: 0;
-    display: flex;
 }
 .div-cell {
     padding: 10px;
@@ -257,14 +256,6 @@ div.container{
     /*border-right: 3px solid;*/
     /*border-color: red;*/
 /*}*/
-
-.row-eq-height {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-}
-
 /*-------------------------- End NEW STUFF --------------------*/
 
 
