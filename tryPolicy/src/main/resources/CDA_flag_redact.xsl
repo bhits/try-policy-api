@@ -473,7 +473,7 @@
                         </div>
                         <xsl:if test="n1:location/n1:healthCareFacility">
                             <div class="row bordertop">
-                                <div lass="col-xs-4 col-sm-2 div-cell narr_header">
+                                <div class="col-xs-4 col-sm-2 div-cell narr_header">
                                     <span>
                                         <xsl:text>Encounter Location</xsl:text>
                                     </span>
