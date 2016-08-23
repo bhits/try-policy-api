@@ -3,11 +3,11 @@ package gov.samhsa.c2s.trypolicy.service;
 
 import gov.samhsa.c2s.trypolicy.config.DSSProperties;
 import gov.samhsa.c2s.trypolicy.service.dto.*;
-import gov.samhsa.mhc.common.document.converter.DocumentXmlConverter;
-import gov.samhsa.mhc.common.document.transformer.XmlTransformer;
-import gov.samhsa.mhc.common.log.Logger;
-import gov.samhsa.mhc.common.log.LoggerFactory;
-import gov.samhsa.mhc.common.param.Params;
+import gov.samhsa.c2s.common.document.converter.DocumentXmlConverter;
+import gov.samhsa.c2s.common.document.transformer.XmlTransformer;
+import gov.samhsa.c2s.common.log.Logger;
+import gov.samhsa.c2s.common.log.LoggerFactory;
+import gov.samhsa.c2s.common.param.Params;
 import gov.samhsa.c2s.trypolicy.infrastructure.DssService;
 import gov.samhsa.c2s.trypolicy.infrastructure.PcmService;
 import gov.samhsa.c2s.trypolicy.infrastructure.PhrService;
