@@ -59,7 +59,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <spring.cloud.version>Brixton.SR4</spring.cloud.version>
-        <common.libraries.version>1.3.0</common.libraries.version>
+        <common.libraries.version>1.5.0</common.libraries.version>
         <docker.maven.version>0.4.3</docker.maven.version>
         <lombok.version>1.16.6</lombok.version>
     </properties>
@@ -97,22 +97,22 @@
         </dependency>
 
         <dependency>
-            <groupId>gov.samhsa.mhc</groupId>
+            <groupId>gov.samhsa.c2s</groupId>
             <artifactId>document-converter</artifactId>
             <version>${common.libraries.version}</version>
         </dependency>
         <dependency>
-            <groupId>gov.samhsa.mhc</groupId>
+            <groupId>gov.samhsa.c2s</groupId>
             <artifactId>document-transformer</artifactId>
             <version>${common.libraries.version}</version>
         </dependency>
         <dependency>
-            <groupId>gov.samhsa.mhc</groupId>
+            <groupId>gov.samhsa.c2s</groupId>
             <artifactId>oauth2</artifactId>
             <version>${common.libraries.version}</version>
         </dependency>
         <dependency>
-            <groupId>gov.samhsa.mhc</groupId>
+            <groupId>gov.samhsa.c2s</groupId>
             <artifactId>logger-wrapper</artifactId>
             <version>${common.libraries.version}</version>
         </dependency>
