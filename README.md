@@ -1,8 +1,8 @@
 # Try My Policy API
 
 Try my policy is a service that enables patients to preview the modified version of clinic documents they upload based on a consent policy. Technically tray-my-policy calls Document Segmentation Services API ([DSS](https://github.com/FEISystems/dss-api)) to 
-1) segment patient's clinical document, in format of CCDA-R1, CCDA-R1 and C32 (DSS calls [Document Validator Service](https://github.com/FEISystems/document-validator) to ensure that only documents with desired format can be uploaded)
-2) highlights the section removed according to patient's consent policy
+1) segment patient's clinical document, in format of CCDA-R1, CCDA-R2 and C32 (DSS calls [Document Validator Service](https://github.com/FEISystems/document-validator) to ensure that only documents with desired format can be uploaded)
+2) highlights the section will be removed according to patient's consent policy
 and then wraps the document in HTML format to present to patient 
 
 ## Build
