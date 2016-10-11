@@ -1,16 +1,16 @@
 package gov.samhsa.c2s.trypolicy.service;
 
 
-import gov.samhsa.c2s.trypolicy.config.DSSProperties;
-import gov.samhsa.c2s.trypolicy.service.dto.*;
 import gov.samhsa.c2s.common.document.converter.DocumentXmlConverter;
 import gov.samhsa.c2s.common.document.transformer.XmlTransformer;
 import gov.samhsa.c2s.common.log.Logger;
 import gov.samhsa.c2s.common.log.LoggerFactory;
 import gov.samhsa.c2s.common.param.Params;
+import gov.samhsa.c2s.trypolicy.config.DSSProperties;
 import gov.samhsa.c2s.trypolicy.infrastructure.DssService;
 import gov.samhsa.c2s.trypolicy.infrastructure.PcmService;
 import gov.samhsa.c2s.trypolicy.infrastructure.PhrService;
+import gov.samhsa.c2s.trypolicy.service.dto.*;
 import gov.samhsa.c2s.trypolicy.service.exception.TryPolicyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,11 +51,11 @@ public class TryPolicyServiceImpl implements TryPolicyService {
     private PhrService phrService;
 
     @Override
-    public TryPolicyResponse getSegmentDocXHTML(String patientUsername, String documentId, String consentId, String purposeOfUseCode) {
+    public TryPolicyResponse getSegmentDocXHTML(String documentId, String consentId, String purposeOfUseCode) {
         try {
-            CCDDto ccdStrDto = pcmService.getCCDByPatientUsernameAndDocumentId(patientUsername, documentId);
+            CCDDto ccdStrDto = pcmService.getCCDByDocumentId(documentId);
             String docStr = new String(ccdStrDto.getCCDFile());
-            List<String> obligations = pcmService.getObligationsByPatientUsernameAndConsentId(patientUsername, consentId);
+            List<String> obligations = pcmService.getObligationsByConsentId(consentId);
 
             String patientId = phrService.getPatient().getId().toString();
             DSSRequest dssRequest = createDSSRequest(patientId, docStr, obligations, purposeOfUseCode);

@@ -11,11 +11,9 @@ import java.util.List;
 @FeignClient("pcm")
 public interface PcmService {
 
-    @RequestMapping(value = "/patients/clinicaldocuments/ccd/{patientUsername}/{documentId}", method = RequestMethod.GET)
-    CCDDto getCCDByPatientUsernameAndDocumentId(@PathVariable("patientUsername") String patientUsername,
-                                                @PathVariable("documentId") String documentId);
+    @RequestMapping(value = "/patients/clinicaldocuments/ccd/{documentId}", method = RequestMethod.GET)
+    CCDDto getCCDByDocumentId(@PathVariable("documentId") String documentId);
 
-    @RequestMapping(value = "/patients/{patientUsername}/consents/{consentId}/obligations", method = RequestMethod.GET)
-    List<String> getObligationsByPatientUsernameAndConsentId(@PathVariable("patientUsername") String patientUsername,
-                                                             @PathVariable("consentId") String consentId);
+    @RequestMapping(value = "/patients/consents/{consentId}/obligations", method = RequestMethod.GET)
+    List<String> getObligationsByConsentId(@PathVariable("consentId") String consentId);
 }
