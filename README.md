@@ -1,6 +1,6 @@
 # Try My Policy API
 
-Try My Policy is a service that enables the patients to preview the redacted version of their uploaded clinical document based on the privacy preferences of the consent. Try My Policy calls Document Segmentation Service API ([DSS](https://github.com/FEISystems/dss-api)) to 1) segment the patient's clinical document, in the template prescribed by CCDA-R1, CCDA-R2 and C32 (DSS calls [Document Validator Service](https://github.com/FEISystems/document-validator) to ensure that only documents with desired format can be uploaded) 2) highlight the section that will be removed in accordance to the patient's consent and then present the document in HTML for the patient to further review.
+Try My Policy is a service that enables patients to preview the redacted version of their uploaded clinical document based on the privacy preferences of the consent. Try My Policy calls Document Segmentation Service API ([DSS](https://github.com/FEISystems/dss-api)) to (1) segment the patient's clinical document, in the template prescribed by CCDA-R1, CCDA-R2 and C32 (DSS calls [Document Validator Service](https://github.com/FEISystems/document-validator) to ensure that only documents with desired format can be uploaded) and (2) highlight the section that will be removed in accordance to the patient's consent and then present the document in HTML for the patient to further review.
 
 ## Build
 
@@ -26,15 +26,15 @@ To build the project, navigate to the folder that contains `pom.xml` file using 
 
 ### Commands
 
-This is a [Spring Boot](https://projects.spring.io/spring-boot/) project and serves the API via an embedded Tomcat instance, therefore there is no need for a separate application server to run this service.
+This is a [Spring Boot](https://projects.spring.io/spring-boot/) project and serves the API via an embedded Tomcat instance. Therefore, there is no need for a separate application server to run this service.
 + Run as a JAR file: `java -jar try-policy-x.x.x-SNAPSHOT.jar <additional program arguments>`
 + Run as a Docker Container: `docker run -d bhits/try-policy:latest <additional program arguments>`
 
-*NOTE: In order for this API to fully function as a microservice in C2S Application, it is also required to setup the dependency microservices and support level infrastructure. Please refer to the C2S Deployment Guide for instructions to setup the C2S infrastructure.*
+*NOTE: In order for this API to fully function as a microservice in the Consent2Share (C2S) application, it is also required to setup the dependency microservices and support level infrastructure. Please refer to the C2S Deployment Guide for instructions to setup the C2S infrastructure.*
 
 ## Configure
 
-This API runs with some default configuration that is primarily targeted for development environment. However, [Spring Boot](https://projects.spring.io/spring-boot/) supports several methods to override the default configuration to configure the API for a certain deployment environment.
+This API runs with a default configuration that is primarily targeted for development environment. However, [Spring Boot](https://projects.spring.io/spring-boot/) supports several methods to override the default configuration to configure the API for a certain deployment environment.
 
 Please see the [default configuration](tryPolicy/src/main/resources/application.yml) for this API as a guidance and override the specific configuration per environment as needed. Also, please refer to [Spring Boot Externalized Configuration](http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html) documentation to see how Spring Boot applies the order to load the properties and [Spring Boot Common Properties](http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html) documentation to see the common properties used by Spring Boot.
 
