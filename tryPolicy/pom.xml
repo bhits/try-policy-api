@@ -133,11 +133,6 @@
             <artifactId>oauth2</artifactId>
             <version>${common.libraries.version}</version>
         </dependency>
-        <dependency>
-            <groupId>gov.samhsa.c2s</groupId>
-            <artifactId>logger-wrapper</artifactId>
-            <version>${common.libraries.version}</version>
-        </dependency>
     </dependencies>
 
     <build>
