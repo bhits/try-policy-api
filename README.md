@@ -1,7 +1,7 @@
 # Try My Policy API
 
-Try My Policy is a service that enables patients to preview the redacted version of their uploaded clinical document based on the privacy preferences of the consent. Try My Policy calls Document Segmentation Service API ([DSS](https://github.com/FEISystems/dss-api)) to (1) segment the patient's clinical document, in the template prescribed by CCDA-R1, CCDA-R2 and C32 (DSS calls [Document Validator Service](https://github.com/FEISystems/document-validator) to ensure that only documents with desired format can be uploaded) and (2) highlight the section that will be removed in accordance to the patient's consent and then present the document in HTML for the patient to further review.
-
+Try My Policy is a service that enables patients to preview the redacted version of their uploaded clinical document based on the privacy preferences of the consent. Try My Policy calls Document Segmentation Service API ([DSS](https://github.com/bhits/dss-api)) to (1) segment the patient's clinical document, in the template prescribed by C-CDA-R1, C-CDA-R2 and HITSP C32 and (2) highlight the sections that will be removed in accordance to the patient's consent. Try My Policy transforms the response from DSS into a full XHTML file and provides the Base 64 encoded file in the response JSON. This API is currently utilized in Patient Portal UI for patients to try their policies on their uploaded documents.
+	
 ## Build
 
 ### Prerequisites
@@ -42,11 +42,11 @@ Please see the [default configuration](tryPolicy/src/main/resources/application.
 
 #### Override a Configuration Using Program Arguments While Running as a JAR:
 
-+ `java -jar try-policy-x.x.x-SNAPSHOT.jar --server.port=80 --spring.datasource.password=strongpassword`
++ `java -jar try-policy-x.x.x-SNAPSHOT.jar --server.port=80 --logging.file=/logs/tryPolicy.log`
 
 #### Override a Configuration Using Program Arguments While Running as a Docker Container:
 
-+ `docker run -d bhits/try-policy:latest --server.port=80 --spring.datasource.password=strongpassword`
++ `docker run -d bhits/try-policy:latest --server.port=80 --logging.file=/logs/tryPolicy.log`
 
 + In a `docker-compose.yml`, this can be provided as:
 ```yml
@@ -55,7 +55,7 @@ services:
 ...
   try-policy.c2s.com:
     image: "bhits/try-policy:latest"
-    command: ["--server.port=80","--spring.datasource.password=strongpassword"]
+    command: ["--server.port=80","--logging.file=/logs/tryPolicy.log"]
 ...
 ```
 *NOTE: Please note that these additional arguments will be appended to the default `ENTRYPOINT` specified in the `Dockerfile` unless the `ENTRYPOINT` is overridden.*
