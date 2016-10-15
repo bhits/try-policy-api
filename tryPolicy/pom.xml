@@ -7,33 +7,42 @@
     <groupId>gov.samhsa.c2s</groupId>
     <artifactId>try-policy</artifactId>
     <version>1.12.0-SNAPSHOT</version>
-
     <packaging>jar</packaging>
 
+    <name>try-policy-api</name>
+    <description>Try My Policy API</description>
+    <url>${project.scm.url}</url>
+
+    <organization>
+        <name>SAMHSA</name>
+        <url>http://www.samhsa.gov/</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <id>BHITS Team</id>
+            <name>BHITS Team</name>
+            <organization>FEi Systems</organization>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>See license in LICENSE.md</name>
+            <url>${project.scm.url}/blob/master/LICENSE.md</url>
+        </license>
+    </licenses>
+
     <ciManagement>
-        <system>Jenkins</system>
+        <system>CI</system>
         <url>http://BhitsBuild03/</url>
     </ciManagement>
 
-    <!-- Since buildnumber-maven-plugin uses git command, git command must in
-        path. i.e. need set git in the path Environment variable -->
     <scm>
-        <url>https://github.com/FEISystems/try-policy-api</url>
-        <connection>scm:git:https://github.com/FEISystems/try-policy-api.git</connection>
-        <developerConnection>scm:git:https://github.com/FEISystems/try-policy-api.git</developerConnection>
+        <url>https://github.com/bhits/try-policy-api</url>
+        <connection>scm:git:${project.scm.url}.git</connection>
+        <developerConnection>scm:git:${project.scm.url}.git</developerConnection>
     </scm>
-    <developers>
-        <developer>
-            <id>Bhits.Java</id>
-            <name>Bhits Java</name>
-            <email>Bhits.Java@feisystems.com</email>
-            <organization>FEi Systems</organization>
-            <roles>
-                <role>developer</role>
-            </roles>
-            <timezone>-5</timezone>
-        </developer>
-    </developers>
 
     <distributionManagement>
         <repository>
@@ -61,8 +70,20 @@
         <spring.cloud.version>Brixton.SR4</spring.cloud.version>
         <common.libraries.version>1.6.0</common.libraries.version>
         <docker.maven.version>0.4.3</docker.maven.version>
-        <lombok.version>1.16.6</lombok.version>
+        <lombok.version>1.16.8</lombok.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -76,10 +97,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-eureka</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-ribbon</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -111,24 +128,7 @@
             <artifactId>oauth2</artifactId>
             <version>${common.libraries.version}</version>
         </dependency>
-        <dependency>
-            <groupId>gov.samhsa.c2s</groupId>
-            <artifactId>logger-wrapper</artifactId>
-            <version>${common.libraries.version}</version>
-        </dependency>
     </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring.cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>
