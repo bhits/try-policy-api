@@ -1,5 +1,7 @@
 package gov.samhsa.c2s.trypolicy.service.dto;
 
+import lombok.Data;
+
 import javax.activation.DataHandler;
 import javax.xml.bind.annotation.*;
 
@@ -29,6 +31,7 @@ import javax.xml.bind.annotation.*;
         "documentPayloadRawData"
 })
 @XmlRootElement(name = "DSSResponseForDirect")
+@Data
 public class DSSResponseForDirect {
 
     @XmlElement(required = true)
@@ -38,64 +41,4 @@ public class DSSResponseForDirect {
     @XmlElement(required = true)
     @XmlMimeType("application/octet-stream")
     protected DataHandler documentPayloadRawData;
-
-    /**
-     * Gets the value of the segmentedDocumentXml property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
-    public String getSegmentedDocumentXml() {
-        return segmentedDocumentXml;
-    }
-
-    /**
-     * Sets the value of the segmentedDocumentXml property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setSegmentedDocumentXml(String value) {
-        this.segmentedDocumentXml = value;
-    }
-
-    /**
-     * Gets the value of the postSegmentationMetadataXml property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
-    public String getPostSegmentationMetadataXml() {
-        return postSegmentationMetadataXml;
-    }
-
-    /**
-     * Sets the value of the postSegmentationMetadataXml property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setPostSegmentationMetadataXml(String value) {
-        this.postSegmentationMetadataXml = value;
-    }
-
-    /**
-     * Gets the value of the documentPayloadRawData property.
-     *
-     * @return possible object is
-     * {@link DataHandler }
-     */
-    public DataHandler getDocumentPayloadRawData() {
-        return documentPayloadRawData;
-    }
-
-    /**
-     * Sets the value of the documentPayloadRawData property.
-     *
-     * @param value allowed object is
-     *              {@link DataHandler }
-     */
-    public void setDocumentPayloadRawData(DataHandler value) {
-        this.documentPayloadRawData = value;
-    }
 }

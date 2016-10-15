@@ -1,5 +1,7 @@
 package gov.samhsa.c2s.trypolicy.service.dto;
 
+import lombok.Data;
+
 import javax.xml.bind.annotation.*;
 
 /**
@@ -38,6 +40,7 @@ import javax.xml.bind.annotation.*;
         "packageAsXdm"
 })
 @XmlRootElement(name = "DSSRequestForDirect")
+@Data
 public class DSSRequestForDirect {
 
     @XmlElement(required = true)
@@ -53,158 +56,4 @@ public class DSSRequestForDirect {
     @XmlElement(required = true)
     protected String xdsDocumentEntryUniqueId;
     protected boolean packageAsXdm;
-
-    /**
-     * Gets the value of the documentXml property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
-    public String getDocumentXml() {
-        return documentXml;
-    }
-
-    /**
-     * Sets the value of the documentXml property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setDocumentXml(String value) {
-        this.documentXml = value;
-    }
-
-    /**
-     * Gets the value of the enforcementPoliciesXml property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
-    public String getEnforcementPoliciesXml() {
-        return enforcementPoliciesXml;
-    }
-
-    /**
-     * Sets the value of the enforcementPoliciesXml property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setEnforcementPoliciesXml(String value) {
-        this.enforcementPoliciesXml = value;
-    }
-
-    /**
-     * Gets the value of the audited property.
-     *
-     * @return possible object is
-     * {@link Boolean }
-     */
-    public Boolean isAudited() {
-        return audited;
-    }
-
-    /**
-     * Sets the value of the audited property.
-     *
-     * @param value allowed object is
-     *              {@link Boolean }
-     */
-    public void setAudited(Boolean value) {
-        this.audited = value;
-    }
-
-    /**
-     * Gets the value of the auditFailureByPass property.
-     *
-     * @return possible object is
-     * {@link Boolean }
-     */
-    public Boolean isAuditFailureByPass() {
-        return auditFailureByPass;
-    }
-
-    /**
-     * Sets the value of the auditFailureByPass property.
-     *
-     * @param value allowed object is
-     *              {@link Boolean }
-     */
-    public void setAuditFailureByPass(Boolean value) {
-        this.auditFailureByPass = value;
-    }
-
-    /**
-     * Gets the value of the senderEmailAddress property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
-    public String getSenderEmailAddress() {
-        return senderEmailAddress;
-    }
-
-    /**
-     * Sets the value of the senderEmailAddress property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setSenderEmailAddress(String value) {
-        this.senderEmailAddress = value;
-    }
-
-    /**
-     * Gets the value of the recipientEmailAddress property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
-    public String getRecipientEmailAddress() {
-        return recipientEmailAddress;
-    }
-
-    /**
-     * Sets the value of the recipientEmailAddress property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setRecipientEmailAddress(String value) {
-        this.recipientEmailAddress = value;
-    }
-
-    /**
-     * Gets the value of the xdsDocumentEntryUniqueId property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
-    public String getXdsDocumentEntryUniqueId() {
-        return xdsDocumentEntryUniqueId;
-    }
-
-    /**
-     * Sets the value of the xdsDocumentEntryUniqueId property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setXdsDocumentEntryUniqueId(String value) {
-        this.xdsDocumentEntryUniqueId = value;
-    }
-
-    /**
-     * Gets the value of the packageAsXdm property.
-     */
-    public boolean isPackageAsXdm() {
-        return packageAsXdm;
-    }
-
-    /**
-     * Sets the value of the packageAsXdm property.
-     */
-    public void setPackageAsXdm(boolean value) {
-        this.packageAsXdm = value;
-    }
 }
