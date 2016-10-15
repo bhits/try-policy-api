@@ -1,15 +1,13 @@
-
 package gov.samhsa.c2s.trypolicy.service.dto;
 
 import javax.activation.DataHandler;
 import javax.xml.bind.annotation.*;
 
-
 /**
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType&gt;
  *   &lt;complexContent&gt;
@@ -23,14 +21,12 @@ import javax.xml.bind.annotation.*;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "segmentedDocumentXml",
-    "postSegmentationMetadataXml",
-    "documentPayloadRawData"
+        "segmentedDocumentXml",
+        "postSegmentationMetadataXml",
+        "documentPayloadRawData"
 })
 @XmlRootElement(name = "DSSResponseForDirect")
 public class DSSResponseForDirect {
@@ -45,11 +41,9 @@ public class DSSResponseForDirect {
 
     /**
      * Gets the value of the segmentedDocumentXml property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getSegmentedDocumentXml() {
         return segmentedDocumentXml;
@@ -57,11 +51,9 @@ public class DSSResponseForDirect {
 
     /**
      * Sets the value of the segmentedDocumentXml property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setSegmentedDocumentXml(String value) {
         this.segmentedDocumentXml = value;
@@ -69,11 +61,9 @@ public class DSSResponseForDirect {
 
     /**
      * Gets the value of the postSegmentationMetadataXml property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getPostSegmentationMetadataXml() {
         return postSegmentationMetadataXml;
@@ -81,11 +71,9 @@ public class DSSResponseForDirect {
 
     /**
      * Sets the value of the postSegmentationMetadataXml property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setPostSegmentationMetadataXml(String value) {
         this.postSegmentationMetadataXml = value;
@@ -93,11 +81,9 @@ public class DSSResponseForDirect {
 
     /**
      * Gets the value of the documentPayloadRawData property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link DataHandler }
-     *     
+     *
+     * @return possible object is
+     * {@link DataHandler }
      */
     public DataHandler getDocumentPayloadRawData() {
         return documentPayloadRawData;
@@ -105,14 +91,11 @@ public class DSSResponseForDirect {
 
     /**
      * Sets the value of the documentPayloadRawData property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link DataHandler }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link DataHandler }
      */
     public void setDocumentPayloadRawData(DataHandler value) {
         this.documentPayloadRawData = value;
     }
-
 }

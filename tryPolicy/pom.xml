@@ -70,7 +70,7 @@
         <spring.cloud.version>Brixton.SR4</spring.cloud.version>
         <common.libraries.version>1.6.0</common.libraries.version>
         <docker.maven.version>0.4.3</docker.maven.version>
-        <lombok.version>1.16.6</lombok.version>
+        <lombok.version>1.16.8</lombok.version>
     </properties>
 
     <dependencyManagement>
@@ -81,12 +81,6 @@
                 <version>${spring.cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -116,6 +110,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
         </dependency>
 
         <dependency>
