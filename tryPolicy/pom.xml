@@ -44,6 +44,8 @@
         <developerConnection>scm:git:${project.scm.url}.git</developerConnection>
     </scm>
 
+    <!-- Comment out the below distributionManagement if you couldn't connect to FEi Nexus repository manager to upload dependencies when you run 'mvn deploy' command -->
+
     <distributionManagement>
         <repository>
             <id>deployment</id>
@@ -68,7 +70,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <spring.cloud.version>Brixton.SR4</spring.cloud.version>
-        <common.libraries.version>1.6.0</common.libraries.version>
+        <common.libraries.version>1.7.0</common.libraries.version>
         <docker.maven.version>0.4.3</docker.maven.version>
         <lombok.version>1.16.8</lombok.version>
     </properties>
