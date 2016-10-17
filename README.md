@@ -1,6 +1,6 @@
 # Try My Policy API
 
-Try My Policy is a service that enables patients to preview the redacted version of their uploaded clinical document based on the privacy preferences of the consent. Try My Policy calls Document Segmentation Service API ([DSS](https://github.com/bhits/dss-api)) to (1) segment the patient's clinical document, in the template prescribed by C-CDA-R1, C-CDA-R2 and HITSP C32 and (2) highlight the sections that will be removed in accordance to the patient's consent. Try My Policy transforms the response from DSS into a full XHTML file and provides the Base 64 encoded file in the response JSON. This API is currently utilized in Patient Portal UI for patients to try their policies on their uploaded documents.
+Try My Policy is a service that enables patients to preview the redacted version of their uploaded clinical document based on the privacy preferences of the consent. Try My Policy calls the [Document Segmentation Service (DSS) API](https://github.com/bhits/dss-api) to (1) segment the patient's clinical document, in the template prescribed by C-CDA-R1, C-CDA-R2, and HITSP C32, and (2) highlight the sections that will be removed in accordance to the patient's consent. Try My Policy transforms the response from DSS into a full XHTML file and provides the Base 64 encoded file in the response JSON. This API is currently utilized in the Patient Portal UI for patients to try their policies on their uploaded documents.
 	
 ## Build
 
