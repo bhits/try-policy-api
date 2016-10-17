@@ -1,6 +1,5 @@
 package gov.samhsa.c2s.trypolicy.config;
 
-
 import gov.samhsa.c2s.common.document.converter.DocumentXmlConverter;
 import gov.samhsa.c2s.common.document.converter.DocumentXmlConverterImpl;
 import gov.samhsa.c2s.common.document.transformer.XmlTransformer;

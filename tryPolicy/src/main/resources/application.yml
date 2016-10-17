@@ -1,12 +1,23 @@
+# SSL is disabled by default for the Try Policy API to make development environment setup easier.
+# YOU MUST ENABLE SSL IN AN ACTUAL DEPLOYMENT ENVIRONMENT!
+#
+# To enable SSL for the Try Policy:
+#   1) Activate the 'ssl' spring profile by passing in the following program argument:
+#          a) --spring.profiles.active=ssl
+#   2) Set the appropriate values for the 'server.ssl.key-store' and 'server.ssl.key-store-password' properties.
+#          a) You can override/set these properties by setting them in an externalzied application.yml file.
+#               EXAMPLE:
+#                  server:
+#                     ssl:
+#                        key-store: /ssl_keystore.keystore
+#                        key-store-password: changeit
+#          b) Alternatively, you can pass the properties in using the following program arguments:
+#                 i) --server.ssl.key-store=path-to-file/filename
+#                ii) --server.ssl.key-store-password=your-keystore-password
 server:
   port: 8449
 logging:
   file: /java/C2S_LOGS/try-policy/tryPolicy.log
-  level:
-    gov:
-      samhsa:
-        c2s.trypolicy: info
-    javax.validation: info
 info:
   component: TRY POLICY API
 eureka:
@@ -20,8 +31,8 @@ eureka:
     service-url:
       # endpoint for discovery-server, pass '--eureka.client.protocol=https' if discovery-server is running on https
       defaultZone: ${eureka.client.protocol:http}://localhost:8761/eureka/
-# TODO: until finding a better solution, disable hystrix command timeout. See https://github.com/spring-cloud/spring-cloud-netflix/issues/321#issuecomment-97727313
 feign.hystrix.enabled: false
+# TODO: until finding a better solution, disable hystrix command timeout. See https://github.com/spring-cloud/spring-cloud-netflix/issues/321#issuecomment-97727313
 hystrix.command.default.execution.timeout.enabled: false
 ribbon:
   ReadTimeout: 50000
@@ -31,6 +42,8 @@ security:
   oauth2:
     resource:
       jwt:
+        # public key to validate the token signed by authorization server
+        # Default token signing key. You MUST provide a unique key IN AN ACTUAL DEPLOYMENT ENVIRONMENT
         keyValue:
                          -----BEGIN PUBLIC KEY-----
                          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0m59l2u9iDnMbrXHfqkO
@@ -51,10 +64,14 @@ dss:
     homeCommunityId: dddd
     DocumentEncoding: UTF-8
 ---
+# If the ssl spring profile below is enabled, you must follow the instructions at
+# the top of this file to set your environemtn key-store and key-store-password properties as well.
 spring.profiles: ssl
 server:
   port: 8449
+  # configure keystore and keystore password for ssl per environment
   ssl:
+    # Default key-store and key-store-password
     key-store: /ssl_keystore.keystore
     key-store-password: changeit
 eureka:

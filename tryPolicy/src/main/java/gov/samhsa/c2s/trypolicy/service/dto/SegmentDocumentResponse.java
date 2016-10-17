@@ -1,15 +1,13 @@
-
 package gov.samhsa.c2s.trypolicy.service.dto;
+
+import lombok.Data;
 
 import javax.activation.DataHandler;
 import javax.xml.bind.annotation.*;
 
-
 /**
  * <p>Java class for anonymous complex type.
- * 
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
@@ -25,20 +23,18 @@ import javax.xml.bind.annotation.*;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "documentPayloadRawData",
-    "segmentedDocumentXml",
-    "tryPolicyDocumentXml",
-    "postSegmentationMetadataXml",
-    "executionResponseContainerXml"
+        "documentPayloadRawData",
+        "segmentedDocumentXml",
+        "tryPolicyDocumentXml",
+        "postSegmentationMetadataXml",
+        "executionResponseContainerXml"
 })
 @XmlRootElement(name = "SegmentDocumentResponse")
+@Data
 public class SegmentDocumentResponse {
-
     @XmlElement(required = true)
     @XmlMimeType("application/octet-stream")
     protected DataHandler documentPayloadRawData;
@@ -50,125 +46,4 @@ public class SegmentDocumentResponse {
     protected String postSegmentationMetadataXml;
     @XmlElement(required = true)
     protected String executionResponseContainerXml;
-
-    /**
-     * Gets the value of the documentPayloadRawData property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link DataHandler }
-     *     
-     */
-    public DataHandler getDocumentPayloadRawData() {
-        return documentPayloadRawData;
-    }
-
-    /**
-     * Sets the value of the documentPayloadRawData property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link DataHandler }
-     *     
-     */
-    public void setDocumentPayloadRawData(DataHandler value) {
-        this.documentPayloadRawData = value;
-    }
-
-    /**
-     * Gets the value of the segmentedDocumentXml property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSegmentedDocumentXml() {
-        return segmentedDocumentXml;
-    }
-
-    /**
-     * Sets the value of the segmentedDocumentXml property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSegmentedDocumentXml(String value) {
-        this.segmentedDocumentXml = value;
-    }
-
-    /**
-     * Gets the value of the tryPolicyDocumentXml property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getTryPolicyDocumentXml() {
-        return tryPolicyDocumentXml;
-    }
-
-    /**
-     * Sets the value of the tryPolicyDocumentXml property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setTryPolicyDocumentXml(String value) {
-        this.tryPolicyDocumentXml = value;
-    }
-
-    /**
-     * Gets the value of the postSegmentationMetadataXml property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getPostSegmentationMetadataXml() {
-        return postSegmentationMetadataXml;
-    }
-
-    /**
-     * Sets the value of the postSegmentationMetadataXml property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPostSegmentationMetadataXml(String value) {
-        this.postSegmentationMetadataXml = value;
-    }
-
-    /**
-     * Gets the value of the executionResponseContainerXml property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getExecutionResponseContainerXml() {
-        return executionResponseContainerXml;
-    }
-
-    /**
-     * Sets the value of the executionResponseContainerXml property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setExecutionResponseContainerXml(String value) {
-        this.executionResponseContainerXml = value;
-    }
-
 }
