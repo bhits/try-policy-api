@@ -37,20 +37,9 @@ dss:
     homeCommunityId: dddd
     DocumentEncoding: UTF-8
 ---
-# If the ssl spring profile below is enabled, you must follow the instructions at
-# the top of this file to set your environemtn key-store and key-store-password properties as well.
-spring.profiles: ssl
-server:
-  port: 8449
-  # configure keystore and keystore password for ssl per environment
-  ssl:
-    # Default key-store and key-store-password
-    key-store: /ssl_keystore.keystore
-    key-store-password: changeit
----
 spring.profiles: standalone-ssl
 spring:
   profiles:
-    include: ssl
+    include: ssl-default
 server:
   context-path: /tryPolicy
