@@ -20,40 +20,13 @@ logging:
   file: /java/C2S_LOGS/try-policy/tryPolicy.log
 info:
   component: TRY POLICY API
-eureka:
-  instance:
-    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}}
-    secure-port-enabled: false
-    non-secure-port-enabled: true
-  client:
-    healthcheck:
-      enabled: true
-    service-url:
-      # endpoint for discovery-server, pass '--eureka.client.protocol=https' if discovery-server is running on https
-      defaultZone: ${eureka.client.protocol:http}://localhost:8761/eureka/
 feign.hystrix.enabled: false
 # TODO: until finding a better solution, disable hystrix command timeout. See https://github.com/spring-cloud/spring-cloud-netflix/issues/321#issuecomment-97727313
 hystrix.command.default.execution.timeout.enabled: false
 ribbon:
   ReadTimeout: 50000
 security:
-  basic:
-    enabled: false
   oauth2:
-    resource:
-      jwt:
-        # public key to validate the token signed by authorization server
-        # Default token signing key. You MUST provide a unique key IN AN ACTUAL DEPLOYMENT ENVIRONMENT
-        keyValue:
-                         -----BEGIN PUBLIC KEY-----
-                         MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0m59l2u9iDnMbrXHfqkO
-                         rn2dVQ3vfBJqcDuFUK03d+1PZGbVlNCqnkpIJ8syFppW8ljnWweP7+LiWpRoz0I7
-                         fYb3d8TjhV86Y997Fl4DBrxgM6KTJOuE/uxnoDhZQ14LgOU2ckXjOzOdTsnGMKQB
-                         LCl0vpcXBtFLMaSbpv1ozi8h7DJyVZ6EnFQZUWGdgTMhDrmqevfx95U/16c5WBDO
-                         kqwIn7Glry9n9Suxygbf8g5AzpWcusZgDLIIZ7JTUldBb8qU2a0Dl4mvLZOn4wPo
-                         jfj9Cw2QICsc5+Pwf21fP+hzf+1WSRHbnYv8uanRO0gZ8ekGaghM/2H6gqJbo2nI
-                         JwIDAQAB
-                         -----END PUBLIC KEY-----
     client:
       client-id: try-policy
 dss:
@@ -64,33 +37,9 @@ dss:
     homeCommunityId: dddd
     DocumentEncoding: UTF-8
 ---
-# If the ssl spring profile below is enabled, you must follow the instructions at
-# the top of this file to set your environemtn key-store and key-store-password properties as well.
-spring.profiles: ssl
-server:
-  port: 8449
-  # configure keystore and keystore password for ssl per environment
-  ssl:
-    # Default key-store and key-store-password
-    key-store: /ssl_keystore.keystore
-    key-store-password: changeit
-eureka:
-  instance:
-    secure-port: ${server.port}
-    secure-port-enabled: true
-    non-secure-port-enabled: false
----
 spring.profiles: standalone-ssl
 spring:
   profiles:
-    include: ssl
+    include: ssl-default
 server:
   context-path: /tryPolicy
----
-spring.profiles: docker
-eureka:
-  client:
-    service-url:
-      defaultZone: ${eureka.client.protocol:http}://discovery-server.c2s.com:8761/eureka/
-  instance:
-    prefer-ip-address: true
