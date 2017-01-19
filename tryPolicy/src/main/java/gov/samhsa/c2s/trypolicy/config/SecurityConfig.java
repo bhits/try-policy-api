@@ -31,6 +31,8 @@ public class SecurityConfig {
                 }
                 http.authorizeRequests()
                         .antMatchers(HttpMethod.GET, "/tryPolicyXHTML/**").access(hasScope("tryPolicy.clinicalDocument_read"))
+                        .antMatchers(HttpMethod.GET, "/management/**").access(hasScope("tryPolicy.management"))
+                        .antMatchers(HttpMethod.POST, "/management/**").access(hasScope("tryPolicy.management"))
                         .anyRequest().denyAll();
             }
         };
