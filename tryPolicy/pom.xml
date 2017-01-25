@@ -6,7 +6,7 @@
 
     <groupId>gov.samhsa.c2s</groupId>
     <artifactId>try-policy</artifactId>
-    <version>1.15.0-SNAPSHOT</version>
+    <version>1.16.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>try-policy-api</name>
