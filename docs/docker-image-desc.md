@@ -5,7 +5,7 @@ This API allows patients to preview the redacted clinical document based on thei
 
 # Supported Tags and Respective `Dockerfile` Links
 
-[`1.13.0`](https://github.com/bhits/try-policy-api/blob/master/tryPolicy/src/main/docker/Dockerfile),[`latest`](https://github.com/bhits/try-policy-api/blob/master/tryPolicy/src/main/docker/Dockerfile)[(1.13.0/Dockerfile)](https://github.com/bhits/try-policy-api/blob/master/tryPolicy/src/main/docker/Dockerfile)
+[`1.16.0`](https://github.com/bhits/try-policy-api/blob/master/tryPolicy/src/main/docker/Dockerfile),[`latest`](https://github.com/bhits/try-policy-api/blob/master/tryPolicy/src/main/docker/Dockerfile)[(1.16.0/Dockerfile)](https://github.com/bhits/try-policy-api/blob/master/tryPolicy/src/main/docker/Dockerfile)
 
 For more information about this image, the source code, and its history, please see the [GitHub repository](https://github.com/bhits/try-policy-api).
 
@@ -23,7 +23,7 @@ Be sure to familiarize yourself with the repository's [README.md](https://github
 
 `docker run  --name try-policy -d bhits/try-policy:latest <additional program arguments>`
 
-*NOTE: In order for this API to fully function as a microservice in the Consent2Share application, it is required to setup the dependency microservices and support level infrastructure. Please refer to the [Consent2Share Deployment Guide](https://github.com/bhits/consent2share/releases/download/2.0.0/c2s-deployment-guide.pdf) for instructions to setup the Consent2Share infrastructure.*
+*NOTE: In order for this API to fully function as a microservice in the Consent2Share application, it is required to setup the dependency microservices and support level infrastructure. Please refer to the [Consent2Share Deployment Guide](https://github.com/bhits/consent2share/releases/download/2.1.0/c2s-deployment-guide.pdf) for instructions to setup the Consent2Share infrastructure.*
 
 
 ## Configure
