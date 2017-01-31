@@ -3,9 +3,11 @@ This API allows patients to preview the redacted clinical document based on thei
 
 # Full Description
 
-# Supported Tags and Respective `Dockerfile` Links
+# Supported Source Code Tags and Current `Dockerfile` Link
 
-[`1.16.0`](https://github.com/bhits/try-policy-api/blob/master/tryPolicy/src/main/docker/Dockerfile),[`latest`](https://github.com/bhits/try-policy-api/blob/master/tryPolicy/src/main/docker/Dockerfile)[(1.16.0/Dockerfile)](https://github.com/bhits/try-policy-api/blob/master/tryPolicy/src/main/docker/Dockerfile)
+[`1.16.0 (latest)`](https://github.com/bhits/try-policy-api/releases/tag/1.16.0), [`1.13.0`](https://github.com/bhits/try-policy-api/releases/tag/1.13.0)
+
+[`Current Dockerfile`](https://github.com/bhits/try-policy-api/blob/master/tryPolicy/src/main/docker/Dockerfile)
 
 For more information about this image, the source code, and its history, please see the [GitHub repository](https://github.com/bhits/try-policy-api).
 
