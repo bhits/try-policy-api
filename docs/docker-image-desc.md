@@ -3,9 +3,11 @@ This API allows patients to preview the redacted clinical document based on thei
 
 # Full Description
 
-# Supported Tags and Respective `Dockerfile` Links
+# Supported Source Code Tags and Current `Dockerfile` Link
 
-[`1.13.0`](https://github.com/bhits/try-policy-api/blob/master/tryPolicy/src/main/docker/Dockerfile),[`latest`](https://github.com/bhits/try-policy-api/blob/master/tryPolicy/src/main/docker/Dockerfile)[(1.13.0/Dockerfile)](https://github.com/bhits/try-policy-api/blob/master/tryPolicy/src/main/docker/Dockerfile)
+[`1.16.0 (latest)`](https://github.com/bhits/try-policy-api/releases/tag/1.16.0), [`1.13.0`](https://github.com/bhits/try-policy-api/releases/tag/1.13.0)
+
+[`Current Dockerfile`](https://github.com/bhits/try-policy-api/blob/master/tryPolicy/src/main/docker/Dockerfile)
 
 For more information about this image, the source code, and its history, please see the [GitHub repository](https://github.com/bhits/try-policy-api).
 
@@ -23,22 +25,21 @@ Be sure to familiarize yourself with the repository's [README.md](https://github
 
 `docker run  --name try-policy -d bhits/try-policy:latest <additional program arguments>`
 
-*NOTE: In order for this API to fully function as a microservice in the Consent2Share application, it is required to setup the dependency microservices and support level infrastructure. Please refer to the [Consent2Share Deployment Guide](https://github.com/bhits/consent2share/releases/download/2.0.0/c2s-deployment-guide.pdf) for instructions to setup the Consent2Share infrastructure.*
-
+*NOTE: In order for this API to fully function as a microservice in the Consent2Share application, it is required to setup the dependency microservices and support level infrastructure. Please refer to the [Consent2Share Deployment Guide](https://github.com/bhits/consent2share/releases) in the corresponding Consent2Share release for instructions to setup the Consent2Share infrastructure.*
 
 ## Configure
 
-This API runs with a [default configuration](https://github.com/bhits/try-policy-api/blob/master/tryPolicy/src/main/resources/application.yml) that is primarily targeted for the development environment.  The Spring profile `docker` is actived by default when building images. [Spring Boot](https://projects.spring.io/spring-boot/) supports several methods to override the default configuration to configure the API for a certain deployment environment. 
+The Spring profiles `application-default` and `docker` are activated by default when building images.
 
-Here is example to override default database password:
+This API can run with the default configuration which is from three places: `bootstrap.yml`, `application.yml`, and the data which the [`Configuration Server`](https://github.com/bhits/config-server) reads from the `Configuration Data Git Repository`. Both `bootstrap.yml` and `application.yml` files are located in the class path of the running application.
+
+We **recommend** overriding the configuration as needed in the `Configuration Data Git Repository`, which is used by the `Configuration Server`.
+
+Also, [Spring Boot](https://projects.spring.io/spring-boot/) supports other ways to override the default configuration to configure the API for a certain deployment environment. 
+
+The following is an example to override the default database password:
 
 `docker run -d bhits/try-policy:latest --spring.datasource.password=strongpassword`
-
-## Using a custom configuration file
-
-To use custom `application.yml`, mount the file to the docker host and set the environment variable `spring.config.location`.
-
-`docker run -v "/path/on/dockerhost/C2S_PROPS/tryPolicy/application.yml:/java/C2S_PROPS/tryPolicy/application.yml" -d bhits/try-policy:tag --spring.config.location="file:/java/C2S_PROPS/tryPolicy/"`
 
 ## Environment Variables
 
@@ -58,9 +59,9 @@ This environment variable is used to setup JVM argument, such as memory configur
 
 ### DEFAULT_PROGRAM_ARGS 
 
-This environment variable is used to setup application arugument. The default value of is "--spring.profiles.active=docker".
+This environment variable is used to setup an application argument. The default value of is "--spring.profiles.active=application-default, docker".
 
-`docker run --name try-policy -e DEFAULT_PROGRAM_ARGS="--spring.profiles.active=ssl,docker" -d bhits/try-policy:latest`
+`docker run --name try-policy -e DEFAULT_PROGRAM_ARGS="--spring.profiles.active=application-default,ssl,docker" -d bhits/try-policy:latest`
 
 # Supported Docker versions
 
