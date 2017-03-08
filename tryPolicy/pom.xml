@@ -133,6 +133,11 @@
             <artifactId>oauth2</artifactId>
             <version>${common.libraries.version}</version>
         </dependency>
+        <dependency>
+            <groupId>gov.samhsa.c2s</groupId>
+            <artifactId>document-converter</artifactId>
+            <version>1.8.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
