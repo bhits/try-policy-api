@@ -80,7 +80,6 @@ public class TryPolicyServiceImpl implements TryPolicyService {
         logger.info("Is Segmented CCDA document: " + dssResponse.isCCDADocument());
 
         // xslt transformation
-        //final String xslUrl = Thread.currentThread().getContextClassLoader().getResource(CDA_STYLESHEET).toString();
         final String xslUrl = Thread.currentThread().getContextClassLoader().getResource(getCdaXSL()).toString();
         final String output = xmlTransformer.transform(taggedClinicalDocument, xslUrl, Optional.<Params>empty(), Optional.<URIResolver>empty());
 
