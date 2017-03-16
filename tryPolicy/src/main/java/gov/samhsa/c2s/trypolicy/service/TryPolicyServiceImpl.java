@@ -110,9 +110,13 @@ public class TryPolicyServiceImpl implements TryPolicyService {
     }
 
     private static String getCdaXSL () {
-        if (!LocaleContextHolder.getLocale().getLanguage().equalsIgnoreCase("en")) {
+        if (LocaleContextHolder.getLocale().getLanguage().equalsIgnoreCase("es")) {
             return "CDA_flag_redact_spanish.xsl";
+        } else if(LocaleContextHolder.getLocale().getLanguage().equalsIgnoreCase("en")){
+            return "CDA_flag_redact.xsl";
+        } else {
+            return "CDA_flag_redact.xsl";
         }
-        return "CDA_flag_redact.xsl";
+
     }
 }
