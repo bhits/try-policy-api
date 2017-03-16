@@ -12,6 +12,7 @@ import gov.samhsa.c2s.trypolicy.infrastructure.PhrService;
 import gov.samhsa.c2s.trypolicy.service.dto.*;
 import gov.samhsa.c2s.trypolicy.service.exception.TryPolicyException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -79,7 +80,7 @@ public class TryPolicyServiceImpl implements TryPolicyService {
         logger.info("Is Segmented CCDA document: " + dssResponse.isCCDADocument());
 
         // xslt transformation
-        final String xslUrl = Thread.currentThread().getContextClassLoader().getResource(CDA_STYLESHEET).toString();
+        final String xslUrl = Thread.currentThread().getContextClassLoader().getResource(getCdaXSL()).toString();
         final String output = xmlTransformer.transform(taggedClinicalDocument, xslUrl, Optional.<Params>empty(), Optional.<URIResolver>empty());
 
         TryPolicyResponse tryPolicyResponse = new TryPolicyResponse();
@@ -106,5 +107,12 @@ public class TryPolicyServiceImpl implements TryPolicyService {
         dssRequest.setXacmlResult(xacmlResult);
 
         return dssRequest;
+    }
+
+    private static String getCdaXSL () {
+        if (!LocaleContextHolder.getLocale().getLanguage().equalsIgnoreCase("en")) {
+            return "CDA_flag_redact_spanish.xsl";
+        }
+        return "CDA_flag_redact.xsl";
     }
 }

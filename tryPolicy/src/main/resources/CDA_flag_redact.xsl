@@ -7,10 +7,10 @@
   This file is a modified version of the following file:
 
   Title: CDA XSL StyleSheet
-  Original Filename: cda.xsl 
+  Original Filename: cda.xsl
   Version: 3.0
   Revision History: 08/12/08 Jingdong Li updated
-  Revision History: 12/11/09 KH updated 
+  Revision History: 12/11/09 KH updated
   Revision History:  03/30/10 Jingdong Li updated.
   Revision History:  08/25/10 Jingdong Li updated
   Revision History:  09/17/10 Jingdong Li updated
@@ -19,22 +19,22 @@
   Revision History:  04/07/14 Rick Geimer more security fixes. Limited copy of only legal CDA table attributes to XHTML output.
   Revision History:  04/07/14 Rick Geimer more security fixes. Fixed some bugs from the hot fix on 4/6 ($uc and $lc swapped during some translates). Added limit-external-images param that defaults to yes. When set to yes, no URIs with colons (protocol URLs) or beginning with double slashes (protocol relative URLs) are allowed in observation media. I'll revise later to add a whitelist capability.
   Revision History:  04/13/14 Rick Geimer more security fixes. Added sandbox attribute to iframe. Added td to the list of elements with restricted table attributes (missed that one previously). Fixed some typos. Cleaned up CSS styles. Merged the table templates since they all use the same code. Fixed a bug with styleCode processing that could result in lost data. Added external-image-whitelist param.
-  Revision History:  11/12/14 Rick Geimer. Minor formatting fix to authenticator. 
+  Revision History:  11/12/14 Rick Geimer. Minor formatting fix to authenticator.
   Specification: ANSI/HL7 CDAR2
-  The current version and documentation are available at http://www.lantanagroup.com/resources/tools/. 
+  The current version and documentation are available at http://www.lantanagroup.com/resources/tools/.
   We welcome feedback and contributions to tools@lantanagroup.com
-  The stylesheet is the cumulative work of several developers; the most significant prior milestones were the foundation work from HL7 
-  Germany and Finland (Tyylitiedosto) and HL7 US (Calvin Beebe), and the presentation approach from Tony Schaller, medshare GmbH provided at IHIC 2009. 
+  The stylesheet is the cumulative work of several developers; the most significant prior milestones were the foundation work from HL7
+  Germany and Finland (Tyylitiedosto) and HL7 US (Calvin Beebe), and the presentation approach from Tony Schaller, medshare GmbH provided at IHIC 2009.
 -->
 <!-- LICENSE INFORMATION
   Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at  http://www.apache.org/licenses/LICENSE-2.0 
+  You may obtain a copy of the License at  http://www.apache.org/licenses/LICENSE-2.0
 -->
 <xsl:stylesheet version="1.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:n1="urn:hl7-org:v3"
                 xmlns:in="urn:lantana-com:inline-variable-data">
-    <xsl:output method="html" indent="yes" version="4.01" encoding="ISO-8859-1" doctype-system="http://www.w3.org/TR/html4/strict.dtd" doctype-public="-//W3C//DTD HTML 4.01//EN"/>
+    <xsl:output method="html" indent="yes" version="4.01" encoding="UTF-8" doctype-system="http://www.w3.org/TR/html4/strict.dtd" doctype-public="-//W3C//DTD HTML 4.01//EN"/>
     <xsl:param name="limit-external-images" select="'yes'"/>
     <!-- A vertical bar separated list of URI prefixes, such as "http://www.example.com|https://www.example.com" -->
     <xsl:param name="external-image-whitelist"/>
@@ -46,6 +46,142 @@
     <xsl:variable name="simple-sanitizer-replace" select="'***************'"/>
     <xsl:variable name="javascript-injection-warning">WARNING: Javascript injection attempt detected in source CDA document. Terminating</xsl:variable>
     <xsl:variable name="malicious-content-warning">WARNING: Potentially malicious content found in CDA document.</xsl:variable>
+    <xsl:variable name="lang.note" select="'IMPORTANT:'"></xsl:variable>
+    <xsl:variable name="lang.note.content" select="'Per your share settings, items highlighted in Red are marked for redaction and will not be shared; they are only shown for review purposes. Always consult your doctor regarding possible risks and side effects resulting from your sharing preferences and settings.'"></xsl:variable>
+    <xsl:variable name="lang.tableOfContents" select = "'Table of Contents'"></xsl:variable>
+    <xsl:variable name="lang.docID" select="'Document Id'"></xsl:variable>
+    <xsl:variable name="lang.DocCreated" select="'Document Created:'"></xsl:variable>
+    <xsl:variable name="lang.confidentiality" select="'Confidentiality'"></xsl:variable>
+    <xsl:variable name="lang.normal" select="'Normal'"></xsl:variable>
+    <xsl:variable name="lang.restricted" select="'Restricted'"></xsl:variable>
+    <xsl:variable name="lang.veryRestricted" select="'Very restricted'"></xsl:variable>
+    <xsl:variable name="lang.author" select="'Author'"></xsl:variable>
+    <xsl:variable name="lang.contactInfo" select="'Contact info'"></xsl:variable>
+    <xsl:variable name="lang.signed" select="'Signed '"></xsl:variable>
+    <xsl:variable name="lang.legalAuth" select="'Legal authenticator'"></xsl:variable>
+    <xsl:variable name="lang.at" select="' at '"></xsl:variable>
+    <xsl:variable name="lang.enteredBy" select="'Entered by'"></xsl:variable>
+    <xsl:variable name="lang.encounterID" select="'Encounter Id'"></xsl:variable>
+    <xsl:variable name="lang.encounterType" select="'Encounter Type'"></xsl:variable>
+    <xsl:variable name="lang.encounterDate" select="'Encounter Date'"></xsl:variable>
+    <xsl:variable name="lang.encounterLoc" select="'Encounter Location'"></xsl:variable>
+    <xsl:variable name="lang.responsibleParty" select="'Responsible party'"></xsl:variable>
+    <xsl:variable name="lang.docMaintainedBy" select="'Document maintained by'"></xsl:variable>
+    <xsl:variable name="lang.fulfillment" select="'In fulfillment of'"></xsl:variable>
+    <xsl:variable name="lang.informant" select="'Informant'"></xsl:variable>
+    <xsl:variable name="lang.infoRecipient" select="'Information recipient:'"></xsl:variable>
+    <xsl:variable name="lang.participant" select="'Participant'"></xsl:variable>
+    <xsl:variable name="lang.patient" select="'Patient'"></xsl:variable>
+    <xsl:variable name="lang.dob" select="'Date of birth'"></xsl:variable>
+    <xsl:variable name="lang.sex" select="'Sex'"></xsl:variable>
+    <xsl:variable name="lang.race" select="'Race'"></xsl:variable>
+    <xsl:variable name="lang.infoNotAvail" select="'Information not available'"></xsl:variable>
+    <xsl:variable name="lang.ethnicity" select="'Ethnicity'"></xsl:variable>
+    <xsl:variable name="lang.patientId" select="'Patient IDs'"></xsl:variable>
+    <xsl:variable name="lang.relatedDoc" select="'Related document'"></xsl:variable>
+    <xsl:variable name="lang.consent" select="'Consent'"></xsl:variable>
+    <xsl:variable name="lang.idAndVersion" select="'SetId and Version'"></xsl:variable>
+    <xsl:variable name="lang.setId" select="'SetId: '"></xsl:variable>
+    <xsl:variable name="lang.version" select="'  Version: '"></xsl:variable>
+    <xsl:variable name="lang.cannotDisplay" select="'Cannot display the text'"></xsl:variable>
+    <xsl:variable name="lang.sectionAuthor" select="'Section Author: '"></xsl:variable>
+    <xsl:variable name="lang.warningInfo_1" select="'WARNING: non-local image found '"></xsl:variable>
+    <xsl:variable name="lang.warningInfo_2" select="' Removing. If you wish non-local images preserved please set the limit-external-images param to no.'"></xsl:variable>
+    <xsl:variable name="lang.intended" select="'intended'"></xsl:variable>
+    <xsl:variable name="lang.signatureRequired" select="'signature required'"></xsl:variable>
+    <xsl:variable name="lang.male" select="'Male'"></xsl:variable>
+    <xsl:variable name="lang.female" select="'Female'"></xsl:variable>
+    <xsl:variable name="lang.undifferentiated" select="'Undifferentiated'"></xsl:variable>
+    <xsl:variable name="lang.addressNotAvail" select="'address not available'"></xsl:variable>
+    <xsl:variable name="lang.teleInfoNotAvail" select="'Telecom information not available'"></xsl:variable>
+    <xsl:variable name="lang.recipient" select="'Recipient:'"></xsl:variable>
+    <xsl:variable name="lang.tel" select="'Tel'"></xsl:variable>
+    <xsl:variable name="lang.fax" select="'Fax'"></xsl:variable>
+    <xsl:variable name="lang.web" select="'Web'"></xsl:variable>
+    <xsl:variable name="lang.mail" select="'Mail'"></xsl:variable>
+    <xsl:variable name="lang.home" select="'Home'"></xsl:variable>
+    <xsl:variable name="lang.vacationHome" select="'Vacation Home'"></xsl:variable>
+    <xsl:variable name="lang.primaryHome" select="'Primary Home'"></xsl:variable>
+    <xsl:variable name="lang.workPlace" select="'Work Place'"></xsl:variable>
+    <xsl:variable name="lang.pub" select="'Pub'"></xsl:variable>
+    <xsl:variable name="lang.affiliate" select="'affiliate'"></xsl:variable>
+    <xsl:variable name="lang.agent" select="'agent'"></xsl:variable>
+    <xsl:variable name="lang.assignedEntity" select="'assigned entity'"></xsl:variable>
+    <xsl:variable name="lang.commissioningParty" select="'commissioning party'"></xsl:variable>
+    <xsl:variable name="lang.contact" select="'contact'"></xsl:variable>
+    <xsl:variable name="lang.emergencyContact" select="'emergency contact'"></xsl:variable>
+    <xsl:variable name="lang.nextOfKin" select="'next of kin'"></xsl:variable>
+    <xsl:variable name="lang.signingAuthority" select="'signing authority'"></xsl:variable>
+    <xsl:variable name="lang.guardian" select="'guardian'"></xsl:variable>
+    <xsl:variable name="lang.citizen" select="'citizen'"></xsl:variable>
+    <xsl:variable name="lang.coveredParty" select="'covered party'"></xsl:variable>
+    <xsl:variable name="lang.personalRelation" select="'personal relationship'"></xsl:variable>
+    <xsl:variable name="lang.careGiver" select="'care giver'"></xsl:variable>
+    <xsl:variable name="lang.father" select="'(Father)'"></xsl:variable>
+    <xsl:variable name="lang.mother" select="'(Mother)'"></xsl:variable>
+    <xsl:variable name="lang.naturalParent" select="'(Natural parent)'"></xsl:variable>
+    <xsl:variable name="lang.stepParent" select="'(Step parent)'"></xsl:variable>
+    <xsl:variable name="lang.son" select="'(Son)'"></xsl:variable>
+    <xsl:variable name="lang.daughter" select="'(Daughter)'"></xsl:variable>
+    <xsl:variable name="lang.child" select="'(Child)'"></xsl:variable>
+    <xsl:variable name="lang.extendedFamilyMember" select="'(Extended family member)'"></xsl:variable>
+    <xsl:variable name="lang.neighbor" select="'(Neighbor)'"></xsl:variable>
+    <xsl:variable name="lang.significantOther" select="'(Significant other)'"></xsl:variable>
+    <xsl:variable name="lang.facilityId" select="'Facility ID'"></xsl:variable>
+    <xsl:variable name="lang.notAvailable" select="'Not available'"></xsl:variable>
+    <xsl:variable name="lang.firstDayofPeriodReported" select="'First day of period reported'"></xsl:variable>
+    <xsl:variable name="lang.lastDayofPeriodReported" select="'Last day of period reported'"></xsl:variable>
+    <xsl:variable name="lang.healthcareService" select="'healthcare service'"></xsl:variable>
+    <xsl:variable name="lang.accommodation" select="'accommodation'"></xsl:variable>
+    <xsl:variable name="lang.account" select="'account'"></xsl:variable>
+    <xsl:variable name="lang.accession" select="'accession'"></xsl:variable>
+    <xsl:variable name="lang.financialAdjudication" select="'financial adjudication'"></xsl:variable>
+    <xsl:variable name="lang.containerRegistration" select="'container registration'"></xsl:variable>
+    <xsl:variable name="lang.clinicalTrialTimepointEvent" select="'clinical trial timepoint event'"></xsl:variable>
+    <xsl:variable name="lang.disciplinaryAction" select="'disciplinary action'"></xsl:variable>
+    <xsl:variable name="lang.encounter" select="'encounter'"></xsl:variable>
+    <xsl:variable name="lang.incident" select="'incident'"></xsl:variable>
+    <xsl:variable name="lang.inform" select="'inform'"></xsl:variable>
+    <xsl:variable name="lang.invoiceElement" select="'invoice element'"></xsl:variable>
+    <xsl:variable name="lang.workingList" select="'working list'"></xsl:variable>
+    <xsl:variable name="lang.monitoringProgram" select="'monitoring program'"></xsl:variable>
+    <xsl:variable name="lang.careProvision" select="'care provision'"></xsl:variable>
+    <xsl:variable name="lang.procedure" select="'procedure'"></xsl:variable>
+    <xsl:variable name="lang.registration" select="'registration'"></xsl:variable>
+    <xsl:variable name="lang.review" select="'review'"></xsl:variable>
+    <xsl:variable name="lang.substanceAdmin" select="'substance administration'"></xsl:variable>
+    <xsl:variable name="lang.specimentTreatment" select="'speciment treatment'"></xsl:variable>
+    <xsl:variable name="lang.substitution" select="'substitution'"></xsl:variable>
+    <xsl:variable name="lang.verification" select="'verification'"></xsl:variable>
+    <xsl:variable name="lang.financialTransaction" select="'financial transaction'"></xsl:variable>
+    <xsl:variable name="lang.primaryPerformer" select="'primary performer'"></xsl:variable>
+    <xsl:variable name="lang.performer" select="'performer'"></xsl:variable>
+    <xsl:variable name="lang.verifier" select="'verifier'"></xsl:variable>
+    <xsl:variable name="lang.secondaryPerformer" select="'secondary performer'"></xsl:variable>
+    <xsl:variable name="lang.admittingPhysician" select="'(admitting physician)'"></xsl:variable>
+    <xsl:variable name="lang.anesthesist" select="'(anesthesist)'"></xsl:variable>
+    <xsl:variable name="lang.anesthesistNurse" select="'(anesthesia nurse)'"></xsl:variable>
+    <xsl:variable name="lang.attendingPhysician" select="'(attending physician)'"></xsl:variable>
+    <xsl:variable name="lang.dischargingPhysician" select="'(discharging physician)'"></xsl:variable>
+    <xsl:variable name="lang.firstAssistantSurgeon" select="'(first assistant surgeon)'"></xsl:variable>
+    <xsl:variable name="lang.midwife" select="'(midwife)'"></xsl:variable>
+    <xsl:variable name="lang.nurseAssistant" select="'(nurse assistant)'"></xsl:variable>
+    <xsl:variable name="lang.primaryCarePhysician" select="'(primary care physician)'"></xsl:variable>
+    <xsl:variable name="lang.primarySurgeon" select="'(primary surgeon)'"></xsl:variable>
+    <xsl:variable name="lang.roundingPhysician" select="'(rounding physician)'"></xsl:variable>
+    <xsl:variable name="lang.secondAssistantSurgeon" select="'(second assistant surgeon)'"></xsl:variable>
+    <xsl:variable name="lang.scrubNurse" select="'(scrub nurse)'"></xsl:variable>
+    <xsl:variable name="lang.thirdAssistant" select="'(third assistant)'"></xsl:variable>
+    <xsl:variable name="lang.consultingProvider" select="'(consulting provider)'"></xsl:variable>
+    <xsl:variable name="lang.primaryCareProvider" select="'(primary care provider)'"></xsl:variable>
+    <xsl:variable name="lang.referringProvider" select="'(referring provider)'"></xsl:variable>
+    <xsl:variable name="lang.medicalHomeProvider" select="'(medical home provider)'"></xsl:variable>
+    <xsl:variable name="lang.noInfo" select="'no information'"></xsl:variable>
+    <xsl:variable name="lang.invalid" select="'invalid'"></xsl:variable>
+    <xsl:variable name="lang.masked" select="'masked'"></xsl:variable>
+    <xsl:variable name="lang.notApplicable" select="'not applicable'"></xsl:variable>
+    <xsl:variable name="lang.unknown" select="'unknown'"></xsl:variable>
+    <xsl:variable name="lang.other" select="'other'"></xsl:variable>
 
     <!-- global variable title -->
     <xsl:variable name="title">
@@ -69,6 +205,7 @@
     <xsl:template match="n1:ClinicalDocument">
         <html>
             <head>
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
                 <xsl:comment> Do NOT edit this HTML directly: it was generated via an XSLT transformation from a CDA Release 2 XML document. </xsl:comment>
                 <title>
                     <xsl:value-of select="$title"/>
@@ -81,12 +218,11 @@
                         <div class="container">
                             <div class="education-text">
                                 <div>
-                                    <strong>IMPORTANT:</strong>
+                                    <!--<strong>IMPORTANT:</strong>-->
+                                    <strong><xsl:value-of select="$lang.note"></xsl:value-of></strong>
                                 </div>
-                                <div>Per your share settings, items highlighted in Red are marked for redaction and will
-                                    not be shared; they are only shown for review purposes.
-                                    Always consult your doctor regarding possible risks and side effects resulting from
-                                    your sharing preferences and settings.
+                                <div>
+                                    <xsl:value-of select="$lang.note.content"></xsl:value-of>
                                 </div>
                             </div>
                         </div>
@@ -132,7 +268,7 @@
     <xsl:template name="make-tableofcontents">
         <div class="border_box">
             <h2>
-                <a name="toc">Table of Contents</a>
+                <a name="toc"><xsl:value-of select="$lang.tableOfContents"></xsl:value-of></a>
             </h2>
             <ul>
                 <xsl:for-each select="n1:component/n1:structuredBody/n1:component/n1:section/n1:title">
@@ -152,7 +288,8 @@
                 <div class="row">
                     <div class="col-xs-4 col-sm-2 div-cell narr_header">
                         <span>
-                            <xsl:text>Document Id</xsl:text>
+                            <!--<xsl:text>Document Id</xsl:text>-->
+                            <xsl:value-of select="$lang.docID"></xsl:value-of>
                         </span>
                     </div>
                     <div class="col-xs-8 col-sm-10 div-cell narr_row">
@@ -164,7 +301,8 @@
                 <div class="row bordertop">
                     <div class="col-xs-4 col-sm-2 div-cell narr_header">
                         <span>
-                            <xsl:text>Document Created:</xsl:text>
+                            <!--<xsl:text>Document Created:</xsl:text>-->
+                            <xsl:value-of select="$lang.DocCreated"></xsl:value-of>
                         </span>
                     </div>
                     <div class="col-xs-8 col-sm-4 div-cell narr_row">
@@ -181,18 +319,22 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-4 col-sm-4 div-cell narr_header" style="background-color: #3399ff;">
-                    <xsl:text>Confidentiality</xsl:text>
+                    <!--<xsl:text>Confidentiality</xsl:text>-->
+                    <xsl:value-of select="$lang.confidentiality"></xsl:value-of>
                 </div>
                 <div class="col-xs-8 col-sm-8 div-cell narr_row">
                     <xsl:choose>
                         <xsl:when test="n1:confidentialityCode/@code  = &apos;N&apos;">
-                            <xsl:text>Normal</xsl:text>
+                            <!--<xsl:text>Normal</xsl:text>-->
+                            <xsl:value-of select="$lang.normal"></xsl:value-of>
                         </xsl:when>
                         <xsl:when test="n1:confidentialityCode/@code  = &apos;R&apos;">
-                            <xsl:text>Restricted</xsl:text>
+                            <!--<xsl:text>Restricted</xsl:text>-->
+                            <xsl:value-of select="$lang.restricted"></xsl:value-of>
                         </xsl:when>
                         <xsl:when test="n1:confidentialityCode/@code  = &apos;V&apos;">
-                            <xsl:text>Very restricted</xsl:text>
+                            <!--<xsl:text>Very restricted</xsl:text>-->
+                            <xsl:value-of select="$lang.veryRestricted"></xsl:value-of>
                         </xsl:when>
                     </xsl:choose>
                     <xsl:if test="n1:confidentialityCode/n1:originalText">
@@ -213,7 +355,8 @@
                             <div class="row">
                                 <div class="col-xs-4 col-sm-2 div-cell narr_header">
                                     <span>
-                                        <xsl:text>Author</xsl:text>
+                                        <!--<xsl:text>Author</xsl:text>-->
+                                        <xsl:value-of select="$lang.author"></xsl:value-of>
                                     </span>
                                 </div>
                                 <div class="col-xs-8 col-sm-10 div-cell narr_row">
@@ -254,7 +397,7 @@
                         <xsl:if test="n1:addr | n1:telecom">
                             <div class="row bordertop">
                                 <div class="col-xs-4 col-sm-2 div-cell narr_header">
-                                    <span>Contact info</span>
+                                    <span><xsl:value-of select="$lang.contactInfo"></xsl:value-of></span>
                                 </div>
                                 <div class="col-xs-8 col-sm-10 div-cell narr_row">
                                     <xsl:call-template name="show-contactInfo">
@@ -278,7 +421,8 @@
                             <div class="row">
                                 <div class="col-xs-2 col-sm-2 div-cell narr_header">
                                     <span>
-                                        <xsl:text>Signed </xsl:text>
+                                        <!--<xsl:text>Signed </xsl:text>-->
+                                        <xsl:value-of select="$lang.signed"> </xsl:value-of>
                                     </span>
                                 </div>
                                 <div class="col-xs-10 col-sm-10 div-cell narr_row">
@@ -297,7 +441,7 @@
                         <xsl:if test="n1:assignedEntity/n1:addr | n1:assignedEntity/n1:telecom">
                             <div class="row bordertop">
                                 <div class="col-xs-2 col-sm-2 div-cell narr_header">
-                                    <span>Contact info</span>
+                                    <span><xsl:value-of select="$lang.contactInfo"></xsl:value-of></span>
                                 </div>
                                 <div class="col-xs-10 col-sm-10 div-cell narr_row">
                                     <xsl:call-template name="show-contactInfo">
@@ -319,7 +463,8 @@
                     <div class="row">
                         <div class="col-xs-4 col-sm-2 div-cell narr_header">
                             <span>
-                                <xsl:text>Legal authenticator</xsl:text>
+                                <!--<xsl:text>Legal authenticator</xsl:text>-->
+                                <xsl:value-of select="$lang.legalAuth"></xsl:value-of>
                             </span>
                         </div>
                         <div class="col-xs-8 col-sm-10 div-cell narr_row">
@@ -331,7 +476,8 @@
                                 <xsl:with-param name="sig" select="n1:legalAuthenticator/n1:signatureCode"/>
                             </xsl:call-template>
                             <xsl:if test="n1:legalAuthenticator/n1:time/@value">
-                                <xsl:text> at </xsl:text>
+                                <!--<xsl:text> at </xsl:text>-->
+                                <xsl:value-of select="$lang.at"></xsl:value-of>
                                 <xsl:call-template name="show-time">
                                     <xsl:with-param name="datetime" select="n1:legalAuthenticator/n1:time"/>
                                 </xsl:call-template>
@@ -341,7 +487,7 @@
                     <xsl:if test="n1:legalAuthenticator/n1:assignedEntity/n1:addr | n1:legalAuthenticator/n1:assignedEntity/n1:telecom">
                         <div class="row">
                             <div class="col-xs-4 col-sm-2 div-cell narr_header">
-                                <span>Contact info</span>
+                                <span><xsl:value-of select="$lang.contactInfo"></xsl:value-of></span>
                             </div>
                             <div class="col-xs-8 col-sm-10 div-cell narr_row">
                                 <xsl:call-template name="show-contactInfo">
@@ -362,7 +508,8 @@
                     <div class="row">
                         <div class="col-xs-4 col-sm-2 div-cell narr_header">
                             <span>
-                                <xsl:text>Entered by</xsl:text>
+                                <!--<xsl:text>Entered by</xsl:text>-->
+                                <xsl:value-of select="$lang.enteredBy"></xsl:value-of>
                             </span>
                         </div>
                         <div class="col-xs-8 col-sm-10 div-cell narr_row">
@@ -374,7 +521,7 @@
                     <xsl:if test="n1:dataEnterer/n1:assignedEntity/n1:addr | n1:dataEnterer/n1:assignedEntity/n1:telecom">
                         <div class="row bordertop">
                             <div class="col-xs-4 col-sm-2 div-cell narr_header">
-                                <span>Contact info</span>
+                                <span><xsl:value-of select="$lang.contactInfo"></xsl:value-of> </span>
                             </div>
                             <div class="col-xs-8 col-sm-10 div-cell narr_row">
                                 <xsl:call-template name="show-contactInfo">
@@ -400,7 +547,8 @@
                                         <div class="row">
                                             <div class="col-xs-4 col-sm-2 div-cell narr_header">
                                                 <span>
-                                                    <xsl:text>Encounter Id</xsl:text>
+                                                    <!--<xsl:text>Encounter Id</xsl:text>-->
+                                                    <xsl:value-of select="$lang.encounterID"></xsl:value-of>
                                                 </span>
                                             </div>
                                             <div class="col-xs-8 col-sm-10 div-cell narr_row">
@@ -414,7 +562,8 @@
                                     <div class="row bordertop">
                                         <div class="col-xs-4 col-sm-2 div-cell narr_header">
                                             <span>
-                                                <xsl:text>Encounter Type</xsl:text>
+                                                <!--<xsl:text>Encounter Type</xsl:text>-->
+                                                <xsl:value-of select="$lang.encounterType"></xsl:value-of>
                                             </span>
                                         </div>
                                         <div class="col-xs-8 col-sm-10 div-cell narr_row">
@@ -428,7 +577,8 @@
                                     <div class="row">
                                         <div class="col-xs-4 col-sm-2 div-cell narr_header">
                                             <span>
-                                                <xsl:text>Encounter Id</xsl:text>
+                                                <!--<xsl:text>Encounter Id</xsl:text>-->
+                                                <xsl:value-of select="$lang.encounterID"></xsl:value-of>
                                             </span>
                                         </div>
                                         <div class="col-xs-8 col-sm-10 div-cell narr_row">
@@ -443,14 +593,15 @@
                         <div class="row bordertop">
                             <div class="col-xs-4 col-sm-2 div-cell narr_header">
                                 <span>
-                                    <xsl:text>Encounter Date</xsl:text>
+                                    <!--<xsl:text>Encounter Date</xsl:text>-->
+                                    <xsl:value-of select="$lang.encounterDate"></xsl:value-of>
                                 </span>
                             </div>
                             <div class="col-xs-8 col-sm-10 div-cell narr_row">
                                 <xsl:if test="n1:effectiveTime">
                                     <xsl:choose>
                                         <xsl:when test="n1:effectiveTime/@value">
-                                            <xsl:text>&#160;at&#160;</xsl:text>
+                                            <!--<xsl:text>...at...</xsl:text>-->
                                             <xsl:call-template name="show-time">
                                                 <xsl:with-param name="datetime" select="n1:effectiveTime"/>
                                             </xsl:call-template>
@@ -475,7 +626,8 @@
                             <div class="row bordertop">
                                 <div class="col-xs-4 col-sm-2 div-cell narr_header">
                                     <span>
-                                        <xsl:text>Encounter Location</xsl:text>
+                                        <!--<xsl:text>Encounter Location</xsl:text>-->
+                                        <xsl:value-of select="$lang.encounterLoc"></xsl:value-of>
                                     </span>
                                 </div>
                                 <div class="col-xs-8 col-sm-10 div-cell narr_row">
@@ -514,7 +666,8 @@
                             <div class="row bordertop">
                                 <div class="col-xs-4 col-sm-2 div-cell narr_header">
                                     <span>
-                                        <xsl:text>Responsible party</xsl:text>
+                                        <!--<xsl:text>Responsible party</xsl:text>-->
+                                        <xsl:value-of select="$lang.responsibleParty"></xsl:value-of>
                                     </span>
                                 </div>
                                 <div class="col-xs-8 col-sm-10 div-cell narr_row">
@@ -527,7 +680,7 @@
                         <xsl:if test="n1:responsibleParty/n1:assignedEntity/n1:addr | n1:responsibleParty/n1:assignedEntity/n1:telecom">
                             <div class="row bordertop">
                                 <div class="col-xs-4 col-sm-2 div-cell narr_header">
-                                    <span>Contact info</span>
+                                    <span><xsl:value-of select="$lang.contactInfo"></xsl:value-of></span>
                                 </div>
                                 <div class="col-xs-8 col-sm-10 div-cell narr_row">
                                     <xsl:call-template name="show-contactInfo">
@@ -549,7 +702,8 @@
                     <div class="row">
                         <div class="col-xs-4 col-sm-2 div-cell narr_header">
                             <span>
-                                <xsl:text>Document maintained by</xsl:text>
+                                <!--<xsl:text>Document maintained by</xsl:text>-->
+                                <xsl:value-of select="$lang.docMaintainedBy"></xsl:value-of>
                             </span>
                         </div>
                         <div class="col-xs-8 col-sm-10 div-cell narr_row">
@@ -573,7 +727,7 @@
                     <xsl:if test="n1:custodian/n1:assignedCustodian/n1:representedCustodianOrganization/n1:addr |             n1:custodian/n1:assignedCustodian/n1:representedCustodianOrganization/n1:telecom">
                         <div class="row bordertop">
                             <div class="col-xs-4 col-sm-2 div-cell narr_header">
-                                <span>Contact info</span>
+                                <span><xsl:value-of select="$lang.contactInfo"></xsl:value-of></span>
                             </div>
                             <div class="col-xs-8 col-sm-10 div-cell narr_row">
                                 <xsl:call-template name="show-contactInfo">
@@ -680,7 +834,8 @@
                         <tr>
                             <td class="td_header_role_name">
                                 <span class="td_label">
-                                    <xsl:text>In fulfillment of</xsl:text>
+                                    <!--<xsl:text>In fulfillment of</xsl:text>-->
+                                    <xsl:value-of select="$lang.fulfillment"></xsl:value-of>
                                 </span>
                             </td>
                             <td class="td_header_role_value">
@@ -718,7 +873,8 @@
                             <div class="row">
                                 <div class="col-xs-4 col-sm-2 div-cell narr_header">
                                     <span>
-                                        <xsl:text>Informant</xsl:text>
+                                        <!--<xsl:text>Informant</xsl:text>-->
+                                        <xsl:value-of select="$lang.informant"></xsl:value-of>
                                     </span>
                                 </div>
                                 <div class="col-xs-8 col-sm-10 div-cell narr_row">
@@ -739,7 +895,7 @@
                             <xsl:when test="n1:assignedEntity/n1:addr | n1:assignedEntity/n1:telecom">
                                 <div class="row bordertop">
                                     <div class="col-xs-4 col-sm-2 div-cell narr_header">
-                                        <span>Contact info</span>
+                                        <span><xsl:value-of select="$lang.contactInfo"></xsl:value-of></span>
                                     </div>
                                     <div class="col-xs-8 col-sm-10 div-cell narr_row">
                                         <xsl:if test="n1:assignedEntity">
@@ -753,7 +909,7 @@
                             <xsl:when test="n1:relatedEntity/n1:addr | n1:relatedEntity/n1:telecom">
                                 <div class="row bordertop">
                                     <div class="col-xs-4 col-sm-2 div-cell narr_header">
-                                        <span>Contact info</span>
+                                        <span><xsl:value-of select="$lang.contactInfo"></xsl:value-of></span>
                                     </div>
                                     <div class="col-xs-8 col-sm-10 div-cell narr_row">
                                         <xsl:if test="n1:relatedEntity">
@@ -780,7 +936,8 @@
                             <div class="row">
                                 <div class="col-xs-4 col-sm-2 div-cell narr_header">
                                     <span>
-                                        <xsl:text>Information recipient:</xsl:text>
+                                        <!--<xsl:text>Information recipient:</xsl:text>-->
+                                        <xsl:value-of select="language.infoRecipient"></xsl:value-of>
                                     </span>
                                 </div>
                                 <div class="col-xs-8 col-sm-10 div-cell narr_row">
@@ -813,7 +970,7 @@
                         <xsl:if test="n1:intendedRecipient/n1:addr | n1:intendedRecipient/n1:telecom">
                             <div class="row bordertop">
                                 <div class="col-xs-4 col-sm-2 div-cell narr_header">
-                                    <span>Contact info</span>
+                                    <span><xsl:value-of select="$lang.contactInfo"></xsl:value-of></span>
                                 </div>
                                 <div class="col-xs-8 col-sm-10 div-cell narr_row">
                                     <xsl:call-template name="show-contactInfo">
@@ -852,7 +1009,8 @@
                                         </xsl:when>
                                         <xsl:otherwise>
                                             <span>
-                                                <xsl:text>Participant</xsl:text>
+                                                <!--<xsl:text>Participant</xsl:text>-->
+                                                <xsl:value-of select="$lang.participant"></xsl:value-of>
                                             </span>
                                         </xsl:otherwise>
                                     </xsl:choose>
@@ -891,7 +1049,8 @@
                             <div class="row bordertop">
                                 <div class="col-xs-4 col-sm-2 div-cell narr_header">
                                     <span>
-                                        <xsl:text>Contact info</xsl:text>
+                                        <!--<xsl:text>Contact info</xsl:text>-->
+                                        <xsl:value-of select="$lang.contactInfo"></xsl:value-of>
                                     </span>
                                 </div>
                                 <div class="col-xs-8 col-sm-10 div-cell narr_row">
@@ -915,7 +1074,8 @@
                         <div class="row">
                             <div class="col-xs-3 col-sm-2 div-cell narr_header">
                                 <span>
-                                    <xsl:text>Patient</xsl:text>
+                                    <!--<xsl:text>Patient</xsl:text>-->
+                                    <xsl:value-of select="$lang.patient"></xsl:value-of>
                                 </span>
                             </div>
                             <div class="col-xs-9 col-sm-10 div-cell">
@@ -928,7 +1088,8 @@
                             <div class="col-xs-12 col-sm-6 div-entry bordertop">
                                 <div class="col-xs-3 col-sm-4 div-cell narr_header">
                                     <span>
-                                        <xsl:text>Date of birth</xsl:text>
+                                        <!--<xsl:text>Date of birth</xsl:text>-->
+                                        <xsl:value-of select="$lang.dob"></xsl:value-of>
                                     </span>
                                 </div>
                                 <div class="col-xs-9 col-sm-8 div-cell narr_row">
@@ -941,7 +1102,8 @@
                             <div class="col-xs-12 col-sm-6 div-entry bordertop">
                                 <div class="col-xs-3 col-sm-4 div-cell narr_header">
                                     <span>
-                                        <xsl:text>Sex</xsl:text>
+                                        <!--<xsl:text>Sex</xsl:text>-->
+                                        <xsl:value-of select="$lang.sex"></xsl:value-of>
                                     </span>
                                 </div>
                                 <div class="col-xs-9 col-sm-8 div-cell narr_row">
@@ -956,7 +1118,8 @@
                                 <div class="col-xs-12 col-sm-6 div-entry bordertop">
                                     <div class="col-xs-3 col-sm-4 div-cell narr_header">
                                         <span>
-                                            <xsl:text>Race</xsl:text>
+                                            <!--<xsl:text>Race</xsl:text>-->
+                                            <xsl:value-of select="$lang.race"></xsl:value-of>
                                         </span>
                                     </div>
                                     <div class="col-xs-9 col-sm-8 div-cell narr_row">
@@ -967,7 +1130,8 @@
                                                 </xsl:for-each>
                                             </xsl:when>
                                             <xsl:otherwise>
-                                                <xsl:text>Information not available</xsl:text>
+                                                <!--<xsl:text>Information not available</xsl:text>-->
+                                                <xsl:value-of select="$lang.infoNotAvail"></xsl:value-of>
                                             </xsl:otherwise>
                                         </xsl:choose>
                                     </div>
@@ -976,7 +1140,8 @@
                                 <div class="col-xs-12 col-sm-6 div-entry bordertop">
                                     <div class="col-xs-3 col-sm-4 div-cell narr_header">
                                         <span>
-                                            <xsl:text>Ethnicity</xsl:text>
+                                            <!--<xsl:text>Ethnicity</xsl:text>-->
+                                            <xsl:value-of select="$lang.ethnicity"></xsl:value-of>
                                         </span>
                                     </div>
                                     <div class="col-xs-9 col-sm-8 div-cell narr_row">
@@ -987,7 +1152,8 @@
                                                 </xsl:for-each>
                                             </xsl:when>
                                             <xsl:otherwise>
-                                                <xsl:text>Information not available</xsl:text>
+                                                <!--<xsl:text>Information not available</xsl:text>-->
+                                                <xsl:value-of select="$lang.infoNotAvail"></xsl:value-of>
                                             </xsl:otherwise>
                                         </xsl:choose>
                                     </div>
@@ -998,7 +1164,8 @@
                             <div class="col-xs-12 col-sm-6 div-entry bordertop">
                                 <div class="col-xs-3 col-sm-4 div-cell narr_header">
                                     <span>
-                                        <xsl:text>Contact info</xsl:text>
+                                        <!--<xsl:text>Contact info</xsl:text>-->
+                                        <xsl:value-of select="$lang.contactInfo"></xsl:value-of>
                                     </span>
                                 </div>
                                 <div class="col-xs-9 col-sm-8 div-cell narr_row">
@@ -1009,7 +1176,7 @@
                             </div>
                             <div class="col-xs-12 col-sm-6 div-entry bordertop">
                                 <div class="col-xs-3 col-sm-4 div-cell narr_header">
-                                    <span>Patient IDs</span>
+                                    <span><xsl:value-of select="$lang.patientId"></xsl:value-of></span>
                                 </div>
                                 <div class="col-xs-9 col-sm-8 div-cell narr_row">
                                     <xsl:for-each select="n1:id">
@@ -1033,7 +1200,8 @@
                         <div class="row">
                             <div class="col-xs-4 col-sm-2 div-cell narr_header">
                                 <span>
-                                    <xsl:text>Related document</xsl:text>
+                                    <!--<xsl:text>Related document</xsl:text>-->
+                                    <xsl:value-of select="$lang.relatedDoc"></xsl:value-of>
                                 </span>
                             </div>
                             <div class="col-xs-8 col-sm-10 div-cell narr_row">
@@ -1059,7 +1227,8 @@
                         <div class="row">
                             <div class="col-xs-4 col-sm-2 div-cell narr_header">
                                 <span>
-                                    <xsl:text>Consent</xsl:text>
+                                    <!--<xsl:text>Consent</xsl:text>-->
+                                    <xsl:value-of select="$lang.consent"></xsl:value-of>
                                 </span>
                             </div>
                             <div class="col-xs-8 col-sm-10 div-cell narr_row">
@@ -1090,14 +1259,17 @@
                 <tbody>
                     <tr>
                         <td class="td_header_role_name">
-                            <xsl:text>SetId and Version</xsl:text>
+                            <!--<xsl:text>SetId and Version</xsl:text>-->
+                            <xsl:value-of select="$lang.idAndVersion"></xsl:value-of>
                         </td>
                         <td class="td_header_role_value">
-                            <xsl:text>SetId: </xsl:text>
+                            <!--<xsl:text>SetId: </xsl:text>-->
+                            <xsl:value-of select="$lang.setId"></xsl:value-of>
                             <xsl:call-template name="show-id">
                                 <xsl:with-param name="id" select="n1:setId"/>
                             </xsl:call-template>
-                            <xsl:text>  Version: </xsl:text>
+                            <!--<xsl:text>  Version: </xsl:text>-->
+                            <xsl:value-of select="$lang.version"></xsl:value-of>
                             <xsl:value-of select="n1:versionNumber/@value"/>
                         </td>
                     </tr>
@@ -1138,7 +1310,7 @@
                 <pre><xsl:value-of select='n1:text/text()'/></pre>
             </xsl:when>
             <xsl:otherwise>
-                <pre>Cannot display the text</pre>
+                <pre><xsl:value-of select="$lang.cannotDisplay"></xsl:value-of></pre>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -1180,7 +1352,8 @@
         <xsl:if test="count(n1:author)&gt;0">
             <div style="margin-left : 2em;">
                 <b>
-                    <xsl:text>Section Author: </xsl:text>
+                    <!--<xsl:text>Section Author: </xsl:text>-->
+                    <xsl:value-of select="$lang.sectionAuthor"></xsl:value-of>
                 </b>
                 <xsl:for-each select="n1:author/n1:assignedAuthor">
                     <xsl:choose>
@@ -1588,8 +1761,9 @@
 
             </xsl:when>
             <xsl:otherwise>
-                <p>WARNING: non-local image found <xsl:value-of select="$image-uri"/>. Removing. If you wish non-local images preserved please set the limit-external-images param to 'no'.</p>
-                <xsl:message>WARNING: non-local image found <xsl:value-of select="$image-uri"/>. Removing. If you wish non-local images preserved please set the limit-external-images param to 'no'.</xsl:message>
+                <p><xsl:value-of select="$lang.warningInfo_1"></xsl:value-of><xsl:value-of select="$image-uri"/>. <xsl:value-of
+                        select="$lang.warningInfo_2"></xsl:value-of></p>
+                <xsl:message><xsl:value-of select="$lang.warningInfo_1"></xsl:value-of><xsl:value-of select="$image-uri"/>. <xsl:value-of select="$lang.warningInfo_2"></xsl:value-of></xsl:message>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -1716,13 +1890,16 @@
         <xsl:param name="sig"/>
         <xsl:choose>
             <xsl:when test="$sig/@code =&apos;S&apos;">
-                <xsl:text>signed</xsl:text>
+                <!--<xsl:text>signed</xsl:text>-->
+                <xsl:value-of select="$lang.signed"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$sig/@code=&apos;I&apos;">
-                <xsl:text>intended</xsl:text>
+                <!--<xsl:text>intended</xsl:text>-->
+                <xsl:value-of select="$lang.intended"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$sig/@code=&apos;X&apos;">
-                <xsl:text>signature required</xsl:text>
+                <!--<xsl:text>signature required</xsl:text>-->
+                <xsl:value-of select="$lang.signatureRequired"></xsl:value-of>
             </xsl:when>
         </xsl:choose>
     </xsl:template>
@@ -1776,13 +1953,16 @@
     <xsl:template name="show-gender">
         <xsl:choose>
             <xsl:when test="@code   = &apos;M&apos;">
-                <xsl:text>Male</xsl:text>
+                <!--<xsl:text>Male</xsl:text>-->
+                <xsl:value-of select="$lang.male"></xsl:value-of>
             </xsl:when>
             <xsl:when test="@code  = &apos;F&apos;">
-                <xsl:text>Female</xsl:text>
+                <!--<xsl:text>Female</xsl:text>-->
+                <xsl:value-of select="$lang.female"></xsl:value-of>
             </xsl:when>
             <xsl:when test="@code  = &apos;U&apos;">
-                <xsl:text>Undifferentiated</xsl:text>
+                <!--<xsl:text>Undifferentiated</xsl:text>-->
+                <xsl:value-of select="$lang.undifferentiated"></xsl:value-of>
             </xsl:when>
         </xsl:choose>
     </xsl:template>
@@ -1847,7 +2027,8 @@
                 </xsl:if>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:text>address not available</xsl:text>
+                <!--<xsl:text>address not available</xsl:text>-->
+                <xsl:value-of select="$lang.addressNotAvail"></xsl:value-of>
             </xsl:otherwise>
         </xsl:choose>
         <br/>
@@ -1876,7 +2057,8 @@
                 </xsl:if>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:text>Telecom information not available</xsl:text>
+                <!--<xsl:text>Telecom information not available</xsl:text>-->
+                <xsl:value-of select="$lang.teleInfoNotAvail"></xsl:value-of>
             </xsl:otherwise>
         </xsl:choose>
         <br/>
@@ -1887,7 +2069,7 @@
         <xsl:choose>
             <xsl:when test="$typeCode='PRCP'">Primary Recipient:</xsl:when>
             <xsl:when test="$typeCode='TRC'">Secondary Recipient:</xsl:when>
-            <xsl:otherwise>Recipient:</xsl:otherwise>
+            <xsl:otherwise><xsl:value-of select="$lang.recipient"></xsl:value-of></xsl:otherwise>
         </xsl:choose>
     </xsl:template>
     <!-- Convert Telecom URL to display text -->
@@ -1898,31 +2080,40 @@
         <xsl:choose>
             <!-- lookup table Telecom URI -->
             <xsl:when test="$code='tel'">
-                <xsl:text>Tel</xsl:text>
+                <!--<xsl:text>Tel</xsl:text>-->
+                <xsl:value-of select="$lang.tel"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$code='fax'">
-                <xsl:text>Fax</xsl:text>
+                <!--<xsl:text>Fax</xsl:text>-->
+                <xsl:value-of select="$lang.fax"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$code='http'">
-                <xsl:text>Web</xsl:text>
+                <!--<xsl:text>Web</xsl:text>-->
+                <xsl:value-of select="$lang.web"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$code='mailto'">
-                <xsl:text>Mail</xsl:text>
+                <!--<xsl:text>Mail</xsl:text>-->
+                <xsl:value-of select="$lang.mail"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$code='H'">
-                <xsl:text>Home</xsl:text>
+                <!--<xsl:text>Home</xsl:text>-->
+                <xsl:value-of select="$lang.home"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$code='HV'">
-                <xsl:text>Vacation Home</xsl:text>
+                <!--<xsl:text>Vacation Home</xsl:text>-->
+                <xsl:value-of select="$lang.vacationHome"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$code='HP'">
-                <xsl:text>Primary Home</xsl:text>
+                <!--<xsl:text>Primary Home</xsl:text>-->
+                <xsl:value-of select="$lang.primaryHome"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$code='WP'">
-                <xsl:text>Work Place</xsl:text>
+                <!--<xsl:text>Work Place</xsl:text>-->
+                <xsl:value-of select="$lang.workPlace"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$code='PUB'">
-                <xsl:text>Pub</xsl:text>
+                <!--<xsl:text>Pub</xsl:text>-->
+                <xsl:value-of select="$lang.pub"></xsl:value-of>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:text>{$code='</xsl:text>
@@ -1937,46 +2128,60 @@
         <xsl:param name="code"/>
         <xsl:choose>
             <xsl:when test="$classCode='AFFL'">
-                <xsl:text>affiliate</xsl:text>
+                <!--<xsl:text>affiliate</xsl:text>-->
+                <xsl:value-of select="$lang.affiliate"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$classCode='AGNT'">
-                <xsl:text>agent</xsl:text>
+                <!--<xsl:text>agent</xsl:text>-->
+                <xsl:value-of select="$lang.agent"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$classCode='ASSIGNED'">
-                <xsl:text>assigned entity</xsl:text>
+                <!--<xsl:text>assigned entity</xsl:text>-->
+                <xsl:value-of select="$lang.assignedEntity"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$classCode='COMPAR'">
-                <xsl:text>commissioning party</xsl:text>
+                <!--<xsl:text>commissioning party</xsl:text>-->
+                <xsl:value-of select="$lang.commissioningParty"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$classCode='CON'">
-                <xsl:text>contact</xsl:text>
+                <!--<xsl:text>contact</xsl:text>-->
+                <xsl:value-of select="$lang.contact"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$classCode='ECON'">
-                <xsl:text>emergency contact</xsl:text>
+                <!--<xsl:text>emergency contact</xsl:text>-->
+                <xsl:value-of select="$lang.emergencyContact"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$classCode='NOK'">
-                <xsl:text>next of kin</xsl:text>
+                <!--<xsl:text>next of kin</xsl:text>-->
+                <xsl:value-of select="$lang.nextOfKin"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$classCode='SGNOFF'">
-                <xsl:text>signing authority</xsl:text>
+                <!--<xsl:text>signing authority</xsl:text>-->
+                <xsl:value-of select="$lang.signingAuthority"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$classCode='GUARD'">
-                <xsl:text>guardian</xsl:text>
+                <!--<xsl:text>guardian</xsl:text>-->
+                <xsl:value-of select="$lang.guardian"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$classCode='GUAR'">
-                <xsl:text>guardian</xsl:text>
+                <!--<xsl:text>guardian</xsl:text>-->
+                <xsl:value-of select="$lang.guardian"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$classCode='CIT'">
-                <xsl:text>citizen</xsl:text>
+                <!--<xsl:text>citizen</xsl:text>-->
+                <xsl:value-of select="$lang.citizen"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$classCode='COVPTY'">
-                <xsl:text>covered party</xsl:text>
+                <!--<xsl:text>covered party</xsl:text>-->
+                <xsl:value-of select="$lang.coveredParty"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$classCode='PRS'">
-                <xsl:text>personal relationship</xsl:text>
+                <!--<xsl:text>personal relationship</xsl:text>-->
+                <xsl:value-of select="$lang.personalRelation"></xsl:value-of>
             </xsl:when>
             <xsl:when test="$classCode='CAREGIVER'">
-                <xsl:text>care giver</xsl:text>
+                <!--<xsl:text>care giver</xsl:text>-->
+                <xsl:value-of select="$lang.careGiver"></xsl:value-of>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:text>{$classCode='</xsl:text>
@@ -1988,34 +2193,44 @@
             <xsl:text> </xsl:text>
             <xsl:choose>
                 <xsl:when test="$code/@code='FTH'">
-                    <xsl:text>(Father)</xsl:text>
+                    <!--<xsl:text>(Father)</xsl:text>-->
+                    <xsl:value-of select="$lang.father"></xsl:value-of>
                 </xsl:when>
                 <xsl:when test="$code/@code='MTH'">
-                    <xsl:text>(Mother)</xsl:text>
+                    <!--<xsl:text>(Mother)</xsl:text>-->
+                    <xsl:value-of select="$lang.mother"></xsl:value-of>
                 </xsl:when>
                 <xsl:when test="$code/@code='NPRN'">
-                    <xsl:text>(Natural parent)</xsl:text>
+                    <!--<xsl:text>(Natural parent)</xsl:text>-->
+                    <xsl:value-of select="$lang.naturalParent"></xsl:value-of>
                 </xsl:when>
                 <xsl:when test="$code/@code='STPPRN'">
-                    <xsl:text>(Step parent)</xsl:text>
+                    <!--<xsl:text>(Step parent)</xsl:text>-->
+                    <xsl:value-of select="$lang.stepParent"></xsl:value-of>
                 </xsl:when>
                 <xsl:when test="$code/@code='SONC'">
-                    <xsl:text>(Son)</xsl:text>
+                    <!--<xsl:text>(Son)</xsl:text>-->
+                    <xsl:value-of select="$lang.son"></xsl:value-of>
                 </xsl:when>
                 <xsl:when test="$code/@code='DAUC'">
-                    <xsl:text>(Daughter)</xsl:text>
+                    <!--<xsl:text>(Daughter)</xsl:text>-->
+                    <xsl:value-of select="$lang.daughter"></xsl:value-of>
                 </xsl:when>
                 <xsl:when test="$code/@code='CHILD'">
-                    <xsl:text>(Child)</xsl:text>
+                    <!--<xsl:text>(Child)</xsl:text>-->
+                    <xsl:value-of select="$lang.child"></xsl:value-of>
                 </xsl:when>
                 <xsl:when test="$code/@code='EXT'">
-                    <xsl:text>(Extended family member)</xsl:text>
+                    <!--<xsl:text>(Extended family member)</xsl:text>-->
+                    <xsl:value-of select="$lang.extendedFamilyMember"></xsl:value-of>
                 </xsl:when>
                 <xsl:when test="$code/@code='NBOR'">
-                    <xsl:text>(Neighbor)</xsl:text>
+                    <!--<xsl:text>(Neighbor)</xsl:text>-->
+                    <xsl:value-of select="$lang.neighbor"></xsl:value-of>
                 </xsl:when>
                 <xsl:when test="$code/@code='SIGOTHR'">
-                    <xsl:text>(Significant other)</xsl:text>
+                    <!--<xsl:text>(Significant other)</xsl:text>-->
+                    <xsl:value-of select="$lang.significantOther"></xsl:value-of>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:text>{$code/@code='</xsl:text>
@@ -2051,7 +2266,8 @@
                 <tr>
                     <td class="td_header_role_name">
                         <span class="td_label">
-                            <xsl:text>Facility ID</xsl:text>
+                            <!--<xsl:text>Facility ID</xsl:text>-->
+                            <xsl:value-of select="$lang.facilityId"></xsl:value-of>
                         </span>
                     </td>
                     <td class="td_header_role_value">
@@ -2075,7 +2291,7 @@
                                 </xsl:for-each>
                             </xsl:when>
                             <xsl:otherwise>
-                                Not available
+                                <xsl:value-of select="$lang.notAvailable"></xsl:value-of>
                             </xsl:otherwise>
                         </xsl:choose>
                     </td>
@@ -2084,7 +2300,8 @@
                 <tr>
                     <td class="td_header_role_name">
                         <span class="td_label">
-                            <xsl:text>First day of period reported</xsl:text>
+                            <!--<xsl:text>First day of period reported</xsl:text>-->
+                            <xsl:value-of select="$lang.firstDayofPeriodReported"></xsl:value-of>
                         </span>
                     </td>
                     <td class="td_header_role_value">
@@ -2097,7 +2314,8 @@
                 <tr>
                     <td class="td_header_role_name">
                         <span class="td_label">
-                            <xsl:text>Last day of period reported</xsl:text>
+                            <!--<xsl:text>Last day of period reported</xsl:text>-->
+                            <xsl:value-of select="$lang.lastDayofPeriodReported"></xsl:value-of>
                         </span>
                     </td>
                     <td class="td_header_role_value">
@@ -2224,79 +2442,104 @@
         <xsl:param name="clsCode"/>
         <xsl:choose>
             <xsl:when test=" $clsCode = 'ACT' ">
-                <xsl:text>healthcare service</xsl:text>
+                <!--<xsl:text>healthcare service</xsl:text>-->
+                <xsl:value-of select="$lang.healthcareService"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'ACCM' ">
-                <xsl:text>accommodation</xsl:text>
+                <!--<xsl:text>accommodation</xsl:text>-->
+                <xsl:value-of select="$lang.accommodation"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'ACCT' ">
-                <xsl:text>account</xsl:text>
+                <!--<xsl:text>account</xsl:text>-->
+                <xsl:value-of select="$lang.account"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'ACSN' ">
-                <xsl:text>accession</xsl:text>
+                <!--<xsl:text>accession</xsl:text>-->
+                <xsl:value-of select="$lang.accession"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'ADJUD' ">
-                <xsl:text>financial adjudication</xsl:text>
+                <!--<xsl:text>financial adjudication</xsl:text>-->
+                <xsl:value-of select="$lang.financialAdjudication"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'CONS' ">
-                <xsl:text>consent</xsl:text>
+                <!--<xsl:text>consent</xsl:text>-->
+                <xsl:value-of select="$lang.consent"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'CONTREG' ">
-                <xsl:text>container registration</xsl:text>
+                <!--<xsl:text>container registration</xsl:text>-->
+                <xsl:value-of select="$lang.containerRegistration"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'CTTEVENT' ">
-                <xsl:text>clinical trial timepoint event</xsl:text>
+                <!--<xsl:text>clinical trial timepoint event</xsl:text>-->
+                <xsl:value-of select="$lang.clinicalTrialTimepointEvent"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'DISPACT' ">
-                <xsl:text>disciplinary action</xsl:text>
+                <!--<xsl:text>disciplinary action</xsl:text>-->
+                <xsl:value-of select="$lang.disciplinaryAction"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'ENC' ">
-                <xsl:text>encounter</xsl:text>
+                <!--<xsl:text>encounter</xsl:text>-->
+                <xsl:value-of select="$lang.encounter"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'INC' ">
-                <xsl:text>incident</xsl:text>
+                <!--<xsl:text>incident</xsl:text>-->
+                <xsl:value-of select="$lang.incident"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'INFRM' ">
-                <xsl:text>inform</xsl:text>
+                <!--<xsl:text>inform</xsl:text>-->
+                <xsl:value-of select="$lang.inform"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'INVE' ">
-                <xsl:text>invoice element</xsl:text>
+                <!--<xsl:text>invoice element</xsl:text>-->
+                <xsl:value-of select="$lang.invoiceElement"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'LIST' ">
-                <xsl:text>working list</xsl:text>
+                <!--<xsl:text>working list</xsl:text>-->
+                <xsl:value-of select="$lang.workingList"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'MPROT' ">
-                <xsl:text>monitoring program</xsl:text>
+                <!--<xsl:text>monitoring program</xsl:text>-->
+                <xsl:value-of select="$lang.monitoringProgram"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'PCPR' ">
-                <xsl:text>care provision</xsl:text>
+                <!--<xsl:text>care provision</xsl:text>-->
+                <xsl:value-of select="$lang.careProvision"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'PROC' ">
-                <xsl:text>procedure</xsl:text>
+                <!--<xsl:text>procedure</xsl:text>-->
+                <xsl:value-of select="$lang.procedure"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'REG' ">
-                <xsl:text>registration</xsl:text>
+                <!--<xsl:text>registration</xsl:text>-->
+                <xsl:value-of select="$lang.registration"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'REV' ">
-                <xsl:text>review</xsl:text>
+                <xsl:value-of select="$lang.review"></xsl:value-of>
+                <!--<xsl:text>review</xsl:text>-->
             </xsl:when>
             <xsl:when test=" $clsCode = 'SBADM' ">
-                <xsl:text>substance administration</xsl:text>
+                <!--<xsl:text>substance administration</xsl:text>-->
+                <xsl:value-of select="$lang.substanceAdmin"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'SPCTRT' ">
-                <xsl:text>speciment treatment</xsl:text>
+                <!--<xsl:text>speciment treatment</xsl:text>-->
+                <xsl:value-of select="$lang.specimentTreatment"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'SUBST' ">
-                <xsl:text>substitution</xsl:text>
+                <!--<xsl:text>substitution</xsl:text>-->
+                <xsl:value-of select="$lang.substitution"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'TRNS' ">
-                <xsl:text>transportation</xsl:text>
+                <!--<xsl:text>transportation</xsl:text>-->
+                <xsl:value-of select="$lang.healthcareService"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'VERIF' ">
-                <xsl:text>verification</xsl:text>
+                <!--<xsl:text>verification</xsl:text>-->
+                <xsl:value-of select="$lang.verification"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $clsCode = 'XACT' ">
-                <xsl:text>financial transaction</xsl:text>
+                <!--<xsl:text>financial transaction</xsl:text>-->
+                <xsl:value-of select="$lang.financialTransaction"></xsl:value-of>
             </xsl:when>
         </xsl:choose>
     </xsl:template>
@@ -2305,16 +2548,20 @@
         <xsl:param name="ptype"/>
         <xsl:choose>
             <xsl:when test=" $ptype='PPRF' ">
-                <xsl:text>primary performer</xsl:text>
+                <!--<xsl:text>primary performer</xsl:text>-->
+                <xsl:value-of select="$lang.primaryPerformer"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $ptype='PRF' ">
-                <xsl:text>performer</xsl:text>
+                <!--<xsl:text>performer</xsl:text>-->
+                <xsl:value-of select="$lang.performer"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $ptype='VRF' ">
-                <xsl:text>verifier</xsl:text>
+                <!--<xsl:text>verifier</xsl:text>-->
+                <xsl:value-of select="$lang.verifier"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $ptype='SPRF' ">
-                <xsl:text>secondary performer</xsl:text>
+                <!--<xsl:text>secondary performer</xsl:text>-->
+                <xsl:value-of select="$lang.secondaryPerformer"></xsl:value-of>
             </xsl:when>
         </xsl:choose>
     </xsl:template>
@@ -2324,59 +2571,78 @@
         <xsl:choose>
             <!-- From the HL7 v3 ParticipationFunction code system -->
             <xsl:when test=" $pFunction = 'ADMPHYS' ">
-                <xsl:text>(admitting physician)</xsl:text>
+                <!--<xsl:text>(admitting physician)</xsl:text>-->
+                <xsl:value-of select="$lang.admittingPhysician"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $pFunction = 'ANEST' ">
-                <xsl:text>(anesthesist)</xsl:text>
+                <!--<xsl:text>(anesthesist)</xsl:text>-->
+                <xsl:value-of select="$lang.anesthesist"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $pFunction = 'ANRS' ">
-                <xsl:text>(anesthesia nurse)</xsl:text>
+                <!--<xsl:text>(anesthesia nurse)</xsl:text>-->
+                <xsl:value-of select="$lang.anesthesistNurse"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $pFunction = 'ATTPHYS' ">
-                <xsl:text>(attending physician)</xsl:text>
+                <!--<xsl:text>(attending physician)</xsl:text>-->
+                <xsl:value-of select="$lang.attendingPhysician"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $pFunction = 'DISPHYS' ">
-                <xsl:text>(discharging physician)</xsl:text>
+                <!--<xsl:text>(discharging physician)</xsl:text>-->
+                <xsl:value-of select="$lang.dischargingPhysician"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $pFunction = 'FASST' ">
-                <xsl:text>(first assistant surgeon)</xsl:text>
+                <!--<xsl:text>(first assistant surgeon)</xsl:text>-->
+                <xsl:value-of select="$lang.firstAssistantSurgeon"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $pFunction = 'MDWF' ">
-                <xsl:text>(midwife)</xsl:text>
+                <!--<xsl:text>(midwife)</xsl:text>-->
+                <xsl:value-of select="$lang.midwife"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $pFunction = 'NASST' ">
-                <xsl:text>(nurse assistant)</xsl:text>
+                <!--<xsl:text>(nurse assistant)</xsl:text>-->
+                <xsl:value-of select="$lang.nurseAssistant"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $pFunction = 'PCP' ">
-                <xsl:text>(primary care physician)</xsl:text>
+                <!--<xsl:text>(primary care physician)</xsl:text>-->
+                <xsl:value-of select="$lang.primaryCarePhysician"></xsl:value-of>
+
             </xsl:when>
             <xsl:when test=" $pFunction = 'PRISURG' ">
-                <xsl:text>(primary surgeon)</xsl:text>
+                <!--<xsl:text>(primary surgeon)</xsl:text>-->
+                <xsl:value-of select="$lang.primarySurgeon"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $pFunction = 'RNDPHYS' ">
-                <xsl:text>(rounding physician)</xsl:text>
+                <!--<xsl:text>(rounding physician)</xsl:text>-->
+                <xsl:value-of select="$lang.roundingPhysician"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $pFunction = 'SASST' ">
-                <xsl:text>(second assistant surgeon)</xsl:text>
+                <!--<xsl:text>(second assistant surgeon)</xsl:text>-->
+                <xsl:value-of select="$lang.secondAssistantSurgeon"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $pFunction = 'SNRS' ">
-                <xsl:text>(scrub nurse)</xsl:text>
+                <!--<xsl:text>(scrub nurse)</xsl:text>-->
+                <xsl:value-of select="$lang.scrubNurse"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $pFunction = 'TASST' ">
-                <xsl:text>(third assistant)</xsl:text>
+                <!--<xsl:text>(third assistant)</xsl:text>-->
+                <xsl:value-of select="$lang.thirdAssistant"></xsl:value-of>
             </xsl:when>
             <!-- From the HL7 v2 Provider Role code system (2.16.840.1.113883.12.443) which is used by HITSP -->
             <xsl:when test=" $pFunction = 'CP' ">
-                <xsl:text>(consulting provider)</xsl:text>
+                <!--<xsl:text>(consulting provider)</xsl:text>-->
+                <xsl:value-of select="$lang.consultingProvider"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $pFunction = 'PP' ">
-                <xsl:text>(primary care provider)</xsl:text>
+                <!--<xsl:text>(primary care provider)</xsl:text>-->
+                <xsl:value-of select="$lang.primaryCareProvider"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $pFunction = 'RP' ">
-                <xsl:text>(referring provider)</xsl:text>
+                <!--<xsl:text>(referring provider)</xsl:text>-->
+                <xsl:value-of select="$lang.referringProvider"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $pFunction = 'MP' ">
-                <xsl:text>(medical home provider)</xsl:text>
+                <!--<xsl:text>(medical home provider)</xsl:text>-->
+                <xsl:value-of select="$lang.medicalHomeProvider"></xsl:value-of>
             </xsl:when>
         </xsl:choose>
     </xsl:template>
@@ -2525,22 +2791,28 @@
         <xsl:param name="nf"/>
         <xsl:choose>
             <xsl:when test=" $nf = 'NI' ">
-                <xsl:text>no information</xsl:text>
+                <!--<xsl:text>no information</xsl:text>-->
+                <xsl:value-of select="$lang.noInfo"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $nf = 'INV' ">
-                <xsl:text>invalid</xsl:text>
+                <!--<xsl:text>invalid</xsl:text>-->
+                <xsl:value-of select="$lang.invalid"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $nf = 'MSK' ">
-                <xsl:text>masked</xsl:text>
+                <!--<xsl:text>masked</xsl:text>-->
+                <xsl:value-of select="$lang.masked"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $nf = 'NA' ">
-                <xsl:text>not applicable</xsl:text>
+                <!--<xsl:text>not applicable</xsl:text>-->
+                <xsl:value-of select="$lang.notApplicable"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $nf = 'UNK' ">
-                <xsl:text>unknown</xsl:text>
+                <!--<xsl:text>unknown</xsl:text>-->
+                <xsl:value-of select="$lang.unknown"></xsl:value-of>
             </xsl:when>
             <xsl:when test=" $nf = 'OTH' ">
-                <xsl:text>other</xsl:text>
+                <!--<xsl:text>other</xsl:text>-->
+                <xsl:value-of select="$lang.other"></xsl:value-of>
             </xsl:when>
         </xsl:choose>
     </xsl:template>
